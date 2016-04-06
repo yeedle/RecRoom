@@ -38,6 +38,12 @@ public class GameClientEndpoint
         //TODO: Create a decoder to handle incoming POJOs.
     }
 
+    @OnError
+    public void onError()
+    {
+
+    }
+
     public void sendMessage(final String o)
     {
         try
