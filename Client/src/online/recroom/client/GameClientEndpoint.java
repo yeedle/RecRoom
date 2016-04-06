@@ -15,8 +15,13 @@ public class GameClientEndpoint
     private Session session;
     private static final Logger LOGGER = Logger.getLogger(RecRoom.class.getName());
 
+    public GameClientEndpoint(final URI uri)
+    {
+        connectToWebSocket(uri);
+    }
+
     @OnOpen
-    public void onOpen(Session session)
+    public void onOpen(final Session session)
     {
         this.session = session;
     }
@@ -29,16 +34,29 @@ public class GameClientEndpoint
     }
 
     @OnMessage
-    public void onMessage(String message){
+    public void onMessage(final String string){
         //TODO: Create a decoder to handle incoming POJOs.
+    }
+
+    public void sendMessage(final String o)
+    {
+        try
+        {
+            session.getBasicRemote().sendText(o);
+        } catch (IOException e)
+        {
+            e.printStackTrace();
+        }
     }
 
     private void connectToWebSocket(final URI uri)
     {
         WebSocketContainer container = ContainerProvider.getWebSocketContainer();
-        try {
+        try
+        {
             container.connectToServer(this, uri);
-        } catch (Exception e) {
+        } catch (Exception e)
+        {
             e.printStackTrace();
         }
 
