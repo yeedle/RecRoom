@@ -35,15 +35,15 @@ public class GameClientEndpoint
 
     @OnMessage
     public void onMessage(final String string){
+        System.out.println("incoming msg: " + string);
         //TODO: Create a decoder to handle incoming POJOs.
     }
 
-    @OnError
-    public void onError()
-    {
 
-    }
-
+    /**
+     * Handles outgoing messages
+     * @param o outgoing message
+     */
     public void sendMessage(final String o)
     {
         try
