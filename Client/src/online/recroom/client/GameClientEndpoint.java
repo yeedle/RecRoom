@@ -50,6 +50,7 @@ public class GameClientEndpoint
         {
             session.getBasicRemote().sendText(o);
         } catch (IOException e)
+
         {
             e.printStackTrace();
         }
