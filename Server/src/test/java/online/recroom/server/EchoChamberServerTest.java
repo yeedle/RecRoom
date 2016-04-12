@@ -14,13 +14,12 @@ import static org.junit.Assert.*;
 /**
  * Created by Yeedle on 4/7/2016 3:39 PM.
  */
-public class EchoChamberServerTest extends Endpoint {
+public class EchoChamberServerTest {
     private Session session;
     private String stringRecieved;
     @Before
     public void setUp() throws Exception {
-        WebSocketContainer ws = ContainerProvider.getWebSocketContainer();
-        ws.connectToServer(this, new URI("ws://localhost:8080/recroom/echo"));
+
     }
 
     @After
@@ -30,20 +29,11 @@ public class EchoChamberServerTest extends Endpoint {
 
     @Test
     public void echo() throws Exception {
-        session.getBasicRemote().sendText("hello");
-        assertEquals("hello", stringRecieved);
+       EchoChamberServer echoChamberServer = new EchoChamberServer();
+        String echoedString = echoChamberServer.echo("hello");
+        assertEquals("you said: hello", echoedString);
     }
 
-    @Override
-    public void onOpen(Session session, EndpointConfig endpointConfig) {
-        this.session = session;
-        session.addMessageHandler(new MessageHandler.Whole<String>() {
-            @Override
-            public void onMessage(String s) {
-                stringRecieved = s;
-            }
-        });
-    }
 
 
 }
