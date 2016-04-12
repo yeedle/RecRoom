@@ -1,13 +1,11 @@
 package online.recroom.server;
 
+import online.recroom.server.echo.EchoChamberServer;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
 import javax.websocket.*;
-
-import java.io.IOException;
-import java.net.URI;
 
 import static org.junit.Assert.*;
 

@@ -1,4 +1,4 @@
-package online.recroom.server;
+package online.recroom.server.echo;
 
 import javax.websocket.OnMessage;
 import javax.websocket.server.ServerEndpoint;
