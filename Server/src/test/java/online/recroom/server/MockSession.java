@@ -23,6 +23,16 @@ public class MockSession implements Session {
     }
 
     @Override
+    public <T> void addMessageHandler(Class<T> aClass, MessageHandler.Whole<T> whole) {
+
+    }
+
+    @Override
+    public <T> void addMessageHandler(Class<T> aClass, MessageHandler.Partial<T> partial) {
+
+    }
+
+    @Override
     public Set<MessageHandler> getMessageHandlers() {
         return null;
     }
