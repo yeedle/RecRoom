@@ -1,6 +1,7 @@
 package online.recroom.client;
 
 import javafx.application. Application;
+import javafx.scene.Group;
 import javafx.stage.Stage;
 
 import javax.websocket.*;
@@ -32,6 +33,9 @@ public class RecRoom extends Application {
             e.printStackTrace();
         }
         gameClientEndpoint.sendMessage("Not bad.");
+
+
+        Group root = new Group();
 
         //TODO: JavaFX code goes here
     }
