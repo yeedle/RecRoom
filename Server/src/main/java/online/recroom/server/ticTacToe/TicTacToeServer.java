@@ -1,13 +1,12 @@
 package online.recroom.server.ticTacToe;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+//import com.fasterxml.jackson.databind.ObjectMapper;
 
 
-import javax.websocket.CloseReason;
-import javax.websocket.OnClose;
-import javax.websocket.OnMessage;
-import javax.websocket.OnOpen;
-import javax.websocket.Session;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
+import javax.websocket.*;
 import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
 import java.io.IOException;
@@ -18,7 +17,8 @@ import java.util.Map;
 @ServerEndpoint("/ticTacToe/{gameId}/{username}")
 public class TicTacToeServer {
     private static Map<Long, Game> games = new Hashtable<>();
-    private static ObjectMapper mapper = new ObjectMapper();
+    //    private static ObjectMapper mapper = new ObjectMapper();
+    private static Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
 
     @OnOpen
     public void onOpen(Session session, @PathParam("gameId") long gameId,
@@ -28,8 +28,7 @@ public class TicTacToeServer {
             if (ticTacToeGame != null) {
                 session.close(new CloseReason(
                         CloseReason.CloseCodes.UNEXPECTED_CONDITION,
-                        "This game has already started."
-                ));
+                        "This game has already started."));
             }
 
             List<String> actions = session.getRequestParameterMap().get("action");
@@ -68,7 +67,7 @@ public class TicTacToeServer {
         boolean isPlayer1 = session == game.player1;
 
         try {
-            Move move = TicTacToeServer.mapper.readValue(message, Move.class);
+            Move move = TicTacToeServer.gson.fromJson(message, Move.class);
             game.ticTacToeGame.move(
                     isPlayer1 ? TicTacToeGame.Player.PLAYER1 :
                             TicTacToeGame.Player.PLAYER2,
@@ -123,7 +122,7 @@ public class TicTacToeServer {
     private void sendJsonMessage(Session session, Game game, Message message) {
         try {
             session.getBasicRemote()
-                    .sendText(TicTacToeServer.mapper.writeValueAsString(message));
+                    .sendText(TicTacToeServer.gson.toJson(message));
         } catch (IOException e) {
             this.handleException(e, game);
         }
