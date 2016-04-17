@@ -35,12 +35,12 @@ public class TicTacToeServer {
             List<String> actions = session.getRequestParameterMap().get("action");
             if (actions != null && actions.size() == 1) {
                 String action = actions.get(0);
-                if ("start".equalsIgnoreCase(action)) {
+                if (action.equalsIgnoreCase("start")) {
                     Game game = new Game();
                     game.gameId = gameId;
                     game.player1 = session;
                     TicTacToeServer.games.put(gameId, game);
-                } else if ("join".equalsIgnoreCase(action)) {
+                } else if (action.equalsIgnoreCase("join")) {
                     Game game = TicTacToeServer.games.get(gameId);
                     game.player2 = session;
                     game.ticTacToeGame = TicTacToeGame.startGame(gameId, username);
@@ -144,5 +144,16 @@ public class TicTacToeServer {
             ));
         } catch (IOException ignore) {
         }
+    }
+
+
+    private static class Game {
+        public long gameId;
+
+        public Session player1;
+
+        public Session player2;
+
+        public TicTacToeGame ticTacToeGame;
     }
 }
