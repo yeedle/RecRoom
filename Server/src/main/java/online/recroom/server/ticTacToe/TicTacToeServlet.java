@@ -1,7 +1,5 @@
 package online.recroom.server.ticTacToe;
 
-import org.apache.commons.lang3.math.NumberUtils;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -28,8 +26,8 @@ public class TicTacToeServlet extends HttpServlet {
         if ("join".equalsIgnoreCase(action)) {
             String gameIdString = request.getParameter("gameId");
             String username = request.getParameter("username");
-            if (username == null || gameIdString == null ||
-                    !NumberUtils.isDigits(gameIdString))
+//            TODO make sure gameIdString is not digits
+            if ((username == null) || (gameIdString == null))
                 this.list(request, response);
             else {
                 request.setAttribute("action", "join");

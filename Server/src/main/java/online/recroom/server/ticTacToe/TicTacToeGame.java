@@ -1,6 +1,6 @@
 package online.recroom.server.ticTacToe;
 
-//import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.util.Hashtable;
 import java.util.Map;
@@ -53,7 +53,7 @@ public class TicTacToeGame {
         return winner;
     }
 
-
+    @JsonIgnore
     public synchronized void move(Player player, int row, int column) {
         if (player != this.nextMove)
             throw new IllegalArgumentException("It is not your turn!");
