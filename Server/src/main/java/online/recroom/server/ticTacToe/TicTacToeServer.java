@@ -1,6 +1,7 @@
 package online.recroom.server.ticTacToe;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import online.recroom.server.ticTacToe.message.*;
 
 import javax.websocket.*;
 import javax.websocket.server.PathParam;
@@ -149,90 +150,5 @@ public class TicTacToeServer {
         public Session player2;
 
         public TicTacToeGame ticTacToeGame;
-    }
-
-    public static class Move {
-        private int row;
-
-        private int column;
-
-        public int getRow() {
-            return row;
-        }
-
-        public void setRow(int row) {
-            this.row = row;
-        }
-
-        public int getColumn() {
-            return column;
-        }
-
-        public void setColumn(int column) {
-            this.column = column;
-        }
-    }
-
-    public static abstract class Message {
-        private final String action;
-
-        public Message(String action) {
-            this.action = action;
-        }
-
-        public String getAction() {
-            return this.action;
-        }
-    }
-
-    public static class GameStartedMessage extends Message {
-        private final TicTacToeGame game;
-
-        public GameStartedMessage(TicTacToeGame game) {
-            super("gameStarted");
-            this.game = game;
-        }
-
-        public TicTacToeGame getGame() {
-            return game;
-        }
-    }
-
-    public static class OpponentMadeMoveMessage extends Message {
-        private final Move move;
-
-        public OpponentMadeMoveMessage(Move move) {
-            super("opponentMadeMove");
-            this.move = move;
-        }
-
-        public Move getMove() {
-            return move;
-        }
-    }
-
-    public static class GameOverMessage extends Message {
-        private final boolean winner;
-
-        public GameOverMessage(boolean winner) {
-            super("gameOver");
-            this.winner = winner;
-        }
-
-        public boolean isWinner() {
-            return winner;
-        }
-    }
-
-    public static class GameIsDrawMessage extends Message {
-        public GameIsDrawMessage() {
-            super("gameIsDraw");
-        }
-    }
-
-    public static class GameForfeitedMessage extends Message {
-        public GameForfeitedMessage() {
-            super("gameForfeited");
-        }
     }
 }
