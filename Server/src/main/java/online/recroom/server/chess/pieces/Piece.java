@@ -5,8 +5,7 @@ package online.recroom.server.chess.pieces;
  */
 public class Piece
 {
-    int initVerticalPosition;
-    int initHorizontalPosition;
+    Position position;
     Color color;
 
 }
