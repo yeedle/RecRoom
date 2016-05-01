@@ -5,4 +5,6 @@ package online.recroom.server.checkers;
  */
 public abstract class Piece {
     private Color color;
+
+
 }
