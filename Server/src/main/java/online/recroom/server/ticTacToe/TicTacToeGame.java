@@ -62,7 +62,7 @@ public class TicTacToeGame {
             throw new IllegalArgumentException("Row and column must be 0-3.");
 
         if (this.grid[row][column] != null)
-            throw new IllegalArgumentException("Move already made at " + row + ","
+            throw new IllegalArgumentException("IMovable already made at " + row + ","
                     + column);
 
         this.grid[row][column] = player;

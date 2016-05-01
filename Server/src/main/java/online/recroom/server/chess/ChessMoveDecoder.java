@@ -12,7 +12,7 @@ public class ChessMoveDecoder implements Decoder.Text<Move>
     @Override
     public Move decode(String s) throws DecodeException
     {
-        //here the JSON string gets Objectified into a Move
+        //here the JSON string gets Objectified into a IMovable
         return null;
     }
 
