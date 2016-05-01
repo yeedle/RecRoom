@@ -3,12 +3,12 @@ package online.recroom.server.checkers;
 /**
  * Created by Yehuda Globerman on 5/1/2016.
  */
-public class Position {
+public class CoOrdinates {
     private final int row;
     private final int column;
 
 
-    public Position(int row, int column) {
+    public CoOrdinates(int row, int column) {
         this.row = row;
         this.column = column;
     }
