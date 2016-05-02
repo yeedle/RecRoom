@@ -47,11 +47,19 @@ public class BoardTest
     }
 
     @Test
-    public void testWhitKnigtIn_c1_afterInitBoard()
+    public void testWhiteKnightIn_b1_afterInitBoard()
     {
         Piece piece = board.pieceInSquare(1, 0);
         assertTrue(piece instanceof Knight);
-        assertEquals(Color.White, piece.getColor());
+        a
+        ssertEquals(Color.WHITE, piece.getColor());
+    }
+    @Test
+    public void testBlackBishopIn_c8_afterInitBoard()
+    {
+        Piece piece = board.pieceInSquare(2, 7);
+        assertTrue(piece instanceof Bishop);
+        assertEquals(Color.BLACK, piece.getColor());
     }
 
 

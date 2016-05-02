@@ -13,7 +13,7 @@ class Board
 {
     private final static int ROWS = 8;
     private final static int COLUMNS = 8;
-    private Square[][] squares = new Square[ROWS][COLUMNS];
+    private Square[][] squares = new Square[COLUMNS][ROWS];
 
 
     private class Square
@@ -36,6 +36,15 @@ class Board
         positionKnights();
         positionPawns();
 
+
+    }
+
+    private void positionKnights()
+    {
+        squares[1][0] = new Square(new Knight(WHITE));
+        squares[6][0] = new Square(new Knight(WHITE));
+        squares[1][7] = new Square(new Knight(WHITE));
+        squares[6][7] = new Square(new Knight(WHITE));
 
     }
 
