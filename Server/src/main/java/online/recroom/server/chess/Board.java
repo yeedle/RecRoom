@@ -1,6 +1,5 @@
 package online.recroom.server.chess;
 
-import online.recroom.server.chess.pieces.Color;
 import online.recroom.server.chess.pieces.Pawn;
 import online.recroom.server.chess.pieces.Piece;
 
@@ -33,12 +32,22 @@ class Board
 
     void initBoard()
     {
+        positionRooks();
+        positionKnights();
+        positionPawns();
 
-        initPawns();
 
     }
 
-    private void initPawns()
+    private void positionRooks()
+    {
+        squares[0][7] = new Square(new Rook(BLACK));
+        squares[7][7] = new Square(new Rook(BLACK));
+        squares[0][0] = new Square(new Rook(WHITE));
+        squares[7][0] = new Square(new Rook(BLACK));
+    }
+
+    private void positionPawns()
     {
         for(int i=0; i < COLUMNS; i++)
         {
