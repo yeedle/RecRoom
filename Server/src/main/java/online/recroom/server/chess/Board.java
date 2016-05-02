@@ -13,7 +13,7 @@ class Board
     private final static int ROWS = 8;
     private final static int COLUMNS = 8;
     private Piece[][] pieces = new Piece[COLUMNS][ROWS];
-    Move move;
+    private Move currentMove;
 
     public Board()
     {
@@ -98,24 +98,26 @@ class Board
 
     public void execute(Move move) throws InvalidMoveException, IllegalMoveException
     {
-        Piece pieceToMove = pieceInSquare(move.origin.column(), move.origin.row());
-        checkForErrors(move, pieceToMove);
+        currentMove = move;
+        checkForErrors();
         move(move.origin.row(), move.origin.column(), move.destination.row(), move.destination.column());
     }
 
-    private void checkForErrors(Move move, Piece pieceToMove) throws InvalidMoveException, IllegalMoveException
+    private void checkForErrors() throws InvalidMoveException, IllegalMoveException
     {
+        Piece pieceToMove = pieceInSquare(currentMove.origin.column(), currentMove.origin.row());
+
         if(isEmpty(pieceToMove))
             throw new InvalidMoveException("piece not found");
-        if (destinationIsOccupiedByOwn(move))
+        if (destinationIsOccupiedByOwn())
             throw new IllegalMoveException("Occupied by own piece");
-        if(pieceToMove.isIllegalMove(move.origin, move.destination))
-            throw new IllegalMoveException("Piece can't do that move");
+        if(pieceToMove.isIllegalMove(currentMove.origin, currentMove.destination))
+            throw new IllegalMoveException("Piece can't do that currentMove");
     }
 
-    private boolean destinationIsOccupiedByOwn(Move move)
+    private boolean destinationIsOccupiedByOwn()
     {
-        return pieces[move.destination.column()][move.destination.row()].getColor() == move.madeBy;
+        return pieces[currentMove.destination.column()][currentMove.destination.row()].getColor() == currentMove.madeBy;
     }
 
     private boolean isEmpty(Piece pieceToMove)
