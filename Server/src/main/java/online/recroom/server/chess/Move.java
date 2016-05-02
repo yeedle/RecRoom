@@ -1,7 +1,10 @@
 package online.recroom.server.chess;
 
 import online.recroom.server.chess.pieces.Color;
+import online.recroom.server.chess.pieces.Empty;
+import online.recroom.server.chess.pieces.Piece;
 
+import java.lang.reflect.Method;
 import java.util.Map;
 
 /**
@@ -13,42 +16,36 @@ public class Move
     private Class classOfPieceToMove;
     private Coordinates from;
     private Coordinates to;
+    private Piece piece;
 
-    public Move(Class classOfPiece, Color madeByPlayer, Coordinates from, Coordinates to)
+    public Move(Color madeByPlayer, Coordinates from, Coordinates to)
     {
         madeBy = madeByPlayer;
-        classOfPieceToMove = classOfPiece;
         this.from = from;
         this.to = to;
     }
+
+
+
 
     public Color isMadeBy()
     {
         return madeBy;
     }
 
-    public Class getClassOfPieceToMove()
+
+    public void executeIn(Board board) throws InvalidMove, IllegalMove
     {
-        return classOfPieceToMove;
+        piece = board.pieceInSquare(from.column(), from.row());
+        if (piece instanceof Empty)
+                throw new InvalidMove("piece not found");
+        if (piece.getColor() == madeBy)
+            throw new IllegalMove("Occupied by own piece");
+        if(piece.isMoveIllegal())
+            throw new IllegalMove("Piece can't do that move");
+
+        board.move(from.row(), from.column(), to.row(), to.column());
     }
 
-    public int getFromColumn()
-    {
-        return from.column();
-    }
 
-    public int getFromRow()
-    {
-        return from.row();
-    }
-
-    public int getToColumn()
-    {
-        return to.column();
-    }
-
-    public int getToRow()
-    {
-        return to.row();
-    }
 }

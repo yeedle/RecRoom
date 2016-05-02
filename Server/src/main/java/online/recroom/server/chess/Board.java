@@ -13,6 +13,12 @@ class Board
     private final static int ROWS = 8;
     private final static int COLUMNS = 8;
     private Piece[][] pieces = new Piece[COLUMNS][ROWS];
+    private int originColumn;
+    private int originRow;
+    private int destinationColumn;
+    private int destinationRow;
+    private Class classOfPiece;
+    private Color playerOfMove;
 
     public Board()
     {
@@ -72,28 +78,23 @@ class Board
 
     private void positionPawns()
     {
-        for(int i=0; i < COLUMNS; i++)
+        for(int i = 0; i < COLUMNS; i++)
         {
             pieces[i][1] = new Pawn(WHITE);
             pieces[i][6] = new Pawn(BLACK);
         }
     }
 
-    Piece pieceInSquare(int row, int column)
+    Piece pieceInSquare(int column, int row)
     {
 
-        return pieces[row][column];
+        return pieces[column][row];
     }
 
-    public void execute(Move move) throws InvalidMove
+    public void move(int fromRow, int fromColumn, int toRow, int toColumn)
     {
-
-        int originColumn = move.getFromColumn();
-        int originRow = move.getFromRow();
-        int destinationColumn = move.getToColumn();
-        int destinationRow = move.getToRow();
-        Class classOfPiece = move.getClassOfPieceToMove();
-        if (pieces[originColumn][originRow].getClass() != classOfPiece)
-            throw new InvalidMove("piece not found");
+        pieceInSquare()
     }
+
+
 }

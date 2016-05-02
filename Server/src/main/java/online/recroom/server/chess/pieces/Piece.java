@@ -5,14 +5,17 @@ import java.util.Map;
 /**
  * Created by Yeedle on 4/28/2016 7:01 PM.
  */
-public class Piece
+public abstract class Piece
 {
     private Color color;
+
 
     public Piece(Color color)
     {
        this.color = color;
     }
+
+
 
     public Color getColor()
     {
@@ -23,4 +26,6 @@ public class Piece
     {
         this.color = color;
     }
+
+    public abstract boolean isMoveIllegal();
 }
