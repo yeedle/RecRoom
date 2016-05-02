@@ -7,13 +7,20 @@ import java.util.Map;
  */
 public class Piece
 {
-    private Map<Dimension, Integer> position;
     private Color color;
 
-
-    public void setPosition(int row, int column)
+    Piece(Color color)
     {
-        position.put(Dimension.ROW, row);
-        position.put(Dimension.COLUMN, column);
+       this.color = color;
+    }
+
+    public Color getColor()
+    {
+        return color;
+    }
+
+    public void setColor(Color color)
+    {
+        this.color = color;
     }
 }
