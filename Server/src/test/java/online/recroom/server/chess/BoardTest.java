@@ -1,8 +1,6 @@
 package online.recroom.server.chess;
 
-import online.recroom.server.chess.pieces.Color;
-import online.recroom.server.chess.pieces.Pawn;
-import online.recroom.server.chess.pieces.Piece;
+import online.recroom.server.chess.pieces.*;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -19,7 +17,6 @@ public class BoardTest
     public void setUpNewBoard()
     {
         board = new Board();
-        board.initBoard();
     }
 
     @Test
@@ -51,8 +48,7 @@ public class BoardTest
     {
         Piece piece = board.pieceInSquare(1, 0);
         assertTrue(piece instanceof Knight);
-        a
-        ssertEquals(Color.WHITE, piece.getColor());
+        assertEquals(Color.WHITE, piece.getColor());
     }
     @Test
     public void testBlackBishopIn_c8_afterInitBoard()
@@ -60,6 +56,28 @@ public class BoardTest
         Piece piece = board.pieceInSquare(2, 7);
         assertTrue(piece instanceof Bishop);
         assertEquals(Color.BLACK, piece.getColor());
+    }
+
+    @Test
+    public void testQueensIn_dX_afterInitBoard()
+    {
+        Piece blackQueen = board.pieceInSquare(3, 7);
+        Piece whiteQueen = board.pieceInSquare(3, 0);
+        assertTrue(blackQueen instanceof Queen);
+        assertTrue(whiteQueen instanceof Queen);
+        assertEquals(Color.WHITE, whiteQueen.getColor());
+        assertEquals(Color.BLACK, blackQueen.getColor());
+    }
+
+    @Test
+    public void testKingsIn_eX_afterInitBoard()
+    {
+        Piece blackKing = board.pieceInSquare(4, 7);
+        Piece whiteKing = board.pieceInSquare(4, 0);
+        assertTrue(blackKing instanceof King);
+        assertTrue(whiteKing instanceof King);
+        assertEquals(Color.WHITE, whiteKing.getColor());
+        assertEquals(Color.BLACK, blackKing.getColor());
     }
 
 

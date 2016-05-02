@@ -1,4 +1,4 @@
-package online.recroom.server.chess;
+package online.recroom.server.chess.pieces;
 
 import online.recroom.server.chess.pieces.Color;
 import online.recroom.server.chess.pieces.Piece;

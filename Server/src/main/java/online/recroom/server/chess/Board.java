@@ -1,7 +1,6 @@
 package online.recroom.server.chess;
 
-import online.recroom.server.chess.pieces.Pawn;
-import online.recroom.server.chess.pieces.Piece;
+import online.recroom.server.chess.pieces.*;
 
 import static online.recroom.server.chess.pieces.Color.BLACK;
 import static online.recroom.server.chess.pieces.Color.WHITE;
@@ -13,61 +12,76 @@ class Board
 {
     private final static int ROWS = 8;
     private final static int COLUMNS = 8;
-    private Square[][] squares = new Square[COLUMNS][ROWS];
+    private Piece[][] pieces = new Piece[COLUMNS][ROWS];
 
-
-    private class Square
+    public Board()
     {
-        private Piece piece;
-
-        private Square(Piece piece)
-        {
-            this.piece = piece;
-        }
-
-        Piece getPiece() {return piece;}
-
-        void setPiece(Piece piece) {this.piece = piece;}
+        initBoard();
     }
 
-    void initBoard()
+
+    private void initBoard()
     {
         positionRooks();
         positionKnights();
         positionPawns();
+        positionKings();
+        positionQueens();
+        positionBishops();
 
+    }
 
+    private void positionQueens()
+    {
+        pieces[3][7] = new Queen(BLACK);
+        pieces[3][0] = new Queen(WHITE);
+    }
+
+    private void positionKings()
+    {
+        pieces[4][7] = new King(BLACK);
+        pieces[4][0] = new King(WHITE);
     }
 
     private void positionKnights()
     {
-        squares[1][0] = new Square(new Knight(WHITE));
-        squares[6][0] = new Square(new Knight(WHITE));
-        squares[1][7] = new Square(new Knight(WHITE));
-        squares[6][7] = new Square(new Knight(WHITE));
+        int blackRow =7, whiteRow=0;
+
+        pieces[1][whiteRow] = new Knight(WHITE);
+        pieces[6][whiteRow] = new Knight(WHITE);
+        pieces[1][blackRow] = new Knight(BLACK);
+        pieces[6][blackRow] = new Knight(BLACK);
 
     }
 
     private void positionRooks()
     {
-        squares[0][7] = new Square(new Rook(BLACK));
-        squares[7][7] = new Square(new Rook(BLACK));
-        squares[0][0] = new Square(new Rook(WHITE));
-        squares[7][0] = new Square(new Rook(BLACK));
+        pieces[0][7] = new Rook(BLACK);
+        pieces[7][7] = new Rook(BLACK);
+        pieces[0][0] = new Rook(WHITE);
+        pieces[7][0] = new Rook(WHITE);
+    }
+
+    private void positionBishops()
+    {
+        pieces[2][7] = new Bishop(BLACK);
+        pieces[5][7] = new Bishop(BLACK);
+        pieces[2][0] = new Bishop(WHITE);
+        pieces[5][0] = new Bishop(BLACK);
     }
 
     private void positionPawns()
     {
         for(int i=0; i < COLUMNS; i++)
         {
-            squares[i][1] = new Square(new Pawn(WHITE));
-            squares[i][6] = new Square(new Pawn(BLACK));
+            pieces[i][1] = new Pawn(WHITE);
+            pieces[i][6] = new Pawn(BLACK);
         }
     }
 
-    Piece pieceInSquare(int row, int column)
+    online.recroom.server.chess.pieces.Piece pieceInSquare(int row, int column)
     {
 
-        return squares[row][column].getPiece();
+        return pieces[row][column];
     }
 }
