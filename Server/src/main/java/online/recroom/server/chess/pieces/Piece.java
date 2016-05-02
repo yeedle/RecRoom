@@ -1,5 +1,7 @@
 package online.recroom.server.chess.pieces;
 
+import online.recroom.server.chess.Coordinates;
+
 import java.util.Map;
 
 /**
@@ -27,5 +29,5 @@ public abstract class Piece
         this.color = color;
     }
 
-    public abstract boolean isMoveIllegal();
+    public abstract boolean isIllegalMove(Coordinates origin, Coordinates destination);
 }

@@ -3,14 +3,14 @@ package online.recroom.server.chess;
 /**
  * Created by Yeedle on 5/2/2016 3:03 PM.
  */
-public class IllegalMove extends Throwable
+public class IllegalMoveException extends Throwable
 {
-    public IllegalMove()
+    public IllegalMoveException()
     {
         super();
     }
 
-    public IllegalMove(String error)
+    public IllegalMoveException(String error)
     {
         super(error);
     }

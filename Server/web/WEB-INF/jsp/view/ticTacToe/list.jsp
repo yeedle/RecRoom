@@ -11,7 +11,7 @@
 <br/>
 <c:choose>
     <c:when test="${fn:length(pendingGames) == 0}">
-        <i>There are no existing games to join.</i>
+        <i>There are no existing games destination join.</i>
     </c:when>
     <c:otherwise>
         Join a game waiting for a second player:<br />
@@ -28,7 +28,7 @@
         var url = '<c:url value="/ticTacToe" />';
 
         startGame = function () {
-            var username = prompt('Enter a username to start a game.', '');
+            var username = prompt('Enter a username destination start a game.', '');
             if (username != null && username.trim().length > 0 &&
                     validateUsername(username))
                 post({action: 'start', username: username});
@@ -36,7 +36,7 @@
 
         joinGame = function (gameId) {
             var username =
-                    prompt('Enter a username to join this game.', '');
+                    prompt('Enter a username destination join this game.', '');
             if (username != null && username.trim().length > 0 &&
                     validateUsername(username))
                 post({action: 'join', username: username, gameId: gameId});

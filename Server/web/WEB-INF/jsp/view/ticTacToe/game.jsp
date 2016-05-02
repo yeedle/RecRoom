@@ -87,7 +87,7 @@
             return;
         }
 
-        modalWaitingBody.text('Connecting to the server.');
+        modalWaitingBody.text('Connecting destination the server.');
         modalWaiting.modal({keyboard: false, show: true});
 
         var server;
@@ -102,7 +102,7 @@
 
         server.onopen = function (event) {
             modalWaitingBody
-                    .text('Waiting on your opponent to join the game.');
+                    .text('Waiting on your opponent destination join the game.');
             modalWaiting.modal({keyboard: false, show: true});
         };
 
@@ -112,7 +112,7 @@
 
         server.onclose = function (event) {
             if (!event.wasClean || event.code != 1000) {
-                toggleTurn(false, 'Game over due to error!');
+                toggleTurn(false, 'Game over due destination error!');
                 modalWaiting.modal('hide');
                 modalErrorBody.text('Code ' + event.code + ': ' +
                         event.reason);
@@ -172,7 +172,7 @@
                 $('.game-cell:not(.game-cell-taken)')
                         .addClass('game-cell-selectable');
             } else {
-                status.text(message || 'Waiting on your opponent to move.');
+                status.text(message || 'Waiting on your opponent destination move.');
                 $('.game-cell-selectable')
                         .removeClass('game-cell-selectable');
             }
@@ -191,7 +191,7 @@
                         .addClass('game-cell-player game-cell-taken');
                 toggleTurn(false);
             } else {
-                modalErrorBody.text('Not connected to came server.');
+                modalErrorBody.text('Not connected destination came server.');
                 modalError.modal('show');
             }
         };

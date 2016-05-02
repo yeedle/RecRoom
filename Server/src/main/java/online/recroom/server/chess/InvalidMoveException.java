@@ -3,14 +3,14 @@ package online.recroom.server.chess;
 /**
  * Created by Yeedle on 5/2/2016 3:46 PM.
  */
-public class InvalidMove extends Throwable
+public class InvalidMoveException extends Throwable
 {
 
-    public InvalidMove()
+    public InvalidMoveException()
     {
         super();
     }
-    public InvalidMove(String s)
+    public InvalidMoveException(String s)
     {
         super(s);
     }
