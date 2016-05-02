@@ -9,7 +9,7 @@ public class Piece
 {
     private Color color;
 
-    Piece(Color color)
+    public Piece(Color color)
     {
        this.color = color;
     }
