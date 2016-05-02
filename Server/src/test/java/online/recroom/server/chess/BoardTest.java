@@ -42,7 +42,7 @@ public class BoardTest
     public void testBlackRookIn_a8_afterInitBoard()
     {
         Piece piece = board.pieceInSquare(0, 6);
-        assert(piece instanceof Rook);
+        assertTrue(piece instanceof Rook);
         assertEquals(Color.BLACK, piece.getColor());
     }
 
