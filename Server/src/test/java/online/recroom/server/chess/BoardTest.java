@@ -80,5 +80,11 @@ public class BoardTest
         assertEquals(Color.BLACK, blackKing.getColor());
     }
 
+    @Test
+    public void testExecuteAMove()
+    {
+
+    }
+
 
 }

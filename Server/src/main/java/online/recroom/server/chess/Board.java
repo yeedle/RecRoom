@@ -79,9 +79,21 @@ class Board
         }
     }
 
-    online.recroom.server.chess.pieces.Piece pieceInSquare(int row, int column)
+    Piece pieceInSquare(int row, int column)
     {
 
         return pieces[row][column];
+    }
+
+    public void execute(Move move) throws InvalidMove
+    {
+
+        int originColumn = move.getFromColumn();
+        int originRow = move.getFromRow();
+        int destinationColumn = move.getToColumn();
+        int destinationRow = move.getToRow();
+        Class classOfPiece = move.getClassOfPieceToMove();
+        if (pieces[originColumn][originRow].getClass() != classOfPiece)
+            throw new InvalidMove("piece not found");
     }
 }

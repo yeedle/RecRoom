@@ -23,6 +23,7 @@ public class Game
         if(isNotTurnOf(move.isMadeBy()))
             throw new IllegalMove("Not your turn");
 
+        board.execute(move);
     }
 
     public boolean isTurnOf(Color color)
