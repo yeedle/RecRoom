@@ -34,7 +34,17 @@ class Board
         positionKings();
         positionQueens();
         positionBishops();
+        addEmptyPieces();
 
+    }
+
+    private void addEmptyPieces()
+    {
+        for(int i = 0; i < COLUMNS; i++)
+        {
+            for(int j = 2; j < 6; j++)
+                pieces[i][j] = new Empty();
+        }
     }
 
     private void positionQueens()
@@ -93,7 +103,9 @@ class Board
 
     public void move(int fromRow, int fromColumn, int toRow, int toColumn)
     {
-        pieceInSquare()
+        Piece piece = pieces[fromColumn][fromRow];
+        pieces[fromColumn][fromRow] = new Empty();
+        pieces[toColumn][toRow] = piece;
     }
 
 
