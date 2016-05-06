@@ -1,5 +1,7 @@
 package online.recroom.client;
 
+import org.glassfish.grizzly.http.server.Session;
+
 import javax.websocket.*;
 import javax.websocket.ClientEndpoint;
 import java.io.IOException;
@@ -12,7 +14,7 @@ import java.util.logging.Logger;
 @ClientEndpoint
 public class GameClientEndpoint
 {
-    private Session session;
+    private javax.websocket.Session session;
     private static final Logger LOGGER = Logger.getLogger(RecRoom.class.getName());
 
     public GameClientEndpoint(final URI uri)
@@ -21,13 +23,13 @@ public class GameClientEndpoint
     }
 
     @OnOpen
-    public void onOpen(final Session session)
+    public void onOpen(final javax.websocket.Session session)
     {
         this.session = session;
     }
 
     @OnClose
-    public void onClose(final Session session, final CloseReason reason)
+    public void onClose(final javax.websocket.Session session, final CloseReason reason)
     {
         System.out.println(reason.getReasonPhrase());
         this.session = null;
