@@ -1,6 +1,6 @@
 package online.recroom.server.checkers.pieces;
 
-import online.recroom.server.checkers.CheckersBoard;
+import online.recroom.server.checkers.Board;
 import online.recroom.server.checkers.CoOrdinates;
 import online.recroom.server.checkers.Color;
 import online.recroom.server.checkers.PieceNotFoundException;
@@ -13,10 +13,10 @@ import java.util.Set;
 public abstract class Piece {
     private final Color color;
 
-    private final CheckersBoard boardPieceIsOn;
+    private final Board boardPieceIsOn;
 
 
-    public Piece(Color color, CheckersBoard cb) {
+    public Piece(Color color, Board cb) {
         this.color = color;
         boardPieceIsOn = cb;
     }
