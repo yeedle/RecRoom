@@ -18,12 +18,12 @@ public class Game
         turn = WHITE;
     }
 
-    public void move(Move move) throws IllegalMoveException, InvalidMoveException
+    public void move(Movement movement) throws IllegalMoveException, InvalidMoveException
     {
-        if(isNotTurnOf(move.madeBy))
+        if(isNotTurnOf(movement.madeBy))
             throw new IllegalMoveException("Not your turn");
 
-        board.execute(move);
+        board.execute(movement);
     }
 
     public boolean isTurnOf(Color color)

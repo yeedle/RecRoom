@@ -22,7 +22,7 @@ public class ChessServer
     }
 
     @OnMessage
-    public void onMessage(Move move)
+    public void onMessage(Movement movement)
     {
 
     }

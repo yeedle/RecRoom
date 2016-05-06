@@ -20,19 +20,19 @@
 <div id="status">&nbsp;</div>
 <div id="gameContainer">
     <div class="row">
-        <div id="r0c0" class="game-cell" onclick="move(0, 0);">&nbsp;</div>
-        <div id="r0c1" class="game-cell" onclick="move(0, 1);">&nbsp;</div>
-        <div id="r0c2" class="game-cell" onclick="move(0, 2);">&nbsp;</div>
+        <div id="r0c0" class="game-cell" onclick="movement(0, 0);">&nbsp;</div>
+        <div id="r0c1" class="game-cell" onclick="movement(0, 1);">&nbsp;</div>
+        <div id="r0c2" class="game-cell" onclick="movement(0, 2);">&nbsp;</div>
     </div>
     <div class="row">
-        <div id="r1c0" class="game-cell" onclick="move(1, 0);">&nbsp;</div>
-        <div id="r1c1" class="game-cell" onclick="move(1, 1);">&nbsp;</div>
-        <div id="r1c2" class="game-cell" onclick="move(1, 2);">&nbsp;</div>
+        <div id="r1c0" class="game-cell" onclick="movement(1, 0);">&nbsp;</div>
+        <div id="r1c1" class="game-cell" onclick="movement(1, 1);">&nbsp;</div>
+        <div id="r1c2" class="game-cell" onclick="movement(1, 2);">&nbsp;</div>
     </div>
     <div class="row">
-        <div id="r2c0" class="game-cell" onclick="move(2, 0);">&nbsp;</div>
-        <div id="r2c1" class="game-cell" onclick="move(2, 1);">&nbsp;</div>
-        <div id="r2c2" class="game-cell" onclick="move(2, 2);">&nbsp;</div>
+        <div id="r2c0" class="game-cell" onclick="movement(2, 0);">&nbsp;</div>
+        <div id="r2c1" class="game-cell" onclick="movement(2, 1);">&nbsp;</div>
+        <div id="r2c2" class="game-cell" onclick="movement(2, 2);">&nbsp;</div>
     </div>
 </div>
 <div id="modalWaiting" class="modal hide fade">
@@ -63,7 +63,7 @@
     </div>
 </div>
 <script type="text/javascript" language="javascript">
-    var move;
+    var movement;
     $(document).ready(function () {
         var modalError = $("#modalError");
         var modalErrorBody = $("#modalErrorBody");
@@ -137,7 +137,7 @@
                 toggleTurn(message.game.nextMoveBy == username);
                 modalWaiting.modal('hide');
             } else if (message.action == 'opponentMadeMove') {
-                $('#r' + message.move.row + 'c' + message.move.column)
+                $('#r' + message.movement.row + 'c' + message.movement.column)
                         .unbind('click')
                         .removeClass('game-cell-selectable')
                         .addClass('game-cell-opponent game-cell-taken');
@@ -168,17 +168,17 @@
         var toggleTurn = function (isMyTurn, message) {
             myTurn = isMyTurn;
             if (myTurn) {
-                status.text(message || 'It\'s your move!');
+                status.text(message || 'It\'s your movement!');
                 $('.game-cell:not(.game-cell-taken)')
                         .addClass('game-cell-selectable');
             } else {
-                status.text(message || 'Waiting on your opponent destination move.');
+                status.text(message || 'Waiting on your opponent destination movement.');
                 $('.game-cell-selectable')
                         .removeClass('game-cell-selectable');
             }
         };
 
-        move = function (row, column) {
+        movement = function (row, column) {
             if (!myTurn) {
                 modalErrorBody.text('It is not your turn yet!');
                 modalError.modal('show');

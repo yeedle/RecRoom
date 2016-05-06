@@ -13,7 +13,7 @@ class Board
     private final static int ROWS = 8;
     private final static int COLUMNS = 8;
     private Piece[][] pieces = new Piece[COLUMNS][ROWS];
-    private Move currentMove;
+    private Movement currentMovement;
 
     public Board()
     {
@@ -96,28 +96,28 @@ class Board
         return pieces[column][row];
     }
 
-    public void execute(Move move) throws InvalidMoveException, IllegalMoveException
+    public void execute(Movement movement) throws InvalidMoveException, IllegalMoveException
     {
-        currentMove = move;
+        currentMovement = movement;
         checkForErrors();
-        move(move.origin.row(), move.origin.column(), move.destination.row(), move.destination.column());
+        move(movement.origin.row(), movement.origin.column(), movement.destination.row(), movement.destination.column());
     }
 
     private void checkForErrors() throws InvalidMoveException, IllegalMoveException
     {
-        Piece pieceToMove = pieceInSquare(currentMove.origin.column(), currentMove.origin.row());
+        Piece pieceToMove = pieceInSquare(currentMovement.origin.column(), currentMovement.origin.row());
 
         if(isEmpty(pieceToMove))
             throw new InvalidMoveException("piece not found");
         if (destinationIsOccupiedByOwn())
             throw new IllegalMoveException("Occupied by own piece");
-        if(pieceToMove.isIllegalMove(currentMove.origin, currentMove.destination))
-            throw new IllegalMoveException("Piece can't do that currentMove");
+        if(pieceToMove.isIllegalMove(currentMovement.origin, currentMovement.destination))
+            throw new IllegalMoveException("Piece can't do that currentMovement");
     }
 
     private boolean destinationIsOccupiedByOwn()
     {
-        return pieces[currentMove.destination.column()][currentMove.destination.row()].getColor() == currentMove.madeBy;
+        return pieces[currentMovement.destination.column()][currentMovement.destination.row()].getColor() == currentMovement.madeBy;
     }
 
     private boolean isEmpty(Piece pieceToMove)

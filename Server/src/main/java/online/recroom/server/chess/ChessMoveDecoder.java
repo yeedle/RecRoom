@@ -7,10 +7,10 @@ import javax.websocket.EndpointConfig;
 /**
  * Created by Yeedle on 4/11/2016 9:00 PM.
  */
-public class ChessMoveDecoder implements Decoder.Text<Move>
+public class ChessMoveDecoder implements Decoder.Text<Movement>
 {
     @Override
-    public Move decode(String s) throws DecodeException
+    public Movement decode(String s) throws DecodeException
     {
         //here the JSON string gets Objectified into a IMovable
         return null;
