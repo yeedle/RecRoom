@@ -29,6 +29,6 @@ public abstract class Piece {
     public abstract Set<CoOrdinates> getValidMoves();
 
     public CoOrdinates getCurrentCoordinates() throws PieceNotFoundException {
-        return boardPieceIsOn.getAPiecesCoOrdinates(this);
+        return boardPieceIsOn.getCoOrdinatesOfPiece(this);
     }
 }

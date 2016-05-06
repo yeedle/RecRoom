@@ -8,7 +8,7 @@ import online.recroom.server.checkers.pieces.Piece;
 public class BoardCell {
     public final CoOrdinates coOrdinates;
     public final boolean CrowningRow;
-    public Piece piece;
+    private Piece piece;
 
     private BoardCell(CoOrdinates coOrdinates, boolean crowningRow) {
         this.coOrdinates = coOrdinates;

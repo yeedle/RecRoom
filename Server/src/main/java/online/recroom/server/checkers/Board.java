@@ -12,36 +12,26 @@ public class Board {
     private static final int ROWS = 8;
     private static final int COLUMNS = 8;
 
-    private Set<Piece> blackPieces;
-    private Set<Piece> whitePieces;
-
     private BoardCell[][] board;
 
-
+    private Set<Piece> blackPieces;
+    private Set<Piece> whitePieces;
 
     private void initializeBoard() {
 
     }
 
-    public BoardCell getCell(int row, int column) {
+    private BoardCell getCell(int row, int column) {
         return board[row][column];
     }
 
-    public Piece getPiece(int row, int column)
-    {
-        return getCell(row, column).piece;
+    public BoardCell getCell(CoOrdinates coOrdinates) {
+        return getCell(coOrdinates.row, coOrdinates.column);
     }
 
-    public CoOrdinates getAPiecesCoOrdinates(Piece p) throws PieceNotFoundException {
-
-        for (int row = 0; row < board.length; row++) {
-            for (int column = 0; column < board[row].length; column++) {
-                if (p == getPiece(row, column)) {
-                    return getCell(row, column).coOrdinates;
-                }
-            }
-        }
-        throw new PieceNotFoundException();
+    public Piece getPiece(CoOrdinates coOrdinates)
+    {
+        return getCell(coOrdinates).getPiece();
     }
 
     public boolean isValidMove(Piece p, CoOrdinates coOrdinates)
@@ -57,5 +47,17 @@ public class Board {
     private boolean playerHasLegalMoves(Set<Piece> pieces)
     {
         return false;
+    }
+
+    public CoOrdinates getCoOrdinatesOfPiece(Piece p) throws PieceNotFoundException {
+
+        for (int row = 0; row < board.length; row++) {
+            for (int column = 0; column < board[row].length; column++) {
+                if (p == getPiece(new CoOrdinates(row, column))) {
+                    return getCell(row, column).coOrdinates;
+                }
+            }
+        }
+        throw new PieceNotFoundException();
     }
 }
