@@ -15,23 +15,15 @@ public class Board {
     private Set<Piece> blackPieces;
     private Set<Piece> whitePieces;
 
-    private Cell[][] board;
+    private BoardCell[][] board;
 
-    private class Cell{
-        public final CoOrdinates coOrdinates;
-        public Piece piece;
-        public final boolean CrowningRow;
 
-        private Cell(CoOrdinates coOrdinates, boolean crowningRow) {
-            this.coOrdinates = coOrdinates;
-            CrowningRow = crowningRow;
-        }
-    }
 
     private void initializeBoard() {
 
     }
-    public Cell getCell(int row, int column) {
+
+    public BoardCell getCell(int row, int column) {
         return board[row][column];
     }
 
