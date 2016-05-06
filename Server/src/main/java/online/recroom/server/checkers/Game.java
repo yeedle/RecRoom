@@ -1,5 +1,7 @@
 package online.recroom.server.checkers;
 
+import online.recroom.server.checkers.board.Board;
+
 /**
  * Created by theje on 4/28/2016.
  */

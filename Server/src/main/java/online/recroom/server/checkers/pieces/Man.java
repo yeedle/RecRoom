@@ -1,8 +1,8 @@
 package online.recroom.server.checkers.pieces;
 
-import online.recroom.server.checkers.Board;
-import online.recroom.server.checkers.CoOrdinates;
-import online.recroom.server.checkers.Color;
+import online.recroom.server.checkers.board.BoardCell;
+import online.recroom.server.checkers.board.CoOrdinates;
+import online.recroom.server.checkers.board.Color;
 
 import java.util.Set;
 
@@ -11,7 +11,7 @@ import java.util.Set;
  */
 public class Man extends Piece {
 
-    public Man(Color color, Board cb) {
+    public Man(Color color, BoardCell cb) {
         super(color, cb);
     }
 

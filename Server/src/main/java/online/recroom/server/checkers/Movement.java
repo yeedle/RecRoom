@@ -1,20 +1,20 @@
 package online.recroom.server.checkers;
 
-import online.recroom.server.chess.Coordinates;
-import online.recroom.server.chess.pieces.Piece;
 
-/**
- * Created by theje on 5/6/2016.
- */
+import online.recroom.server.checkers.board.CoOrdinates;
+import online.recroom.server.checkers.board.Color;
+import online.recroom.server.checkers.pieces.Piece;
+
 public class Movement {
-    public final online.recroom.server.chess.pieces.Color madeBy;
-    public final Coordinates origin;
-    public final Coordinates destination;
-    private Piece piece;
+    public final Color madeBy;
+    public final CoOrdinates origin;
+    public final CoOrdinates destination;
+    private final Piece piece;
 
-    public Movement(online.recroom.server.chess.pieces.Color madeByPlayer, Coordinates from, Coordinates to) {
+    public Movement(Color madeByPlayer, CoOrdinates from, CoOrdinates to, Piece piece) {
         madeBy = madeByPlayer;
         this.origin = from;
         this.destination = to;
+        this.piece = piece;
     }
 }

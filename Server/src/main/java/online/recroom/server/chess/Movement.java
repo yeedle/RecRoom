@@ -1,7 +1,6 @@
 package online.recroom.server.chess;
 
 import online.recroom.server.chess.pieces.Color;
-import online.recroom.server.chess.pieces.Empty;
 import online.recroom.server.chess.pieces.Piece;
 
 /**
@@ -12,18 +11,13 @@ public class Movement
     public final Color madeBy;
     public final Coordinates origin;
     public final Coordinates destination;
-    private Piece piece;
+    public final Piece piece;
 
-    public Movement(Color madeByPlayer, Coordinates from, Coordinates to)
+    public Movement(Color madeByPlayer, Coordinates from, Coordinates to, Piece piece)
     {
         madeBy = madeByPlayer;
         this.origin = from;
         this.destination = to;
+        this.piece = piece;
     }
-
-    public Coordinates getOrigin() {return origin;}
-
-    public Coordinates getDestination() {return destination;}
-
-
 }
