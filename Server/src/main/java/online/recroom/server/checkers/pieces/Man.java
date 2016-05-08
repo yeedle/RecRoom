@@ -1,6 +1,6 @@
 package online.recroom.server.checkers.pieces;
 
-import online.recroom.server.checkers.board.BoardCell;
+import online.recroom.server.checkers.board.Cell;
 import online.recroom.server.checkers.board.CoOrdinates;
 import online.recroom.server.checkers.board.Color;
 
@@ -11,22 +11,12 @@ import java.util.Set;
  */
 public class Man extends Piece {
 
-    public Man(Color color, BoardCell cb) {
+    public Man(Color color, Cell cb) {
         super(color, cb);
     }
 
     @Override
-    public boolean isProposedMoveValid(CoOrdinates destination) {
-        return false;
-    }
-
-    @Override
-    public void move(CoOrdinates destination) {
-
-    }
-
-    @Override
-    public Set<CoOrdinates> getValidMoves() {
+    public Set<CoOrdinates> getValidDestinations() {
         return null;
     }
 }
