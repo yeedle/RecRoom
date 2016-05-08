@@ -11,8 +11,8 @@ import java.util.LinkedList;
  */
 public class Board {
 
-    private static final int ROWS = 8;
-    private static final int COLUMNS = 8;
+    public static final int ROWS = 8;
+    public static final int COLUMNS = 8;
 
     private final Color colorWeArePlayingOn;
 
