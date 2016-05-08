@@ -41,6 +41,9 @@ public class Cell {
         this.piece = piece;
     }
 
+    public void clearCell() {
+        setPiece(null);
+    }
     public boolean isColorWeArePlayingOn() {
         return boardCellIsOn.getColorWeArePlayingOn() == color;
     }
