@@ -50,11 +50,19 @@ public class Cell {
     }
 
     public boolean isOccupied() {
-        return this.piece != null;
+        return getPiece() != null;
     }
 
     public boolean isNotOccupied() {
         return !isOccupied();
+    }
+
+    public boolean containsTeammate(online.recroom.server.checkers.pieces.Color myColor) {
+        return isOccupied() && getPiece().color == myColor;
+    }
+
+    public boolean containsOpponent(online.recroom.server.checkers.pieces.Color myColor) {
+        return !containsTeammate(myColor);
     }
 
     //    TODO IMPLEMENT
