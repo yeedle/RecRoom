@@ -1,9 +1,10 @@
 package online.recroom.server.checkers.board;
 
+import online.recroom.server.checkers.Movement;
 import online.recroom.server.checkers.pieces.Piece;
-import online.recroom.server.checkers.pieces.PieceNotFoundException;
 
-import java.util.Set;
+import java.util.HashSet;
+import java.util.LinkedList;
 
 /**
  * Created by theje on 4/28/2016.
@@ -15,10 +16,11 @@ public class Board {
 
     private final Color colorWeArePlayingOn;
 
-    private BoardCell[][] board;
+    private Cell[][] board;
 
-    private Set<Piece> blackPieces;
-    private Set<Piece> whitePieces;
+    private LinkedList<Movement> movements;
+    private HashSet<Piece> blackPieces;
+    private HashSet<Piece> whitePieces;
 
     public Board(Color colorWeArePlayingOn) {
         this.colorWeArePlayingOn = colorWeArePlayingOn;
@@ -32,11 +34,11 @@ public class Board {
         return colorWeArePlayingOn;
     }
 
-    private BoardCell getCell(int row, int column) {
+    private Cell getCell(int row, int column) {
         return board[row][column];
     }
 
-    public BoardCell getCell(CoOrdinates coOrdinates) {
+    public Cell getCell(CoOrdinates coOrdinates) {
         return getCell(coOrdinates.row, coOrdinates.column);
     }
 
@@ -45,30 +47,19 @@ public class Board {
         return getCell(coOrdinates).getPiece();
     }
 
-    public boolean isValidMove(Piece p, CoOrdinates coOrdinates)
+    public boolean isValidMove(Movement proposedMovement)
     {
         return false;
     }
 
-    public void movePiece(Piece p, CoOrdinates destination)
+    public void movePiece(Movement movement)
     {
 
     }
 
-    private boolean playerHasLegalMoves(Set<Piece> pieces)
+    private boolean playerHasLegalMoves(HashSet<Piece> pieces)
     {
         return false;
     }
 
-    public CoOrdinates getCoOrdinatesOfPiece(Piece p) throws PieceNotFoundException {
-
-        for (int row = 0; row < board.length; row++) {
-            for (int column = 0; column < board[row].length; column++) {
-                if (p == getPiece(new CoOrdinates(row, column))) {
-                    return getCell(row, column).getCoOrdinates();
-                }
-            }
-        }
-        throw new PieceNotFoundException();
-    }
 }

@@ -17,6 +17,10 @@ public class Cell {
         this.color = color;
     }
 
+    public Board getBoardCellIsOn() {
+        return boardCellIsOn;
+    }
+
     public CoOrdinates getCoOrdinates() {
         return coOrdinates;
     }

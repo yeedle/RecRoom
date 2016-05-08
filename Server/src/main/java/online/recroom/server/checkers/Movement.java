@@ -9,7 +9,7 @@ public class Movement {
     public final Color madeBy;
     public final CoOrdinates origin;
     public final CoOrdinates destination;
-    private final Piece piece;
+    public final Piece piece;
 
     public Movement(Color madeByPlayer, CoOrdinates from, CoOrdinates to, Piece piece) {
         madeBy = madeByPlayer;
