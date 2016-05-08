@@ -36,13 +36,13 @@ public class BlackPiece extends Piece {
             return false;
         }
         if (destination.getColumn() == (this.getColumn() + 2)) {
-            Cell cellInBetween = cellPieceIsIn.getBoardCellIsOn()
+            Cell cellInBetween = getCellPieceIsIn().getBoardCellIsOn()
                     .getCell(new CoOrdinates((getRow() - 1), getColumn() + 1));
             return cellInBetween.isOccupied() && cellInBetween.containsOpponent(this.color);
         }
 
         if (destination.getColumn() == (this.getColumn() - 2)) {
-            Cell cellInBetween = cellPieceIsIn.getBoardCellIsOn()
+            Cell cellInBetween = getCellPieceIsIn().getBoardCellIsOn()
                     .getCell(new CoOrdinates((getRow() - 1), getColumn() - 1));
             return cellInBetween.isOccupied() && cellInBetween.containsOpponent(this.color);
         }

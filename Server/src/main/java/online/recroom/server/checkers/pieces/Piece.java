@@ -13,12 +13,20 @@ import java.util.Set;
 public abstract class Piece {
     public final Color color;
 
-    protected Cell cellPieceIsIn;
+    private Cell cellPieceIsIn;
 
 
     public Piece(Color color, Cell cb) {
         this.color = color;
         cellPieceIsIn = cb;
+    }
+
+    public Cell getCellPieceIsIn() {
+        return cellPieceIsIn;
+    }
+
+    public void setCellPieceIsIn(Cell cellPieceIsIn) {
+        this.cellPieceIsIn = cellPieceIsIn;
     }
 
     protected CoOrdinates getCoordinates() {
