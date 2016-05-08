@@ -5,13 +5,13 @@ import online.recroom.server.checkers.pieces.Piece;
 /**
  * Created by theje on 5/6/2016.
  */
-public class BoardCell {
+public class Cell {
     private final Board boardCellIsOn;
     private final CoOrdinates coOrdinates;
     private final Color color;
     private Piece piece;
 
-    private BoardCell(Board boardCellIsOn, CoOrdinates coOrdinates, Color color) {
+    private Cell(Board boardCellIsOn, CoOrdinates coOrdinates, Color color) {
         this.boardCellIsOn = boardCellIsOn;
         this.coOrdinates = coOrdinates;
         this.color = color;
@@ -19,6 +19,14 @@ public class BoardCell {
 
     public CoOrdinates getCoOrdinates() {
         return coOrdinates;
+    }
+
+    public int getRow() {
+        return getCoOrdinates().row;
+    }
+
+    public int getColumn() {
+        return getCoOrdinates().column;
     }
 
     public Piece getPiece() {
