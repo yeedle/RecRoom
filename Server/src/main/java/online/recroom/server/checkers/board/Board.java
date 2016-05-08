@@ -1,5 +1,6 @@
 package online.recroom.server.checkers.board;
 
+import online.recroom.server.checkers.IllegalMovementException;
 import online.recroom.server.checkers.Movement;
 import online.recroom.server.checkers.pieces.Piece;
 
@@ -20,7 +21,7 @@ public class Board {
 
     private LinkedList<Movement> movements;
     private HashSet<Piece> blackPieces;
-    private HashSet<Piece> whitePieces;
+    private HashSet<Piece> redPieces;
 
     public Board(Color colorWeArePlayingOn) {
         this.colorWeArePlayingOn = colorWeArePlayingOn;
@@ -49,17 +50,71 @@ public class Board {
 
     public boolean isValidMove(Movement proposedMovement)
     {
+        return getPiece(proposedMovement.origin).isDestinationValid(getCell(proposedMovement.destination));
+    }
+
+    public void movePiece(Movement movement) throws Exception {
+        if (!isValidMove(movement)) {
+            throw new IllegalMovementException();
+        } else {
+            if (movement.piece.isCaptureMove(getCell(movement.destination))) {
+                capturePiece(movement.piece, movement.origin, movement.destination);
+            }
+            movement.piece.setCellPieceIsIn(getCell(movement.destination));
+            getCell(movement.origin).clearCell();
+            getCell(movement.destination).setPiece(movement.piece);
+        }
+    }
+
+    private void capturePiece(Piece captor, CoOrdinates origin, CoOrdinates destination) throws Exception {
+        if (!captor.isCaptureMove(getCell(destination))) {
+            throw new Exception();
+        }
+        Cell tempCell;
+        if (destination.row == (origin.row + 2)) {
+            if (destination.column == (origin.column + 2)) {
+                tempCell = getCell(new CoOrdinates(origin.row + 1, origin.column + 1));
+            } else {
+                tempCell = getCell(new CoOrdinates(origin.row + 1, origin.column - 1));
+            }
+        } else {
+            if (destination.column == (origin.column + 2)) {
+                tempCell = getCell(new CoOrdinates(origin.row - 1, origin.column + 1));
+            } else {
+                tempCell = getCell(new CoOrdinates(origin.row - 1, origin.column - 1));
+            }
+        }
+        if (tempCell.getPiece().color == online.recroom.server.checkers.pieces.Color.BLACK) {
+            blackPieces.remove(tempCell.getPiece());
+        } else {
+            redPieces.remove(tempCell.getPiece());
+        }
+        tempCell.clearCell();
+    }
+
+    private boolean colorHasLegalMoves(online.recroom.server.checkers.pieces.Color pieceColor) throws CoOrdinatesOutOfBoundsException {
+        if (pieceColor == online.recroom.server.checkers.pieces.Color.BLACK) {
+            return blackHasMoves();
+        } else {
+            return redHasMoves();
+        }
+    }
+
+    private boolean blackHasMoves() throws CoOrdinatesOutOfBoundsException {
+        for (Piece piece : blackPieces) {
+            if (piece.hasMoves()) {
+                return true;
+            }
+        }
         return false;
     }
 
-    public void movePiece(Movement movement)
-    {
-
-    }
-
-    private boolean playerHasLegalMoves(HashSet<Piece> pieces)
-    {
+    private boolean redHasMoves() throws CoOrdinatesOutOfBoundsException {
+        for (Piece piece : redPieces) {
+            if (piece.hasMoves()) {
+                return true;
+            }
+        }
         return false;
     }
-
 }
