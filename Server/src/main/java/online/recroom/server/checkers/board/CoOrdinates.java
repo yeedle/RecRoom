@@ -7,7 +7,10 @@ public class CoOrdinates {
     public final int row;
     public final int column;
 
-    public CoOrdinates(int row, int column) {
+    public CoOrdinates(int row, int column) throws CoOrdinatesOutOfBoundsException {
+        if (row > Board.ROWS || row < 0 || column > Board.COLUMNS || column < 0) {
+            throw new CoOrdinatesOutOfBoundsException();
+        }
         this.row = row;
         this.column = column;
     }
