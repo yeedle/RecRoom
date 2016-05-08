@@ -3,6 +3,7 @@ package online.recroom.server.checkers.pieces;
 import online.recroom.server.checkers.board.Board;
 import online.recroom.server.checkers.board.Cell;
 import online.recroom.server.checkers.board.CoOrdinates;
+import online.recroom.server.checkers.board.CoOrdinatesOutOfBoundsException;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -47,9 +48,9 @@ public abstract class Piece {
 
     protected abstract boolean isRegularMove(Cell destination);
 
-    protected abstract boolean isCaptureMove(Cell destination);
+    public abstract boolean isCaptureMove(Cell destination);
 
-    public Set<CoOrdinates> getValidDestinations() {
+    public Set<CoOrdinates> getValidDestinations() throws CoOrdinatesOutOfBoundsException {
         HashSet<CoOrdinates> validDestinations = new HashSet<>();
         for (int row = 0; row < Board.ROWS; row++) {
             for (int column = 0; column < Board.COLUMNS; column++) {

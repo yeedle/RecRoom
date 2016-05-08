@@ -3,6 +3,7 @@ package online.recroom.server.checkers.pieces;
 
 import online.recroom.server.checkers.board.Cell;
 import online.recroom.server.checkers.board.CoOrdinates;
+import online.recroom.server.checkers.board.CoOrdinatesOutOfBoundsException;
 
 /**
  * Created by theje on 5/7/2016.
@@ -28,7 +29,7 @@ public class RedPiece extends Piece {
     }
 
     @Override
-    protected boolean isCaptureMove(Cell destination) {
+    public boolean isCaptureMove(Cell destination) {
         if (destination.isOccupied()) {
             return false;
         }
@@ -36,14 +37,24 @@ public class RedPiece extends Piece {
             return false;
         }
         if (destination.getColumn() == (this.getColumn() + 2)) {
-            Cell cellInBetween = getCellPieceIsIn().getBoardCellIsOn()
-                    .getCell(new CoOrdinates((getRow() + 1), getColumn() + 1));
+            Cell cellInBetween = null;
+            try {
+                cellInBetween = getCellPieceIsIn().getBoardCellIsOn()
+                        .getCell(new CoOrdinates((getRow() + 1), getColumn() + 1));
+            } catch (CoOrdinatesOutOfBoundsException e) {
+                return false;
+            }
             return cellInBetween.isOccupied() && cellInBetween.containsOpponent(this.color);
         }
 
         if (destination.getColumn() == (this.getColumn() - 2)) {
-            Cell cellInBetween = getCellPieceIsIn().getBoardCellIsOn()
-                    .getCell(new CoOrdinates((getRow() + 1), getColumn() - 1));
+            Cell cellInBetween = null;
+            try {
+                cellInBetween = getCellPieceIsIn().getBoardCellIsOn()
+                        .getCell(new CoOrdinates((getRow() + 1), getColumn() - 1));
+            } catch (CoOrdinatesOutOfBoundsException e) {
+                return false;
+            }
             return cellInBetween.isOccupied() && cellInBetween.containsOpponent(this.color);
         }
         return false;
