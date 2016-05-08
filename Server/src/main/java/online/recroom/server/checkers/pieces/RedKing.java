@@ -2,36 +2,33 @@ package online.recroom.server.checkers.pieces;
 
 import online.recroom.server.checkers.board.Cell;
 import online.recroom.server.checkers.board.CoOrdinates;
-import online.recroom.server.checkers.board.Color;
 
 import java.util.Set;
 
 /**
  * Created by theje on 4/28/2016.
  */
-public class King extends Piece {
+public class RedKing extends RedPiece {
 
-    public King(Color color, Cell cb) {
-        super(color, cb);
+    public RedKing(Cell cb) {
+        super(cb);
     }
 
     @Override
     protected boolean isRegularMove(Cell destination) {
         if (super.isRegularMove(destination)) {
             return true;
-        } else {
-            if (destination.isOccupied())
-                return false;
-            if (destination.getRow() != (this.getRow() - 1)) {
-                return false;
-            }
-            if (destination.getColumn() == (this.getColumn() + 1)
-                    || destination.getColumn() == (this.getColumn() - 1)) {
-                return true;
-            } else {
-                return false;
-            }
         }
+        if (destination.isOccupied())
+            return false;
+        if (destination.getRow() != (this.getRow() - 1)) {
+            return false;
+        }
+        if (destination.getColumn() == (this.getColumn() + 1)
+                || destination.getColumn() == (this.getColumn() - 1)) {
+            return true;
+        }
+        return false;
     }
 
     @Override
@@ -48,15 +45,14 @@ public class King extends Piece {
         if (destination.getColumn() == (this.getColumn() + 2)) {
             Cell cellInBetween = cellPieceIsIn.getBoardCellIsOn()
                     .getCell(new CoOrdinates((getRow() - 1), getColumn() + 1));
-            return cellInBetween.isOccupied();
+            return cellInBetween.isOccupied() && cellInBetween.containsOpponent(this.color);
         }
         if (destination.getColumn() == (this.getColumn() - 2)) {
             Cell cellInBetween = cellPieceIsIn.getBoardCellIsOn()
                     .getCell(new CoOrdinates((getRow() - 1), getColumn() - 1));
-            return cellInBetween.isOccupied();
-        } else {
-            return false;
+            return cellInBetween.isOccupied() && cellInBetween.containsOpponent(this.color);
         }
+        return false;
     }
 
     @Override

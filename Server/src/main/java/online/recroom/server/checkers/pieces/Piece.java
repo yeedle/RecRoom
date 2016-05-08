@@ -1,9 +1,10 @@
 package online.recroom.server.checkers.pieces;
 
+import online.recroom.server.checkers.board.Board;
 import online.recroom.server.checkers.board.Cell;
 import online.recroom.server.checkers.board.CoOrdinates;
-import online.recroom.server.checkers.board.Color;
 
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -36,41 +37,21 @@ public abstract class Piece {
         return destination.isColorWeArePlayingOn() && (isRegularMove(destination) || isCaptureMove(destination));
     }
 
-    protected boolean isRegularMove(Cell destination) {
-        if (destination.isOccupied())
-            return false;
-        if (destination.getRow() != (this.getRow() + 1)) {
-            return false;
-        }
-        if (destination.getColumn() == (this.getColumn() + 1)
-                || destination.getColumn() == (this.getColumn() - 1)) {
-            return true;
-        } else {
-            return false;
-        }
-    }
+    protected abstract boolean isRegularMove(Cell destination);
 
-    protected boolean isCaptureMove(Cell destination) {
-        if (destination.isOccupied()) {
-            return false;
-        }
-        if (destination.getRow() != (this.getRow() + 2)) {
-            return false;
-        }
-        if (destination.getColumn() == (this.getColumn() + 2)) {
-            Cell cellInBetween = cellPieceIsIn.getBoardCellIsOn()
-                    .getCell(new CoOrdinates((getRow() + 1), getColumn() + 1));
-            return cellInBetween.isOccupied();
-        }
-        if (destination.getColumn() == (this.getColumn() - 2)) {
-            Cell cellInBetween = cellPieceIsIn.getBoardCellIsOn()
-                    .getCell(new CoOrdinates((getRow() + 1), getColumn() - 1));
-            return cellInBetween.isOccupied();
-        } else {
-            return false;
-        }
-    }
+    protected abstract boolean isCaptureMove(Cell destination);
 
-    public abstract Set<CoOrdinates> getValidDestinations();
+    public Set<CoOrdinates> getValidDestinations() {
+        HashSet<CoOrdinates> validDestinations = new HashSet<>();
+        for (int row = 0; row < Board.ROWS; row++) {
+            for (int column = 0; column < Board.COLUMNS; column++) {
+                Cell theoreticalDestination = cellPieceIsIn.getBoardCellIsOn().getCell(new CoOrdinates(row, column));
+                if (isDestinationValid(theoreticalDestination)) {
+                    validDestinations.add(theoreticalDestination.getCoOrdinates());
+                }
+            }
+        }
+        return validDestinations;
+    }
 
 }
