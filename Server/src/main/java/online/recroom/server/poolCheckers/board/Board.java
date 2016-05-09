@@ -137,9 +137,9 @@ public class Board {
     }
 
     private void capturePiece(Piece captor, CoOrdinates origin, CoOrdinates destination) throws Exception {
-        if (!captor.isCaptureMove(getCell(destination))) {
+        if (!captor.isCaptureMove(getCell(destination)))
             throw new Exception();
-        }
+
         Cell tempCell;
         if (destination.row == (origin.row + 2)) {
             if (destination.column == (origin.column + 2)) {
@@ -162,15 +162,15 @@ public class Board {
         tempCell.clearCell();
     }
 
-    private boolean colorHasLegalMoves(online.recroom.server.poolCheckers.pieces.Color pieceColor) throws CoOrdinatesOutOfBoundsException {
-        if (pieceColor == online.recroom.server.poolCheckers.pieces.Color.BLACK) {
-            return blackHasMoves();
-        } else {
-            return redHasMoves();
-        }
+    public boolean blackHasNoPiecesLeft() {
+        return blackPieces.isEmpty();
     }
 
-    private boolean blackHasMoves() throws CoOrdinatesOutOfBoundsException {
+    public boolean redHasNoPiecesLeft() {
+        return redPieces.isEmpty();
+    }
+
+    public boolean blackHasMoves() throws CoOrdinatesOutOfBoundsException {
         for (Piece piece : blackPieces) {
             if (piece.hasMoves()) {
                 return true;
@@ -179,12 +179,20 @@ public class Board {
         return false;
     }
 
-    private boolean redHasMoves() throws CoOrdinatesOutOfBoundsException {
+    public boolean redHasMoves() throws CoOrdinatesOutOfBoundsException {
         for (Piece piece : redPieces) {
             if (piece.hasMoves()) {
                 return true;
             }
         }
         return false;
+    }
+
+    public boolean blackHasNoMoves() throws CoOrdinatesOutOfBoundsException {
+        return !blackHasMoves();
+    }
+
+    public boolean redHasNoMoves() throws CoOrdinatesOutOfBoundsException {
+        return !redHasMoves();
     }
 }
