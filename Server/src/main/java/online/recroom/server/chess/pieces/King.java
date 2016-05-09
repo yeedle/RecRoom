@@ -44,4 +44,9 @@ public class King extends Piece
         return (Math.abs(origin.column() - destination.column()) ==1
                 && (Math.abs(origin.row() - destination.row()) ==1));
     }
+
+    public boolean isInCheck(Board board)
+    {
+        return false; //// TODO: 5/9/2016 add calculation for check
+    }
 }
