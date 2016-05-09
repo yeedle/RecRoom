@@ -47,6 +47,7 @@ public class King extends Piece
 
     public boolean isInCheck(Board board)
     {
+
         return false; //// TODO: 5/9/2016 add calculation for check
     }
 }

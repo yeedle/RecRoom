@@ -14,14 +14,16 @@ public class Board
     private final static int COLUMNS = 8;
     private Piece[][] pieces = new Piece[COLUMNS][ROWS];
     private Movement currentMovement;
+    private Coordinates blackKingsPosition;
+    private Coordinates whiteKingsPosition;
 
-    public Board()
+    public Board() throws IllegalCoordinateException
     {
         initBoard();
     }
 
 
-    private void initBoard()
+    private void initBoard() throws IllegalCoordinateException
     {
         positionRooks();
         positionKnights();
@@ -48,10 +50,12 @@ public class Board
         pieces[3][0] = new Queen(WHITE);
     }
 
-    private void positionKings()
+    private void positionKings() throws IllegalCoordinateException
     {
         pieces[4][7] = new King(BLACK);
+        blackKingsPosition = new Coordinates(4 ,7);
         pieces[4][0] = new King(WHITE);
+        whiteKingsPosition = new Coordinates(4, 0);
     }
 
     private void positionKnights()
@@ -111,8 +115,8 @@ public class Board
             throw new InvalidMoveException("piece not found");
         if (destinationIsOccupiedByOwn())
             throw new IllegalMoveException("Occupied by own piece");
-        if(pieceToMove.isLegalMove(currentMovement.origin, currentMovement.destination))
-            throw new IllegalMoveException("Piece can't do that currentMovement");
+        if(pieceToMove.isLegalMove(currentMovement, this))
+            throw new IllegalMoveException("Piece can't do that move");
     }
 
     private boolean destinationIsOccupiedByOwn()

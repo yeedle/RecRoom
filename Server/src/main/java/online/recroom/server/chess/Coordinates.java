@@ -12,7 +12,7 @@ public class Coordinates
 {
     Map<Dimension, Integer> coordinatesMap = new ConcurrentHashMap<>();
 
-    private Coordinates(int column, int row) throws IllegalCoordinateException
+    Coordinates(int column, int row) throws IllegalCoordinateException
     {
         if (column < 0 || column > 7 || row < 0 || row > 7)
             throw new IllegalCoordinateException();
