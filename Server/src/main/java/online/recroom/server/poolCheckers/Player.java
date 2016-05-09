@@ -1,6 +1,6 @@
-package online.recroom.server.checkers;
+package online.recroom.server.poolCheckers;
 
-import online.recroom.server.checkers.board.Color;
+import online.recroom.server.poolCheckers.board.Color;
 
 /**
  * Created by Yehuda Globerman on 5/1/2016.

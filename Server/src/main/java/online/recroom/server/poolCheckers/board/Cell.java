@@ -1,6 +1,6 @@
-package online.recroom.server.checkers.board;
+package online.recroom.server.poolCheckers.board;
 
-import online.recroom.server.checkers.pieces.Piece;
+import online.recroom.server.poolCheckers.pieces.Piece;
 
 /**
  * Created by theje on 5/6/2016.
@@ -11,7 +11,14 @@ public class Cell {
     private final Color color;
     private Piece piece;
 
-    private Cell(Board boardCellIsOn, CoOrdinates coOrdinates, Color color) {
+    public <P extends Piece> Cell(Board boardCellIsOn, CoOrdinates coOrdinates, Color color, P piece) {
+        this.boardCellIsOn = boardCellIsOn;
+        this.coOrdinates = coOrdinates;
+        this.color = color;
+        this.piece = piece;
+    }
+
+    public Cell(Board boardCellIsOn, CoOrdinates coOrdinates, Color color) {
         this.boardCellIsOn = boardCellIsOn;
         this.coOrdinates = coOrdinates;
         this.color = color;
@@ -60,11 +67,11 @@ public class Cell {
         return !isOccupied();
     }
 
-    public boolean containsTeammate(online.recroom.server.checkers.pieces.Color myColor) {
+    public boolean containsTeammate(online.recroom.server.poolCheckers.pieces.Color myColor) {
         return isOccupied() && getPiece().color == myColor;
     }
 
-    public boolean containsOpponent(online.recroom.server.checkers.pieces.Color myColor) {
+    public boolean containsOpponent(online.recroom.server.poolCheckers.pieces.Color myColor) {
         return !containsTeammate(myColor);
     }
 

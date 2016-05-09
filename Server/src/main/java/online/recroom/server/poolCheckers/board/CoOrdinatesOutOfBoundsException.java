@@ -1,4 +1,4 @@
-package online.recroom.server.checkers.board;
+package online.recroom.server.poolCheckers.board;
 
 /**
  * Created by theje on 5/8/2016.
