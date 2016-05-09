@@ -30,7 +30,12 @@ public class Board {
     }
 
     private void initializeBoard() throws CoOrdinatesOutOfBoundsException {
-//        Initialize all the red pieces
+        initRedPieces();
+        initBlackPieces();
+        initEmptyRows();
+    }
+
+    private void initRedPieces() throws CoOrdinatesOutOfBoundsException {
         for (int row = 0; row < 3; row++) {
             for (int column = 0; column < COLUMNS; column++) {
                 if (row % 2 == 0) {
@@ -54,20 +59,9 @@ public class Board {
                 }
             }
         }
-//        Initialize the empty rows
-        for (int row = 3; row < 5; row++) {
-            for (int column = 0; column < COLUMNS; column++) {
-                if (row % 2 == 0) {
-                    if (column % 2 == 0) {
-                        board[row][column] = new Cell(this, new CoOrdinates(row, column), Color.WHITE);
-                    } else {
-                        board[row][column] = new Cell(this, new CoOrdinates(row, column), Color.BLACK);
-                    }
-                }
-            }
-        }
+    }
 
-//        Initialize all the black pieces
+    private void initBlackPieces() throws CoOrdinatesOutOfBoundsException {
         for (int row = 5; row < ROWS; row++) {
             for (int column = 0; column < COLUMNS; column++) {
                 if (row % 2 == 0) {
@@ -87,6 +81,20 @@ public class Board {
                         blackPieces.add(tempCell.getPiece());
                     } else {
                         board[row][column] = new Cell(this, new CoOrdinates(row, column), Color.WHITE);
+                    }
+                }
+            }
+        }
+    }
+
+    private void initEmptyRows() throws CoOrdinatesOutOfBoundsException {
+        for (int row = 3; row < 5; row++) {
+            for (int column = 0; column < COLUMNS; column++) {
+                if (row % 2 == 0) {
+                    if (column % 2 == 0) {
+                        board[row][column] = new Cell(this, new CoOrdinates(row, column), Color.WHITE);
+                    } else {
+                        board[row][column] = new Cell(this, new CoOrdinates(row, column), Color.BLACK);
                     }
                 }
             }
