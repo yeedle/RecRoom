@@ -137,4 +137,12 @@ public class Board
     }
 
 
+    public Coordinates kingPosition(Player color)
+    {
+        if (color.equals(WHITE))
+            return whiteKingsPosition;
+        if (color.equals(BLACK))
+            return blackKingsPosition;
+        return null;
+    }
 }

@@ -12,6 +12,8 @@ public class King extends Piece
 
     private Coordinates origin;
     private Coordinates destination;
+    private Coordinates kingsPosition;
+    private Board board;
 
     public King(Player player)
     {
@@ -45,9 +47,15 @@ public class King extends Piece
                 && (Math.abs(origin.row() - destination.row()) ==1));
     }
 
-    public boolean isInCheck(Board board)
+    public boolean isNotInCheck(Board board)
     {
-
-        return false; //// TODO: 5/9/2016 add calculation for check
+        this.board = board;
+        kingsPosition = board.kingPosition(this.getPlayer());
+        return noDiagonalThreats() && noHorizontalThreats() &&
+        noVerticalThreats() &&
+        noKnightThreats();
+        return false;
     }
+
+
 }
