@@ -75,9 +75,8 @@ public class Cell {
         return !containsTeammate(myColor);
     }
 
-    //    TODO IMPLEMENT
-    public boolean isCrowningRow() {
-        return false;
+    public boolean isCrowningCell() {
+        return getRow() == 0 || getRow() == 7;
     }
 
 }
