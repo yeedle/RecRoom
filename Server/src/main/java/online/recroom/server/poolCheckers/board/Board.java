@@ -19,18 +19,18 @@ public class Board {
 
     private final Color colorWeArePlayingOn = Color.BLACK;
 
-    private Cell[][] board = new Cell[ROWS][COLUMNS];
-    ;
+    private final Cell[][] board = new Cell[ROWS][COLUMNS];
 
-    private LinkedList<Movement> movements;
-    private HashSet<Piece> blackPieces;
-    private HashSet<Piece> redPieces;
+    private final LinkedList<Movement> movements = new LinkedList<>();
+    private final HashSet<Piece> blackPieces = new HashSet<>();
+    private final HashSet<Piece> redPieces = new HashSet<>();
 
     public Board() throws CoOrdinatesOutOfBoundsException {
         initializeBoard();
     }
 
     private void initializeBoard() throws CoOrdinatesOutOfBoundsException {
+//        Initialize all the red pieces
         for (int row = 0; row < 3; row++) {
             for (int column = 0; column < COLUMNS; column++) {
                 if (row % 2 == 0) {
@@ -40,18 +40,21 @@ public class Board {
                         Cell tempCell = new Cell(this, new CoOrdinates(row, column), Color.BLACK, new RedPiece());
                         tempCell.getPiece().setCellPieceIsIn(tempCell);
                         board[row][column] = tempCell;
+                        redPieces.add(tempCell.getPiece());
                     }
                 } else {
                     if (column % 2 == 0) {
                         Cell tempCell = new Cell(this, new CoOrdinates(row, column), Color.BLACK, new RedPiece());
                         tempCell.getPiece().setCellPieceIsIn(tempCell);
                         board[row][column] = tempCell;
+                        redPieces.add(tempCell.getPiece());
                     } else {
                         board[row][column] = new Cell(this, new CoOrdinates(row, column), Color.WHITE);
                     }
                 }
             }
         }
+//        Initialize the empty rows
         for (int row = 3; row < 5; row++) {
             for (int column = 0; column < COLUMNS; column++) {
                 if (row % 2 == 0) {
@@ -64,6 +67,7 @@ public class Board {
             }
         }
 
+//        Initialize all the black pieces
         for (int row = 5; row < ROWS; row++) {
             for (int column = 0; column < COLUMNS; column++) {
                 if (row % 2 == 0) {
@@ -73,12 +77,14 @@ public class Board {
                         Cell tempCell = new Cell(this, new CoOrdinates(row, column), Color.BLACK, new BlackPiece());
                         tempCell.getPiece().setCellPieceIsIn(tempCell);
                         board[row][column] = tempCell;
+                        blackPieces.add(tempCell.getPiece());
                     }
                 } else {
                     if (column % 2 == 0) {
                         Cell tempCell = new Cell(this, new CoOrdinates(row, column), Color.BLACK, new BlackPiece());
                         tempCell.getPiece().setCellPieceIsIn(tempCell);
                         board[row][column] = tempCell;
+                        blackPieces.add(tempCell.getPiece());
                     } else {
                         board[row][column] = new Cell(this, new CoOrdinates(row, column), Color.WHITE);
                     }
