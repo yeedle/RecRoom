@@ -4,15 +4,14 @@ import online.recroom.server.poolCheckers.board.Cell;
 import online.recroom.server.poolCheckers.board.CoOrdinates;
 import online.recroom.server.poolCheckers.board.CoOrdinatesOutOfBoundsException;
 
-import java.util.Set;
-
 /**
  * Created by theje on 4/28/2016.
  */
 public class RedKing extends RedPiece {
 
-    public RedKing(Cell cb) {
-        super(cb);
+    public RedKing(Piece piece) {
+        super();
+        setCellPieceIsIn(piece.getCellPieceIsIn());
     }
 
     @Override
@@ -66,8 +65,4 @@ public class RedKing extends RedPiece {
         return false;
     }
 
-    @Override
-    public Set<CoOrdinates> getValidDestinations() {
-        return null;
-    }
 }

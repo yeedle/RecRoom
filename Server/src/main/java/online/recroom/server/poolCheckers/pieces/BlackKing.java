@@ -9,8 +9,9 @@ import online.recroom.server.poolCheckers.board.CoOrdinatesOutOfBoundsException;
  */
 public class BlackKing extends BlackPiece {
 
-    public BlackKing(Cell cb) {
-        super(cb);
+    public BlackKing(Piece piece) {
+        super();
+        setCellPieceIsIn(piece.getCellPieceIsIn());
     }
 
     @Override
@@ -65,4 +66,5 @@ public class BlackKing extends BlackPiece {
         }
         return false;
     }
+
 }

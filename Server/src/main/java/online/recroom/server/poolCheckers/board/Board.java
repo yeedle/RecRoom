@@ -162,6 +162,10 @@ public class Board {
         tempCell.clearCell();
     }
 
+    //TODO check if is regular piece, then check if red or black.
+    public void crown(Cell c, Piece p) {
+
+    }
     public boolean blackHasNoPiecesLeft() {
         return blackPieces.isEmpty();
     }
@@ -172,7 +176,7 @@ public class Board {
 
     public boolean blackHasMoves() throws CoOrdinatesOutOfBoundsException {
         for (Piece piece : blackPieces) {
-            if (piece.hasMoves()) {
+            if (piece.isMovable()) {
                 return true;
             }
         }
@@ -181,7 +185,7 @@ public class Board {
 
     public boolean redHasMoves() throws CoOrdinatesOutOfBoundsException {
         for (Piece piece : redPieces) {
-            if (piece.hasMoves()) {
+            if (piece.isMovable()) {
                 return true;
             }
         }

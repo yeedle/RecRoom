@@ -62,8 +62,12 @@ public abstract class Piece {
         return validDestinations;
     }
 
-    public boolean hasMoves() throws CoOrdinatesOutOfBoundsException {
+    public boolean isMovable() throws CoOrdinatesOutOfBoundsException {
         return !getValidDestinations().isEmpty();
+    }
+
+    public boolean isImmovable() throws CoOrdinatesOutOfBoundsException {
+        return !isMovable();
     }
 
 }
