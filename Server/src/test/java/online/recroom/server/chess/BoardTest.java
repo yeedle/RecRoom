@@ -24,7 +24,7 @@ public class BoardTest
     {
         Piece piece = board.pieceInSquare(0, 1);
         assert(piece instanceof Pawn);
-        assertEquals(Color.WHITE, piece.getColor());
+        assertEquals(Player.WHITE, piece.getPlayer());
     }
 
     @Test
@@ -32,7 +32,7 @@ public class BoardTest
     {
         Piece piece = board.pieceInSquare(0, 6);
         assert(piece instanceof Pawn);
-        assertEquals(Color.BLACK, piece.getColor());
+        assertEquals(Player.BLACK, piece.getPlayer());
     }
 
     @Test
@@ -40,7 +40,7 @@ public class BoardTest
     {
         Piece piece = board.pieceInSquare(0, 7);
         assertTrue(piece instanceof Rook);
-        assertEquals(Color.BLACK, piece.getColor());
+        assertEquals(Player.BLACK, piece.getPlayer());
     }
 
     @Test
@@ -48,14 +48,14 @@ public class BoardTest
     {
         Piece piece = board.pieceInSquare(1, 0);
         assertTrue(piece instanceof Knight);
-        assertEquals(Color.WHITE, piece.getColor());
+        assertEquals(Player.WHITE, piece.getPlayer());
     }
     @Test
     public void testBlackBishopIn_c8_afterInitBoard()
     {
         Piece piece = board.pieceInSquare(2, 7);
         assertTrue(piece instanceof Bishop);
-        assertEquals(Color.BLACK, piece.getColor());
+        assertEquals(Player.BLACK, piece.getPlayer());
     }
 
     @Test
@@ -65,8 +65,8 @@ public class BoardTest
         Piece whiteQueen = board.pieceInSquare(3, 0);
         assertTrue(blackQueen instanceof Queen);
         assertTrue(whiteQueen instanceof Queen);
-        assertEquals(Color.WHITE, whiteQueen.getColor());
-        assertEquals(Color.BLACK, blackQueen.getColor());
+        assertEquals(Player.WHITE, whiteQueen.getPlayer());
+        assertEquals(Player.BLACK, blackQueen.getPlayer());
     }
 
     @Test
@@ -76,8 +76,8 @@ public class BoardTest
         Piece whiteKing = board.pieceInSquare(4, 0);
         assertTrue(blackKing instanceof King);
         assertTrue(whiteKing instanceof King);
-        assertEquals(Color.WHITE, whiteKing.getColor());
-        assertEquals(Color.BLACK, blackKing.getColor());
+        assertEquals(Player.WHITE, whiteKing.getPlayer());
+        assertEquals(Player.BLACK, blackKing.getPlayer());
     }
 
     @Test

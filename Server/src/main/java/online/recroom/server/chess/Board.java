@@ -2,13 +2,13 @@ package online.recroom.server.chess;
 
 import online.recroom.server.chess.pieces.*;
 
-import static online.recroom.server.chess.pieces.Color.BLACK;
-import static online.recroom.server.chess.pieces.Color.WHITE;
+import static online.recroom.server.chess.pieces.Player.BLACK;
+import static online.recroom.server.chess.pieces.Player.WHITE;
 
 /**
  * Created by Yeedle on 5/2/2016 11:41 AM.
  */
-class Board
+public class Board
 {
     private final static int ROWS = 8;
     private final static int COLUMNS = 8;
@@ -111,13 +111,13 @@ class Board
             throw new InvalidMoveException("piece not found");
         if (destinationIsOccupiedByOwn())
             throw new IllegalMoveException("Occupied by own piece");
-        if(pieceToMove.isIllegalMove(currentMovement.origin, currentMovement.destination))
+        if(pieceToMove.isLegalMove(currentMovement.origin, currentMovement.destination))
             throw new IllegalMoveException("Piece can't do that currentMovement");
     }
 
     private boolean destinationIsOccupiedByOwn()
     {
-        return pieces[currentMovement.destination.column()][currentMovement.destination.row()].getColor() == currentMovement.madeBy;
+        return pieces[currentMovement.destination.column()][currentMovement.destination.row()].getPlayer() == currentMovement.madeBy;
     }
 
     private boolean isEmpty(Piece pieceToMove)

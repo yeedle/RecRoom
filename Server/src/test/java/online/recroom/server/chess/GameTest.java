@@ -2,8 +2,8 @@ package online.recroom.server.chess;
 
 import org.junit.Test;
 
-import static online.recroom.server.chess.pieces.Color.BLACK;
-import static online.recroom.server.chess.pieces.Color.WHITE;
+import static online.recroom.server.chess.pieces.Player.BLACK;
+import static online.recroom.server.chess.pieces.Player.WHITE;
 import static org.junit.Assert.assertTrue;
 
 /**

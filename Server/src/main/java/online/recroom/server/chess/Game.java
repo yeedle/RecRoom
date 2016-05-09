@@ -1,8 +1,8 @@
 package online.recroom.server.chess;
 
-import online.recroom.server.chess.pieces.Color;
+import online.recroom.server.chess.pieces.Player;
 
-import static online.recroom.server.chess.pieces.Color.WHITE;
+import static online.recroom.server.chess.pieces.Player.WHITE;
 
 /**
  * Created by Yeedle on 5/2/2016 2:57 PM.
@@ -10,7 +10,7 @@ import static online.recroom.server.chess.pieces.Color.WHITE;
 public class Game
 {
     Board board;
-    Color turn;
+    Player turn;
 
     public Game()
     {
@@ -26,14 +26,14 @@ public class Game
         board.execute(movement);
     }
 
-    public boolean isTurnOf(Color color)
+    public boolean isTurnOf(Player player)
     {
-        return turn.equals(color);
+        return turn.equals(player);
     }
 
-    public boolean isNotTurnOf(Color color)
+    public boolean isNotTurnOf(Player player)
     {
-        return !isTurnOf(color);
+        return !isTurnOf(player);
     }
 
 

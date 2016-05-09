@@ -9,7 +9,7 @@ public class Empty extends Piece
 {
    public Empty()
    {
-       super(Color.BLACK);
+       super(Player.BLACK);
    }
 
     @Override

@@ -1,33 +1,34 @@
 package online.recroom.server.chess.pieces;
 
 import online.recroom.server.chess.Coordinates;
-
-import java.util.Map;
+import online.recroom.server.chess.Board;
+import online.recroom.server.chess.Movement;
 
 /**
  * Created by Yeedle on 4/28/2016 7:01 PM.
  */
 public abstract class Piece
 {
-    private Color color;
+    private Player player;
 
 
-    public Piece(Color color)
+    public Piece(Player player)
     {
-       this.color = color;
+       this.player = player;
+
     }
 
 
 
-    public Color getColor()
+    public Player getPlayer()
     {
-        return color;
+        return player;
     }
 
-    public void setColor(Color color)
+    public void setPlayer(Player player)
     {
-        this.color = color;
+        this.player = player;
     }
 
-    public abstract boolean isIllegalMove(Coordinates origin, Coordinates destination);
+    public abstract boolean isLegalMove(Movement move, Board board);
 }

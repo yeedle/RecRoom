@@ -5,8 +5,8 @@ package online.recroom.server.chess.pieces;
  */
 public class Queen extends Piece
 {
-    public Queen(Color color)
+    public Queen(Player player)
     {
-        super(color);
+        super(player);
     }
 }

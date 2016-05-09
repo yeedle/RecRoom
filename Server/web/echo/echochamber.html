@@ -33,7 +33,7 @@
                 // echo_websocket.close();
             };
             echo_websocket.onerror = function (evt) {
-                writeToScreen('<span style="color: red;">ERROR:</span> ' + evt.data);
+                writeToScreen('<span style="player: red;">ERROR:</span> ' + evt.data);
                 echo_websocket.close();
             };
         }

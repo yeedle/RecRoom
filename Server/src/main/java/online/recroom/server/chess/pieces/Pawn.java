@@ -5,8 +5,8 @@ package online.recroom.server.chess.pieces;
  */
 public class Pawn extends Piece
 {
-    public Pawn(Color color)
+    public Pawn(Player player)
     {
-        super(color);
+        super(player);
     }
 }
