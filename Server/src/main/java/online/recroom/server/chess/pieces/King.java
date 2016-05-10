@@ -91,24 +91,39 @@ public class King extends Piece
 
     private boolean isThreatenedDiagonally() throws IllegalCoordinateException
     {
-
         for (int x = kingsPosition.column(), y = kingsPosition.row(); x < Board.COLUMNS && y < Board.ROWS; ++x, ++y)
         {
-            Piece currentPiece = board.pieceInSquare(Coordinates.byColumnAndRow(x, y));
-                if (currentPiece instanceof Empty)
-                    continue;
-                if ((currentPiece instanceof Bishop || currentPiece instanceof Queen) && !currentPiece.getPlayer().equals(this.getPlayer()))
+            if (isOpponentBishopOrQueen(x, y))
                     return true;
+            if (isNotEmpty(x, y))
+                break;
         }
-        for (int x = kingsPosition.column(), y = kingsPosition.row(); x > 0 && y < 0; --x, --y)
+        for (int x = kingsPosition.column(), y = kingsPosition.row(); x >= 0 && y >= 0; --x, --y)
         {
-            Piece currentPiece = board.pieceInSquare(Coordinates.byColumnAndRow(x, y));
-                if (currentPiece instanceof Empty)
-                    continue;
-                if ((currentPiece instanceof Bishop || currentPiece instanceof  Queen) && !currentPiece.getPlayer().equals(this.getPlayer()))
+            if (isOpponentBishopOrQueen(x, y))
                     return true;
+            if (isNotEmpty(x, y))
+                break;
         }
         return false;
+    }
+
+    private boolean isNotEmpty(int x, int y) throws IllegalCoordinateException
+    {
+
+        return !isEmpty(x, y);
+    }
+
+    private boolean isEmpty(int x, int y) throws IllegalCoordinateException
+    {
+        Piece currentPiece = board.pieceInSquare(Coordinates.byColumnAndRow(x, y));
+        return currentPiece instanceof Empty;
+    }
+
+    private boolean isOpponentBishopOrQueen(int x, int y) throws IllegalCoordinateException
+    {
+        Piece currentPiece = board.pieceInSquare(Coordinates.byColumnAndRow(x, y));
+        return (currentPiece instanceof Bishop || currentPiece instanceof Queen) && !currentPiece.getPlayer().equals(this.getPlayer());
     }
 
     private boolean isThreatenedByPawn()
