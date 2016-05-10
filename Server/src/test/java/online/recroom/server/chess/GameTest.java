@@ -13,7 +13,7 @@ public class GameTest
 {
 
     @Test
-    public void testCheckInitialTurn()
+    public void testCheckInitialTurn() throws Exception
     {
         Game g = new Game();
         assertTrue(g.isTurnOf(WHITE));

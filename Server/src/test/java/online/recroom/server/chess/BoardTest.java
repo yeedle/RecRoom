@@ -14,7 +14,7 @@ public class BoardTest
     Board board;
 
     @Before
-    public void setUpNewBoard()
+    public void setUpNewBoard() throws Exception
     {
         board = new Board();
     }
@@ -22,47 +22,47 @@ public class BoardTest
     @Test
     public void testWhitePawnIn_a1_AfterInitBoard() throws Exception
     {
-        Piece piece = board.pieceInSquare(0, 1);
+        Piece piece = board.pieceInSquare(Coordinates.byColumnAndRow(0, 1));
         assert(piece instanceof Pawn);
         assertEquals(Player.WHITE, piece.getPlayer());
     }
 
     @Test
-    public void testBlackPawnIn_a7_afterInitBoard()
+    public void testBlackPawnIn_a7_afterInitBoard() throws Exception
     {
-        Piece piece = board.pieceInSquare(0, 6);
+        Piece piece = board.pieceInSquare(Coordinates.byColumnAndRow(0, 6));
         assert(piece instanceof Pawn);
         assertEquals(Player.BLACK, piece.getPlayer());
     }
 
     @Test
-    public void testBlackRookIn_a8_afterInitBoard()
+    public void testBlackRookIn_a8_afterInitBoard() throws Exception
     {
-        Piece piece = board.pieceInSquare(0, 7);
+        Piece piece = board.pieceInSquare(Coordinates.byColumnAndRow(0, 7));
         assertTrue(piece instanceof Rook);
         assertEquals(Player.BLACK, piece.getPlayer());
     }
 
     @Test
-    public void testWhiteKnightIn_b1_afterInitBoard()
+    public void testWhiteKnightIn_b1_afterInitBoard() throws Exception
     {
-        Piece piece = board.pieceInSquare(1, 0);
+        Piece piece = board.pieceInSquare(Coordinates.byColumnAndRow(1,0));
         assertTrue(piece instanceof Knight);
         assertEquals(Player.WHITE, piece.getPlayer());
     }
     @Test
-    public void testBlackBishopIn_c8_afterInitBoard()
+    public void testBlackBishopIn_c8_afterInitBoard() throws Exception
     {
-        Piece piece = board.pieceInSquare(2, 7);
+        Piece piece = board.pieceInSquare(Coordinates.byColumnAndRow(2, 7));
         assertTrue(piece instanceof Bishop);
         assertEquals(Player.BLACK, piece.getPlayer());
     }
 
     @Test
-    public void testQueensIn_dX_afterInitBoard()
+    public void testQueensIn_dX_afterInitBoard() throws Exception
     {
-        Piece blackQueen = board.pieceInSquare(3, 7);
-        Piece whiteQueen = board.pieceInSquare(3, 0);
+        Piece blackQueen = board.pieceInSquare(Coordinates.byColumnAndRow(3, 7));
+        Piece whiteQueen = board.pieceInSquare(Coordinates.byColumnAndRow(3, 0));
         assertTrue(blackQueen instanceof Queen);
         assertTrue(whiteQueen instanceof Queen);
         assertEquals(Player.WHITE, whiteQueen.getPlayer());
@@ -70,10 +70,10 @@ public class BoardTest
     }
 
     @Test
-    public void testKingsIn_eX_afterInitBoard()
+    public void testKingsIn_eX_afterInitBoard() throws Exception
     {
-        Piece blackKing = board.pieceInSquare(4, 7);
-        Piece whiteKing = board.pieceInSquare(4, 0);
+        Piece blackKing = board.pieceInSquare(Coordinates.byColumnAndRow(4, 7));
+        Piece whiteKing = board.pieceInSquare(Coordinates.byColumnAndRow(4, 0));
         assertTrue(blackKing instanceof King);
         assertTrue(whiteKing instanceof King);
         assertEquals(Player.WHITE, whiteKing.getPlayer());

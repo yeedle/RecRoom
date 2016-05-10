@@ -17,4 +17,28 @@ public class CoordinatesTest
         assertEquals(5, c.row());
     }
 
+    @Test (expected = IllegalCoordinateException.class)
+    public void testThrowsIllegalCoordinateExceptionTooLowRow() throws Exception
+    {
+        Coordinates.byColumnAndRow(0, -1);
+    }
+
+    @Test (expected = IllegalCoordinateException.class)
+    public void testThrowsIllegalCoordinateExceptionTooLowColumn() throws Exception
+    {
+        Coordinates.byColumnAndRow(-1, 1);
+    }
+
+    @Test (expected = IllegalCoordinateException.class)
+    public void testThrowsIllegalCoordinateExceptionTooHighRow() throws Exception
+    {
+        Coordinates.byColumnAndRow(0, 8);
+    }
+
+    @Test (expected = IllegalCoordinateException.class)
+    public void testThrowsIllegalCoordinateExceptionTooHighColumn() throws Exception
+    {
+        Coordinates.byColumnAndRow(8, 1);
+    }
+
 }

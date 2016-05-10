@@ -2,6 +2,7 @@ package online.recroom.server.chess.pieces;
 
 import online.recroom.server.chess.Coordinates;
 import online.recroom.server.chess.Board;
+import online.recroom.server.chess.IllegalCoordinateException;
 import online.recroom.server.chess.Movement;
 
 /**
@@ -47,7 +48,7 @@ public class King extends Piece
                 && (Math.abs(origin.row() - destination.row()) ==1));
     }
 
-    public boolean isNotInCheck(Board board)
+    public boolean isNotInCheck(Board board) throws IllegalCoordinateException
     {
         this.board = board;
         kingsPosition = board.kingPosition(this.getPlayer());
@@ -59,40 +60,76 @@ public class King extends Piece
 
     private boolean noKnightThreats()
     {
-        return false;
+        boolean noThreatFound = true;
+        for (int i = 0; i < 8; i++)
+        {
+            try
+            {
+                Knight aKnight = (Knight) board.pieceInSquare(Coordinates.byColumnAndRow(kingsPosition.column()+2, kingsPosition.row()+1));
+                Knight aKnight1 = (Knight) board.pieceInSquare(Coordinates.byColumnAndRow(kingsPosition.column()+2, kingsPosition.row()-1));
+                Knight aKnight2 = (Knight) board.pieceInSquare(Coordinates.byColumnAndRow(kingsPosition.column()+1, kingsPosition.row()+2));
+                Knight aKnight3 = (Knight) board.pieceInSquare(Coordinates.byColumnAndRow(kingsPosition.column()+1, kingsPosition.row()-2));
+                Knight aKnight4 = (Knight) board.pieceInSquare(Coordinates.byColumnAndRow(kingsPosition.column()-2, kingsPosition.row()+1));
+                Knight aKnight5 = (Knight) board.pieceInSquare(Coordinates.byColumnAndRow(kingsPosition.column()-2, kingsPosition.row()-1));
+                Knight aKnight6 = (Knight) board.pieceInSquare(Coordinates.byColumnAndRow(kingsPosition.column()-1, kingsPosition.row()+2));
+                Knight aKnight7 = (Knight) board.pieceInSquare(Coordinates.byColumnAndRow(kingsPosition.column()-1, kingsPosition.row()-2));
+                noThreatFound = false;
+            }
+            catch (IllegalCoordinateException | ClassCastException e) {}
+        }
+
     }
 
     private boolean noVerticalThreats()
     {
-        return false;
+        return true;
     }
 
     private boolean noHorizontalThreats()
     {
-        return false;
+        return true;
     }
 
-    public boolean noDiagonalThreats()
+    private boolean noDiagonalThreats() throws IllegalCoordinateException
     {
         if (getPlayer().equals(Player.WHITE))
         {
-            Piece piece = board.pieceInSquare(kingsPosition.column()+1, kingsPosition.row()+1);
-            Piece piece1 = board.pieceInSquare(kingsPosition.column()+1, kingsPosition.row()-1);
-            if ((piece instanceof Pawn && piece.getPlayer().equals(Player.BLACK)) || piece1 instanceof  Pawn && piece1.getPlayer().equals(Player.BLACK))
-                return false;
+            try
+            {
+                int col = kingsPosition.column()+1;
+                int row = kingsPosition.row()+1;
+                Coordinates co = Coordinates.byColumnAndRow(col, row);
+                Piece piece = board.pieceInSquare(co);
+                Piece piece1 = board.pieceInSquare(Coordinates.byColumnAndRow(kingsPosition.column()+1, kingsPosition.row()-1));
+                if ((piece instanceof Pawn && piece.getPlayer().equals(Player.BLACK)) || piece1 instanceof  Pawn && piece1.getPlayer().equals(Player.BLACK))
+                    return false;
+            }
+            catch (IllegalCoordinateException e)
+            {
+
+            }
+
         }
 
         if (getPlayer().equals(Player.BLACK))
         {
-            Piece piece = board.pieceInSquare(kingsPosition.column()-1, kingsPosition.row()+1);
-            Piece piece1 = board.pieceInSquare(kingsPosition.column()-1, kingsPosition.row()-1);
-            if ((piece instanceof Pawn && piece.getPlayer().equals(Player.WHITE)) || piece1 instanceof  Pawn && piece1.getPlayer().equals(Player.WHITE))
-                return false;
+            try
+            {
+                Piece piece = board.pieceInSquare(Coordinates.byColumnAndRow(kingsPosition.column()-1, kingsPosition.row()+1));
+                Piece piece1 = board.pieceInSquare(Coordinates.byColumnAndRow(kingsPosition.column()-1, kingsPosition.row()-1));
+                if ((piece instanceof Pawn && piece.getPlayer().equals(Player.WHITE)) || piece1 instanceof  Pawn && piece1.getPlayer().equals(Player.WHITE))
+                    return false;
+            }
+            catch (IllegalCoordinateException e)
+            {
+
+            }
+
         }
 
         for (int x = kingsPosition.column(), y = kingsPosition.row(); x < Board.COLUMNS && y < Board.ROWS; ++x, ++y)
         {
-            Piece currentPiece = board.pieceInSquare(x, y);
+            Piece currentPiece = board.pieceInSquare(Coordinates.byColumnAndRow(x, y));
                 if (currentPiece instanceof Empty)
                     continue;
                 if ((currentPiece instanceof Rook || currentPiece instanceof Queen) && !currentPiece.getPlayer().equals(this.getPlayer()))
@@ -100,7 +137,7 @@ public class King extends Piece
         }
         for (int x = kingsPosition.column(), y = kingsPosition.row(); x > 0 && y < 0; --x, --y)
         {
-            Piece currentPiece = board.pieceInSquare(x, y);
+            Piece currentPiece = board.pieceInSquare(Coordinates.byColumnAndRow(x, y));
                 if (currentPiece instanceof Empty)
                     continue;
                 if ((currentPiece instanceof Rook || currentPiece instanceof  Queen) && !currentPiece.getPlayer().equals(this.getPlayer()))

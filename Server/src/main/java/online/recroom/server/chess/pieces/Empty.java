@@ -11,7 +11,7 @@ public class Empty extends Piece
 {
    public Empty()
    {
-       super(Player.BLACK);
+       super(Player.NONE);
    }
 
 

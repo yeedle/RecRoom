@@ -13,11 +13,13 @@ import static org.junit.Assert.*;
  */
 public class KingTest
 {
+
+    private Board board;
+
     @Before
     public void setup() throws Exception
     {
-        Board board = new Board();
-
+        board = new Board();
     }
 
     @Test
@@ -35,7 +37,15 @@ public class KingTest
     @Test
     public void diagonalThreatOnKing() throws Exception
     {
-        Movement movement = new Movement(Player.BLACK, Coordinates.byColumnAndRow(3, 1), Coordinates(3, 3), )
+        Movement movement = new Movement(Player.WHITE, Coordinates.byColumnAndRow(3, 1), Coordinates.byColumnAndRow(3, 3));
+        board.execute(movement);
+        movement = new Movement(Player.BLACK, Coordinates.byColumnAndRow(1, 6), Coordinates.byColumnAndRow(1, 5));
+        board.execute(movement);
+        movement = new Movement(Player.BLACK, Coordinates.byColumnAndRow(2, 7), Coordinates.byColumnAndRow(0, 5));
+        board.execute(movement);
+        King king = (King)board.pieceInSquare(Coordinates.byColumnAndRow(4, 0));
+        Boolean isNotInCheck = king.isNotInCheck(board);
+        assertFalse(isNotInCheck);
     }
 
 }

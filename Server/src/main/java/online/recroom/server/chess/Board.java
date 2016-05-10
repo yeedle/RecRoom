@@ -17,6 +17,7 @@ public class Board
     private Coordinates blackKingsPosition;
     private Coordinates whiteKingsPosition;
 
+
     public Board() throws IllegalCoordinateException
     {
         initBoard();
@@ -38,10 +39,12 @@ public class Board
 
     private void addEmptyPieces()
     {
-        for(int i = 0; i < COLUMNS; i++)
+        for (int j =2; j<6; j++)
         {
-            for(int j = 2; j < 6; j++)
+            for(int i = 0; i < COLUMNS; i++)
+            {
                 pieces[i][j] = new Empty();
+            }
         }
     }
 
@@ -95,10 +98,10 @@ public class Board
         }
     }
 
-    public Piece pieceInSquare(int column, int row)
+    public Piece pieceInSquare(Coordinates coordinates)
     {
 
-        return pieces[column][row];
+        return pieces[coordinates.column()][coordinates.row()];
     }
 
     public void execute(Movement movement) throws InvalidMoveException, IllegalMoveException
@@ -110,7 +113,7 @@ public class Board
 
     private void checkForErrors() throws InvalidMoveException, IllegalMoveException
     {
-        Piece pieceToMove = pieceInSquare(currentMovement.origin.column(), currentMovement.origin.row());
+        Piece pieceToMove = pieceInSquare(currentMovement.origin);
 
         if(isEmpty(pieceToMove))
             throw new InvalidMoveException("piece not found");

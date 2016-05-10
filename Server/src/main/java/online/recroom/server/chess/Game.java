@@ -12,7 +12,7 @@ public class Game
     Board board;
     Player turn;
 
-    public Game()
+    public Game() throws IllegalCoordinateException
     {
         board = new Board();
         turn = WHITE;
