@@ -10,8 +10,8 @@ import static online.recroom.server.chess.pieces.Player.WHITE;
  */
 public class Board
 {
-    private final static int ROWS = 8;
-    private final static int COLUMNS = 8;
+    public final static int ROWS = 8;
+    public final static int COLUMNS = 8;
     private Piece[][] pieces = new Piece[COLUMNS][ROWS];
     private Movement currentMovement;
     private Coordinates blackKingsPosition;
@@ -25,6 +25,7 @@ public class Board
 
     private void initBoard() throws IllegalCoordinateException
     {
+
         positionRooks();
         positionKnights();
         positionPawns();
@@ -104,7 +105,7 @@ public class Board
     {
         currentMovement = movement;
         checkForErrors();
-        move(movement.origin.row(), movement.origin.column(), movement.destination.row(), movement.destination.column());
+        move();
     }
 
     private void checkForErrors() throws InvalidMoveException, IllegalMoveException
@@ -129,11 +130,17 @@ public class Board
         return pieceToMove instanceof Empty;
     }
 
-    private void move(int fromRow, int fromColumn, int toRow, int toColumn)
+    private void move()
     {
-        Piece piece = pieces[fromColumn][fromRow];
-        pieces[fromColumn][fromRow] = new Empty();
-        pieces[toColumn][toRow] = piece;
+        Coordinates from = currentMovement.origin;
+        Coordinates to = currentMovement.destination;
+
+        Piece piece = pieces[from.column()][from.row()];
+        pieces[from.column()][from.row()] = new Empty();
+        pieces[to.column()][to.row()] = piece;
+
+        if (piece instanceof King)
+            setKingsPosition(piece.getPlayer(), to);
     }
 
 
@@ -144,5 +151,13 @@ public class Board
         if (color.equals(BLACK))
             return blackKingsPosition;
         return null;
+    }
+
+    public void setKingsPosition(Player color, Coordinates to)
+    {
+        if (color.equals(WHITE))
+            whiteKingsPosition = to;
+        if (color.equals(BLACK))
+            blackKingsPosition = to;
     }
 }

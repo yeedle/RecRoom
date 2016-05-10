@@ -57,5 +57,13 @@ public class King extends Piece
         return false;
     }
 
+    public boolean noDiagonalThreats()
+    {
+        for (int x = kingsPosition.column(), y = kingsPosition.row(); x < Board.COLUMNS || y < Board.ROWS; x++, y++)
+        {
+
+        }
+    }
+
 
 }
