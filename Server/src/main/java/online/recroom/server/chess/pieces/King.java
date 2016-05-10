@@ -113,11 +113,13 @@ public class King extends Piece
 
     private boolean isThreatenedByPawn()
     {
-        int col = kingsPosition.column()+ (getPlayer().equals(Player.WHITE) ? 1 : -1);
-        if (opponentHasPawnOffsetFromKing(col, 1)
-                || opponentHasPawnOffsetFromKing(col, -1))
-            return true;
-        return false;
+        return opponentHasPawnOffsetFromKing(colOffsetBasedOnPlayer(), 1)
+                || opponentHasPawnOffsetFromKing(colOffsetBasedOnPlayer(), -1) ? true :false;
+    }
+
+    private int colOffsetBasedOnPlayer()
+    {
+        return kingsPosition.column()+ (getPlayer().equals(Player.WHITE) ? 1 : -1);
     }
 
     private boolean opponentHasPawnOffsetFromKing(int colOffset, int rowOffset)
