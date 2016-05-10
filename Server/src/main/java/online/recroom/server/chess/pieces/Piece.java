@@ -31,4 +31,14 @@ public abstract class Piece
     }
 
     public abstract boolean isLegalMove(Movement move, Board board);
+
+    public boolean isColor(Player color)
+    {
+        return this.player.equals(color);
+    }
+
+    public boolean isNotColor(Player color)
+    {
+        return !isColor(color);
+    }
 }

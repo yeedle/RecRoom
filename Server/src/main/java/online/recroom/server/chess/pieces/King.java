@@ -48,49 +48,126 @@ public class King extends Piece
                 && (Math.abs(origin.row() - destination.row()) ==1));
     }
 
-    public boolean isNotInCheck(Board board) throws IllegalCoordinateException
+    public boolean isInCheck(Board board) throws IllegalCoordinateException
     {
         this.board = board;
         kingsPosition = board.kingPosition(this.getPlayer());
-        return noDiagonalThreats()
-                && noHorizontalThreats()
-                && noVerticalThreats()
-                && noKnightThreats();
+        return isThreatenedDiagonaly()
+                || isThreatenedVertically()
+                || isThreatenedHorizontally()
+                || isThreatenedByKnight();
     }
 
-    private boolean noKnightThreats()
+    private boolean isThreatenedByKnight()
     {
-        boolean noThreatFound = true;
-        for (int i = 0; i < 8; i++)
+        if (knightUpOneRightTwo()
+                || knightUpTwoRightOne()
+                || knightUpTwoLeftOne()
+                || knightUpOneLeftTwo()
+                || knightDownOneLeftTwo()
+                || knightDownTwoLeftOne()
+                || knightDownTwoRightOne()
+                || knightDownOneRightTwo())
+            return true;
+
+        return false;
+    }
+
+    private boolean knightDownTwoLeftOne()
+    {
+        try
         {
-            try
-            {
-                Knight aKnight = (Knight) board.pieceInSquare(Coordinates.byColumnAndRow(kingsPosition.column()+2, kingsPosition.row()+1));
-                Knight aKnight1 = (Knight) board.pieceInSquare(Coordinates.byColumnAndRow(kingsPosition.column()+2, kingsPosition.row()-1));
-                Knight aKnight2 = (Knight) board.pieceInSquare(Coordinates.byColumnAndRow(kingsPosition.column()+1, kingsPosition.row()+2));
-                Knight aKnight3 = (Knight) board.pieceInSquare(Coordinates.byColumnAndRow(kingsPosition.column()+1, kingsPosition.row()-2));
-                Knight aKnight4 = (Knight) board.pieceInSquare(Coordinates.byColumnAndRow(kingsPosition.column()-2, kingsPosition.row()+1));
-                Knight aKnight5 = (Knight) board.pieceInSquare(Coordinates.byColumnAndRow(kingsPosition.column()-2, kingsPosition.row()-1));
-                Knight aKnight6 = (Knight) board.pieceInSquare(Coordinates.byColumnAndRow(kingsPosition.column()-1, kingsPosition.row()+2));
-                Knight aKnight7 = (Knight) board.pieceInSquare(Coordinates.byColumnAndRow(kingsPosition.column()-1, kingsPosition.row()-2));
-                noThreatFound = false;
-            }
-            catch (IllegalCoordinateException | ClassCastException e) {}
+            Knight knight = (Knight) board.pieceInSquare(Coordinates.byColumnAndRow(kingsPosition.column()-1, kingsPosition.row()-2));
+            return knight.isNotColor(this.getPlayer());
         }
+        catch (IllegalCoordinateException | ClassCastException e) {return false; }
+    }
+
+    private boolean knightUpTwoLeftOne()
+    {
+        try
+        {
+            Knight knight = (Knight) board.pieceInSquare(Coordinates.byColumnAndRow(kingsPosition.column()-1, kingsPosition.row()+2));
+            return knight.isNotColor(this.getPlayer());
+        }
+        catch (IllegalCoordinateException | ClassCastException e) {return false;}
+    }
+
+    private boolean knightDownTwoRightOne()
+    {
+        try
+        {
+
+            Knight knight = (Knight) board.pieceInSquare(Coordinates.byColumnAndRow(kingsPosition.column()+1, kingsPosition.row()-2));
+            return knight.isNotColor(this.getPlayer());
+        }
+        catch (IllegalCoordinateException | ClassCastException e) { return false; }
+    }
+
+    private boolean knightUpTwoRightOne()
+    {
+        try
+        {
+            Knight knight = (Knight) board.pieceInSquare(Coordinates.byColumnAndRow(kingsPosition.column()+1, kingsPosition.row()+2));
+            return knight.isNotColor(this.getPlayer());
+        }
+        catch (IllegalCoordinateException | ClassCastException e) { return false; }
+    }
+
+    private boolean knightDownOneLeftTwo()
+    {
+        try
+        {
+            Knight knight = (Knight) board.pieceInSquare(Coordinates.byColumnAndRow(kingsPosition.column()-2, kingsPosition.row()-1));
+            return knight.isNotColor(this.getPlayer());
+        }
+        catch (IllegalCoordinateException | ClassCastException e) { return false; }
+    }
+
+    private boolean knightUpOneLeftTwo()
+    {
+        try
+        {
+            Knight knight = (Knight) board.pieceInSquare(Coordinates.byColumnAndRow(kingsPosition.column()-2, kingsPosition.row()+1));
+            return knight.isNotColor(this.getPlayer());
+        }
+        catch (IllegalCoordinateException | ClassCastException e) { return false; }
+    }
+
+    private Boolean knightDownOneRightTwo()
+    {
+        try
+        {
+                Knight knight = (Knight) board.pieceInSquare(Coordinates.byColumnAndRow(kingsPosition.column()+2, kingsPosition.row()-1));
+            return knight.isNotColor(this.getPlayer());
+        }
+        catch (IllegalCoordinateException | ClassCastException e) { return false; }
 
     }
 
-    private boolean noVerticalThreats()
+    private Boolean knightUpOneRightTwo()
+    {
+        try
+        {
+            Knight knight = (Knight) board.pieceInSquare(Coordinates.byColumnAndRow(kingsPosition.column()+2, kingsPosition.row()+1));
+            return knight.isNotColor(this.getPlayer());
+
+        }
+        catch (IllegalCoordinateException | ClassCastException e) { return false; }
+
+    }
+
+    private boolean isThreatenedHorizontally()
     {
         return true;
     }
 
-    private boolean noHorizontalThreats()
+    private boolean isThreatenedVertically()
     {
         return true;
     }
 
-    private boolean noDiagonalThreats() throws IllegalCoordinateException
+    private boolean isThreatenedDiagonaly() throws IllegalCoordinateException
     {
         if (getPlayer().equals(Player.WHITE))
         {
