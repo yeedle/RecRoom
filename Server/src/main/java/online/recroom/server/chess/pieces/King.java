@@ -60,14 +60,14 @@ public class King extends Piece
 
     private boolean isThreatenedByKnight()
     {
-        if (knightUpOneRightTwo()
-                || knightUpTwoRightOne()
-                || knightUpTwoLeftOne()
-                || knightUpOneLeftTwo()
-                || knightDownOneLeftTwo()
-                || knightDownTwoLeftOne()
-                || knightDownTwoRightOne()
-                || knightDownOneRightTwo())
+        if (   knightUpOneRightTwo()
+            || knightUpTwoRightOne()
+            || knightUpTwoLeftOne()
+            || knightUpOneLeftTwo()
+            || knightDownOneLeftTwo()
+            || knightDownTwoLeftOne()
+            || knightDownTwoRightOne()
+            || knightDownOneRightTwo())
             return true;
 
         return false;
@@ -75,86 +75,54 @@ public class King extends Piece
 
     private boolean knightDownTwoLeftOne()
     {
-        try
-        {
-            Knight knight = (Knight) board.pieceInSquare(Coordinates.byColumnAndRow(kingsPosition.column()-1, kingsPosition.row()-2));
-            return knight.isNotColor(this.getPlayer());
-        }
-        catch (IllegalCoordinateException | ClassCastException e) {return false; }
+        return isThereKnightOffsetFromKing(-1, -2);
+
     }
 
     private boolean knightUpTwoLeftOne()
     {
-        try
-        {
-            Knight knight = (Knight) board.pieceInSquare(Coordinates.byColumnAndRow(kingsPosition.column()-1, kingsPosition.row()+2));
-            return knight.isNotColor(this.getPlayer());
-        }
-        catch (IllegalCoordinateException | ClassCastException e) {return false;}
+        return isThereKnightOffsetFromKing(-1, 2);
     }
 
     private boolean knightDownTwoRightOne()
     {
-        try
-        {
-
-            Knight knight = (Knight) board.pieceInSquare(Coordinates.byColumnAndRow(kingsPosition.column()+1, kingsPosition.row()-2));
-            return knight.isNotColor(this.getPlayer());
-        }
-        catch (IllegalCoordinateException | ClassCastException e) { return false; }
+        return isThereKnightOffsetFromKing(1, -2);
     }
 
     private boolean knightUpTwoRightOne()
     {
-        try
-        {
-            Knight knight = (Knight) board.pieceInSquare(Coordinates.byColumnAndRow(kingsPosition.column()+1, kingsPosition.row()+2));
-            return knight.isNotColor(this.getPlayer());
-        }
-        catch (IllegalCoordinateException | ClassCastException e) { return false; }
+        return isThereKnightOffsetFromKing(1, 2);
     }
 
     private boolean knightDownOneLeftTwo()
     {
-        try
-        {
-            Knight knight = (Knight) board.pieceInSquare(Coordinates.byColumnAndRow(kingsPosition.column()-2, kingsPosition.row()-1));
-            return knight.isNotColor(this.getPlayer());
-        }
-        catch (IllegalCoordinateException | ClassCastException e) { return false; }
+        return isThereKnightOffsetFromKing(-2, -1);
     }
 
     private boolean knightUpOneLeftTwo()
     {
-        try
-        {
-            Knight knight = (Knight) board.pieceInSquare(Coordinates.byColumnAndRow(kingsPosition.column()-2, kingsPosition.row()+1));
-            return knight.isNotColor(this.getPlayer());
-        }
-        catch (IllegalCoordinateException | ClassCastException e) { return false; }
+        return isThereKnightOffsetFromKing(-2, 1);
     }
 
     private Boolean knightDownOneRightTwo()
     {
-        try
-        {
-                Knight knight = (Knight) board.pieceInSquare(Coordinates.byColumnAndRow(kingsPosition.column()+2, kingsPosition.row()-1));
-            return knight.isNotColor(this.getPlayer());
-        }
-        catch (IllegalCoordinateException | ClassCastException e) { return false; }
-
+        return isThereKnightOffsetFromKing(2, -1);
     }
 
     private Boolean knightUpOneRightTwo()
     {
+        return isThereKnightOffsetFromKing(2, 1);
+    }
+
+
+    private boolean isThereKnightOffsetFromKing(int columnOffset, int rowOffset)
+    {
         try
         {
-            Knight knight = (Knight) board.pieceInSquare(Coordinates.byColumnAndRow(kingsPosition.column()+2, kingsPosition.row()+1));
+            Knight knight = (Knight) board.pieceInSquare(Coordinates.byColumnAndRow(kingsPosition.column()+columnOffset, kingsPosition.row()+rowOffset));
             return knight.isNotColor(this.getPlayer());
-
         }
-        catch (IllegalCoordinateException | ClassCastException e) { return false; }
-
+        catch (IllegalCoordinateException | ClassCastException e) {return false; }
     }
 
     private boolean isThreatenedHorizontally()
