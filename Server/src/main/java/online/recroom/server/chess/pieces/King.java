@@ -60,62 +60,20 @@ public class King extends Piece
 
     private boolean isThreatenedByKnight()
     {
-        if (   knightUpOneRightTwo()
-            || knightUpTwoRightOne()
-            || knightUpTwoLeftOne()
-            || knightUpOneLeftTwo()
-            || knightDownOneLeftTwo()
-            || knightDownTwoLeftOne()
-            || knightDownTwoRightOne()
-            || knightDownOneRightTwo())
+        if (   opponentHasKnightOffsetFromKing(2, 1)
+            || opponentHasKnightOffsetFromKing(2, -1)
+            || opponentHasKnightOffsetFromKing(1, 2)
+            || opponentHasKnightOffsetFromKing(1, -2)
+            || opponentHasKnightOffsetFromKing(-2, 1)
+            || opponentHasKnightOffsetFromKing(-2, -1)
+            || opponentHasKnightOffsetFromKing(-1, 2)
+            || opponentHasKnightOffsetFromKing(-1, -2))
             return true;
 
         return false;
     }
 
-    private boolean knightDownTwoLeftOne()
-    {
-        return isThereKnightOffsetFromKing(-1, -2);
-
-    }
-
-    private boolean knightUpTwoLeftOne()
-    {
-        return isThereKnightOffsetFromKing(-1, 2);
-    }
-
-    private boolean knightDownTwoRightOne()
-    {
-        return isThereKnightOffsetFromKing(1, -2);
-    }
-
-    private boolean knightUpTwoRightOne()
-    {
-        return isThereKnightOffsetFromKing(1, 2);
-    }
-
-    private boolean knightDownOneLeftTwo()
-    {
-        return isThereKnightOffsetFromKing(-2, -1);
-    }
-
-    private boolean knightUpOneLeftTwo()
-    {
-        return isThereKnightOffsetFromKing(-2, 1);
-    }
-
-    private Boolean knightDownOneRightTwo()
-    {
-        return isThereKnightOffsetFromKing(2, -1);
-    }
-
-    private Boolean knightUpOneRightTwo()
-    {
-        return isThereKnightOffsetFromKing(2, 1);
-    }
-
-
-    private boolean isThereKnightOffsetFromKing(int columnOffset, int rowOffset)
+    private boolean opponentHasKnightOffsetFromKing(int columnOffset, int rowOffset)
     {
         try
         {
