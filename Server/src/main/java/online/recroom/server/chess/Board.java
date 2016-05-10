@@ -95,7 +95,7 @@ public class Board
         }
     }
 
-    Piece pieceInSquare(int column, int row)
+    public Piece pieceInSquare(int column, int row)
     {
 
         return pieces[column][row];

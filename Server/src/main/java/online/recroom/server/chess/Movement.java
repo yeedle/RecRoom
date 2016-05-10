@@ -11,13 +11,11 @@ public class Movement
     public final Player madeBy;
     public final Coordinates origin;
     public final Coordinates destination;
-    public final Piece piece;
 
-    public Movement(Player madeByPlayer, Coordinates from, Coordinates to, Piece piece)
+    public Movement(Player madeByPlayer, Coordinates from, Coordinates to)
     {
         madeBy = madeByPlayer;
         this.origin = from;
         this.destination = to;
-        this.piece = piece;
     }
 }

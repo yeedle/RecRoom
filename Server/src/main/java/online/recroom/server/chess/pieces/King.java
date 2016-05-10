@@ -25,11 +25,11 @@ public class King extends Piece
     {
         origin = move.origin;
         destination = move.destination;
-        return MovedOneHorizontally() || movedOneDiagonally() || movedOneVertically();
+        return movedOneHorizontally() || movedOneDiagonally() || movedOneVertically();
 
     }
 
-    private boolean MovedOneHorizontally()
+    private boolean movedOneHorizontally()
     {
        return (Math.abs(origin.column() - destination.column()) == 1)
                && origin.row() == destination.row();
@@ -51,18 +51,62 @@ public class King extends Piece
     {
         this.board = board;
         kingsPosition = board.kingPosition(this.getPlayer());
-        return noDiagonalThreats() && noHorizontalThreats() &&
-        noVerticalThreats() &&
-        noKnightThreats();
+        return noDiagonalThreats()
+                && noHorizontalThreats()
+                && noVerticalThreats()
+                && noKnightThreats();
+    }
+
+    private boolean noKnightThreats()
+    {
+        return false;
+    }
+
+    private boolean noVerticalThreats()
+    {
+        return false;
+    }
+
+    private boolean noHorizontalThreats()
+    {
         return false;
     }
 
     public boolean noDiagonalThreats()
     {
-        for (int x = kingsPosition.column(), y = kingsPosition.row(); x < Board.COLUMNS || y < Board.ROWS; x++, y++)
+        if (getPlayer().equals(Player.WHITE))
         {
-
+            Piece piece = board.pieceInSquare(kingsPosition.column()+1, kingsPosition.row()+1);
+            Piece piece1 = board.pieceInSquare(kingsPosition.column()+1, kingsPosition.row()-1);
+            if ((piece instanceof Pawn && piece.getPlayer().equals(Player.BLACK)) || piece1 instanceof  Pawn && piece1.getPlayer().equals(Player.BLACK))
+                return false;
         }
+
+        if (getPlayer().equals(Player.BLACK))
+        {
+            Piece piece = board.pieceInSquare(kingsPosition.column()-1, kingsPosition.row()+1);
+            Piece piece1 = board.pieceInSquare(kingsPosition.column()-1, kingsPosition.row()-1);
+            if ((piece instanceof Pawn && piece.getPlayer().equals(Player.WHITE)) || piece1 instanceof  Pawn && piece1.getPlayer().equals(Player.WHITE))
+                return false;
+        }
+
+        for (int x = kingsPosition.column(), y = kingsPosition.row(); x < Board.COLUMNS && y < Board.ROWS; ++x, ++y)
+        {
+            Piece currentPiece = board.pieceInSquare(x, y);
+                if (currentPiece instanceof Empty)
+                    continue;
+                if ((currentPiece instanceof Rook || currentPiece instanceof Queen) && !currentPiece.getPlayer().equals(this.getPlayer()))
+                    return false;
+        }
+        for (int x = kingsPosition.column(), y = kingsPosition.row(); x > 0 && y < 0; --x, --y)
+        {
+            Piece currentPiece = board.pieceInSquare(x, y);
+                if (currentPiece instanceof Empty)
+                    continue;
+                if ((currentPiece instanceof Rook || currentPiece instanceof  Queen) && !currentPiece.getPlayer().equals(this.getPlayer()))
+                    return false;
+        }
+        return true;
     }
 
 
