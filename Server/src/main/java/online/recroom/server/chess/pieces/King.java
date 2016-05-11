@@ -144,7 +144,6 @@ public class King extends Piece
 
     private <T extends Piece> boolean opponentHasPieceOffsetFromKing(int colOffset, int rowOffset, Class<T> theClass)
     {
-
         try
         {
             T piece = theClass.cast(board.pieceInSquare(Coordinates.byColumnAndRow(colOffset, kingsPosition.row()+rowOffset)));
@@ -152,6 +151,5 @@ public class King extends Piece
         }
         catch (IllegalCoordinateException | ClassCastException e){ return false;}
     }
-
 
 }
