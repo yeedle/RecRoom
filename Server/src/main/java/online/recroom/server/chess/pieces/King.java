@@ -79,14 +79,42 @@ public class King extends Piece
         return opponentHasPieceOffsetFromKing(columnOffset, rowOffset, Knight.class);
     }
 
-    private boolean isThreatenedHorizontally()
+    private boolean isThreatenedHorizontally() throws IllegalCoordinateException
     {
-        return true;
+        for (int x = kingsPosition.column(), y = kingsPosition.row(); y < Board.ROWS ++y)
+        {
+            if (isOpponentRookOrQueen(x, y))
+                return true;
+            if (isNotEmpty(x, y))
+                break;
+        }
+        for (int x = kingsPosition.column(), y = kingsPosition.row(); y > 0; --y)
+        {
+            if (isOpponentRookOrQueen(x, y))
+                return true;
+            if (isNotEmpty(x, y))
+                break;
+        }
+
     }
 
-    private boolean isThreatenedVertically()
+    private boolean isThreatenedVertically() throws IllegalCoordinateException
     {
-        return true;
+        for (int x = kingsPosition.column(), y = kingsPosition.row(); x < Board.COLUMNS; ++x)
+        {
+            if (isOpponentRookOrQueen(x, y))
+                return true;
+            if (isNotEmpty(x, y))
+                break;
+        }
+        for (int x = kingsPosition.column(), y = kingsPosition.row(); x > 0; --x)
+        {
+            if (isOpponentRookOrQueen(x, y))
+                return true;
+            if (isNotEmpty(x, y))
+                break;
+        }
+        return false;
     }
 
     private boolean isThreatenedDiagonally() throws IllegalCoordinateException
