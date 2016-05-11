@@ -24,7 +24,7 @@ public class BoardTest
     {
         Piece piece = board.pieceInSquare(Coordinates.byColumnAndRow(0, 1));
         assert(piece instanceof Pawn);
-        assertEquals(Player.WHITE, piece.getPlayer());
+        assertEquals(Player.WHITE, piece.player());
     }
 
     @Test
@@ -32,7 +32,7 @@ public class BoardTest
     {
         Piece piece = board.pieceInSquare(Coordinates.byColumnAndRow(0, 6));
         assert(piece instanceof Pawn);
-        assertEquals(Player.BLACK, piece.getPlayer());
+        assertEquals(Player.BLACK, piece.player());
     }
 
     @Test
@@ -40,7 +40,7 @@ public class BoardTest
     {
         Piece piece = board.pieceInSquare(Coordinates.byColumnAndRow(0, 7));
         assertTrue(piece instanceof Rook);
-        assertEquals(Player.BLACK, piece.getPlayer());
+        assertEquals(Player.BLACK, piece.player());
     }
 
     @Test
@@ -48,14 +48,14 @@ public class BoardTest
     {
         Piece piece = board.pieceInSquare(Coordinates.byColumnAndRow(1,0));
         assertTrue(piece instanceof Knight);
-        assertEquals(Player.WHITE, piece.getPlayer());
+        assertEquals(Player.WHITE, piece.player());
     }
     @Test
     public void testBlackBishopIn_c8_afterInitBoard() throws Exception
     {
         Piece piece = board.pieceInSquare(Coordinates.byColumnAndRow(2, 7));
         assertTrue(piece instanceof Bishop);
-        assertEquals(Player.BLACK, piece.getPlayer());
+        assertEquals(Player.BLACK, piece.player());
     }
 
     @Test
@@ -65,8 +65,8 @@ public class BoardTest
         Piece whiteQueen = board.pieceInSquare(Coordinates.byColumnAndRow(3, 0));
         assertTrue(blackQueen instanceof Queen);
         assertTrue(whiteQueen instanceof Queen);
-        assertEquals(Player.WHITE, whiteQueen.getPlayer());
-        assertEquals(Player.BLACK, blackQueen.getPlayer());
+        assertEquals(Player.WHITE, whiteQueen.player());
+        assertEquals(Player.BLACK, blackQueen.player());
     }
 
     @Test
@@ -76,8 +76,8 @@ public class BoardTest
         Piece whiteKing = board.pieceInSquare(Coordinates.byColumnAndRow(4, 0));
         assertTrue(blackKing instanceof King);
         assertTrue(whiteKing instanceof King);
-        assertEquals(Player.WHITE, whiteKing.getPlayer());
-        assertEquals(Player.BLACK, blackKing.getPlayer());
+        assertEquals(Player.WHITE, whiteKing.player());
+        assertEquals(Player.BLACK, blackKing.player());
     }
 
     @Test

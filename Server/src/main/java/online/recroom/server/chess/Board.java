@@ -125,7 +125,7 @@ public class Board
 
     private boolean destinationIsOccupiedByOwn()
     {
-        return pieces[currentMovement.destination.column()][currentMovement.destination.row()].getPlayer() == currentMovement.madeBy;
+        return pieces[currentMovement.destination.column()][currentMovement.destination.row()].player() == currentMovement.madeBy;
     }
 
     private boolean isEmpty(Piece pieceToMove)
@@ -143,7 +143,7 @@ public class Board
         pieces[to.column()][to.row()] = piece;
 
         if (piece instanceof King)
-            setKingsPosition(piece.getPlayer(), to);
+            setKingsPosition(piece.player(), to);
     }
 
 

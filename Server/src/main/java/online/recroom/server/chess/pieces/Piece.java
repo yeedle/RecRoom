@@ -20,7 +20,7 @@ public abstract class Piece
 
 
 
-    public Player getPlayer()
+    public Player player()
     {
         return player;
     }
@@ -37,8 +37,13 @@ public abstract class Piece
         return this.player.equals(color);
     }
 
-    public boolean isNotColor(Player color)
+    public boolean isNotColorOf(Player color)
     {
         return !isColor(color);
+    }
+
+    public <T extends Piece> boolean isInstanceOf(Class<T> type)
+    {
+        return (type.isInstance(this));
     }
 }
