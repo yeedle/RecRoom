@@ -19,6 +19,11 @@ public class Bishop extends Piece
     {
         Coordinates origin =move.origin;
         Coordinates destination = move.destination;
-        return (Math.abs(origin.row()-destination.row)==(Math.abs(origin.column()-destination.column())));
+        if (origin.row() < destination.row())
+            //peiece is moving up
+
+        if (origin.column() < destination.column())
+            //piece is moving to the right
+        return (Math.abs(origin.row()-destination.row())==(Math.abs(origin.column()-destination.column())));
     }
 }
