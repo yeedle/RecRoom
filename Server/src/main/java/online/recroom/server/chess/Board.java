@@ -16,17 +16,18 @@ public class Board
     private Movement currentMovement;
     private Coordinates blackKingsPosition;
     private Coordinates whiteKingsPosition;
+    private StatusChecker statusChecker;
 
 
     public Board() throws IllegalCoordinateException
     {
+        statusChecker = new StatusChecker(this);
         initBoard();
     }
 
 
     private void initBoard() throws IllegalCoordinateException
     {
-
         positionRooks();
         positionKnights();
         positionPawns();
@@ -34,7 +35,6 @@ public class Board
         positionQueens();
         positionBishops();
         addEmptyPieces();
-
     }
 
     private void addEmptyPieces()
