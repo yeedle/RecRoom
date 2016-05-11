@@ -1,6 +1,7 @@
 package online.recroom.server.chess.pieces;
 
 import online.recroom.server.chess.Board;
+import online.recroom.server.chess.Coordinates;
 import online.recroom.server.chess.Movement;
 
 /**
@@ -16,6 +17,8 @@ public class Bishop extends Piece
     @Override
     public boolean isLegalMove(Movement move, Board board)
     {
-        return false;
+        Coordinates origin =move.origin;
+        Coordinates destination = move.destination;
+        return (Math.abs(origin.row()-destination.row)==(Math.abs(origin.column()-destination.column())));
     }
 }

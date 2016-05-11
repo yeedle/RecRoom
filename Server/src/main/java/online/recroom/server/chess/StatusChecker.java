@@ -34,7 +34,7 @@ public class StatusChecker
 
     private boolean isThreatenedByKnight() throws IllegalCoordinateException
     {
-        if (   opponentHasKnightOffsetFromKing(2, 1)
+        if (opponentHasKnightOffsetFromKing(2, 1)
                 || opponentHasKnightOffsetFromKing(2, -1)
                 || opponentHasKnightOffsetFromKing(1, 2)
                 || opponentHasKnightOffsetFromKing(1, -2)
@@ -43,7 +43,6 @@ public class StatusChecker
                 || opponentHasKnightOffsetFromKing(-1, 2)
                 || opponentHasKnightOffsetFromKing(-1, -2))
             return true;
-
         return false;
     }
 
@@ -156,13 +155,14 @@ public class StatusChecker
         return (isOpponentPiece(coordinates, Rook.class) || isOpponentPiece(coordinates, Queen.class));
     }
 
-    private <T extends Piece> boolean isOpponentPiece(Coordinates coordinates, Class<T> theClass)
+    private <T extends Piece> boolean
+    isOpponentPiece(Coordinates coordinates, Class<T> theClass)
     {
         Piece pieceInQuestion = board.pieceInSquare(coordinates);
         return pieceInQuestion.isInstanceOf(theClass) && pieceInQuestion.isNotColorOf(this.player);
     }
 
-    private boolean isThreatenedByPawn() throws IllegalCoordinateException
+      private boolean isThreatenedByPawn() throws IllegalCoordinateException
     {
         return opponentHasPawnOffsetFromKing(colOffsetBasedOnPlayer(), 1)
                 || opponentHasPawnOffsetFromKing(colOffsetBasedOnPlayer(), -1) ? true :false;
@@ -195,5 +195,4 @@ public class StatusChecker
                 || kingsPosition.row()+rowOffset > Board.ROWS
                 || kingsPosition.row()+rowOffset < 0;
     }
-
 }
