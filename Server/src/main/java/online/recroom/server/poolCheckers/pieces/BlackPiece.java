@@ -17,7 +17,7 @@ public class BlackPiece extends Piece implements ICrownable {
     protected boolean isRegularMove(Cell destination) {
         return super.isRegularMove(destination) && (destination.getRow() == (this.getRow() - 1));
     }
-    
+
     @Override
     public boolean isCaptureMove(Cell destination) {
         if (destination.isOccupied()) {
@@ -27,25 +27,11 @@ public class BlackPiece extends Piece implements ICrownable {
             return false;
         }
         if (destination.getColumn() == (this.getColumn() + 2)) {
-            Cell cellInBetween = null;
-            try {
-                cellInBetween = getCellImIn().getBoardCellIsOn()
-                        .getCell(new CoOrdinates((getRow() - 1), getColumn() + 1));
-            } catch (CoOrdinatesOutOfBoundsException e) {
-                return false;
-            }
-            return cellInBetween.isOccupied() && cellInBetween.containsOpponent(this.color);
+            return cellInBetweenIsCapturable(getRow() - 1, getColumn() + 1);
         }
 
         if (destination.getColumn() == (this.getColumn() - 2)) {
-            Cell cellInBetween = null;
-            try {
-                cellInBetween = getCellImIn().getBoardCellIsOn()
-                        .getCell(new CoOrdinates((getRow() - 1), getColumn() - 1));
-            } catch (CoOrdinatesOutOfBoundsException e) {
-                return false;
-            }
-            return cellInBetween.isOccupied() && cellInBetween.containsOpponent(this.color);
+            return cellInBetweenIsCapturable(getRow() - 1, getColumn() - 1);
         }
         return false;
     }

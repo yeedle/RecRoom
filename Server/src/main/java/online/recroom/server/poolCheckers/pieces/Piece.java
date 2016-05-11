@@ -51,6 +51,17 @@ public abstract class Piece {
 
     public abstract boolean isCaptureMove(Cell destination);
 
+    private boolean cellInBetweenIsCapturable(int row, int column) {
+        try {
+            Cell cellInBetween = getCellImIn().getBoardCellIsOn()
+                    .getCell(new CoOrdinates(row, column));
+
+            return cellInBetween.isOccupied() && cellInBetween.containsOpponent(this.color);
+        } catch (CoOrdinatesOutOfBoundsException e) {
+            return false;
+        }
+    }
+    
     public Set<CoOrdinates> getValidDestinations() throws CoOrdinatesOutOfBoundsException {
         HashSet<CoOrdinates> validDestinations = new HashSet<>();
         for (int row = 0; row < Board.ROWS; row++) {

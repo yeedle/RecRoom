@@ -38,15 +38,4 @@ public class King extends Piece {
         return isCapture;
     }
 
-    private boolean cellInBetweenIsCapturable(int row, int column) {
-        try {
-            Cell cellInBetween = getCellImIn().getBoardCellIsOn()
-                    .getCell(new CoOrdinates(row, column));
-
-            return cellInBetween.isOccupied() && cellInBetween.containsOpponent(this.color);
-        } catch (CoOrdinatesOutOfBoundsException e) {
-            return false;
-        }
-    }
-
 }
