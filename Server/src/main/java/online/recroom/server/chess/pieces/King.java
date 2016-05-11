@@ -140,8 +140,6 @@ public class King extends Piece
         return false;
     }
 
-
-
     private boolean isThreatenedDiagonally() throws IllegalCoordinateException
     {
         for (int x = kingsPosition.column(), y = kingsPosition.row(); x < Board.COLUMNS && y < Board.ROWS; ++x, ++y)
@@ -176,16 +174,16 @@ public class King extends Piece
     private boolean isOpponentBishopOrQueen(int x, int y) throws IllegalCoordinateException
     {
         Coordinates coordinates = Coordinates.byColumnAndRow(x, y);
-        return (isOppoonentPiece(coordinates, Bishop.class) || isOppoonentPiece(coordinates, Queen.class));
+        return (isOpponentPiece(coordinates, Bishop.class) || isOpponentPiece(coordinates, Queen.class));
     }
 
     private boolean isOpponentRookOrQueen(int x, int y) throws IllegalCoordinateException
     {
         Coordinates coordinates = Coordinates.byColumnAndRow(x, y);
-        return (isOppoonentPiece(coordinates, Rook.class) || isOppoonentPiece(coordinates, Queen.class));
+        return (isOpponentPiece(coordinates, Rook.class) || isOpponentPiece(coordinates, Queen.class));
     }
 
-    private <T extends Piece> boolean isOppoonentPiece(Coordinates coordinates, Class<T> theClass)
+    private <T extends Piece> boolean isOpponentPiece(Coordinates coordinates, Class<T> theClass)
     {
         Piece pieceInQuestion = board.pieceInSquare(coordinates);
         return pieceInQuestion.isInstanceOf(theClass) && pieceInQuestion.isNotColorOf(this.player());
@@ -216,5 +214,4 @@ public class King extends Piece
         }
         catch (IllegalCoordinateException | ClassCastException e){ return false;}
     }
-
 }
