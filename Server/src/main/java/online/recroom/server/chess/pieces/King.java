@@ -197,7 +197,7 @@ public class King extends Piece
 
     private int colOffsetBasedOnPlayer()
     {
-        return kingsPosition.column()+ (this.player().equals(Player.WHITE) ? 1 : -1);
+        return this.player().equals(Player.WHITE) ? 1 : -1;
     }
 
     private boolean opponentHasPawnOffsetFromKing(int colOffset, int rowOffset)
@@ -209,7 +209,7 @@ public class King extends Piece
     {
         try
         {
-            T piece = theClass.cast(board.pieceInSquare(Coordinates.byColumnAndRow(colOffset, kingsPosition.row()+rowOffset)));
+            T piece = theClass.cast(board.pieceInSquare(Coordinates.byColumnAndRow(kingsPosition.column()+colOffset, kingsPosition.row()+rowOffset)));
             return piece.isNotColorOf(this.player());
         }
         catch (IllegalCoordinateException | ClassCastException e){ return false;}
