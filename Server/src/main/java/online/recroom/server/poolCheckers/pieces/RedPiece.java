@@ -8,7 +8,7 @@ import online.recroom.server.poolCheckers.board.CoOrdinatesOutOfBoundsException;
 /**
  * Created by theje on 5/7/2016.
  */
-public class RedPiece extends Piece {
+public class RedPiece extends Piece implements ICrownable {
     public RedPiece() {
         super(Color.RED);
     }
@@ -21,8 +21,7 @@ public class RedPiece extends Piece {
         if (destination.getRow() != (this.getRow() + 1)) {
             return false;
         }
-        if (destination.getColumn() == (this.getColumn() + 1)
-                || destination.getColumn() == (this.getColumn() - 1)) {
+        if (Math.abs(this.getColumn() - destination.getColumn()) == 1) {
             return true;
         }
         return false;
@@ -39,7 +38,7 @@ public class RedPiece extends Piece {
         if (destination.getColumn() == (this.getColumn() + 2)) {
             Cell cellInBetween = null;
             try {
-                cellInBetween = getCellPieceIsIn().getBoardCellIsOn()
+                cellInBetween = getCellImIn().getBoardCellIsOn()
                         .getCell(new CoOrdinates((getRow() + 1), getColumn() + 1));
             } catch (CoOrdinatesOutOfBoundsException e) {
                 return false;
@@ -50,7 +49,7 @@ public class RedPiece extends Piece {
         if (destination.getColumn() == (this.getColumn() - 2)) {
             Cell cellInBetween = null;
             try {
-                cellInBetween = getCellPieceIsIn().getBoardCellIsOn()
+                cellInBetween = getCellImIn().getBoardCellIsOn()
                         .getCell(new CoOrdinates((getRow() + 1), getColumn() - 1));
             } catch (CoOrdinatesOutOfBoundsException e) {
                 return false;
@@ -60,4 +59,8 @@ public class RedPiece extends Piece {
         return false;
     }
 
+    @Override
+    public King crownMe() {
+        return new King(this);
+    }
 }

@@ -3,6 +3,7 @@ package online.recroom.server.poolCheckers.board;
 import online.recroom.server.poolCheckers.IllegalMovementException;
 import online.recroom.server.poolCheckers.Movement;
 import online.recroom.server.poolCheckers.pieces.BlackPiece;
+import online.recroom.server.poolCheckers.pieces.ICrownable;
 import online.recroom.server.poolCheckers.pieces.Piece;
 import online.recroom.server.poolCheckers.pieces.RedPiece;
 
@@ -43,14 +44,14 @@ public class Board {
                         board[row][column] = new Cell(this, new CoOrdinates(row, column), Color.WHITE);
                     } else {
                         Cell tempCell = new Cell(this, new CoOrdinates(row, column), Color.BLACK, new RedPiece());
-                        tempCell.getPiece().setCellPieceIsIn(tempCell);
+                        tempCell.getPiece().setCellImIn(tempCell);
                         board[row][column] = tempCell;
                         redPieces.add(tempCell.getPiece());
                     }
                 } else {
                     if (column % 2 == 0) {
                         Cell tempCell = new Cell(this, new CoOrdinates(row, column), Color.BLACK, new RedPiece());
-                        tempCell.getPiece().setCellPieceIsIn(tempCell);
+                        tempCell.getPiece().setCellImIn(tempCell);
                         board[row][column] = tempCell;
                         redPieces.add(tempCell.getPiece());
                     } else {
@@ -69,14 +70,14 @@ public class Board {
                         board[row][column] = new Cell(this, new CoOrdinates(row, column), Color.WHITE);
                     } else {
                         Cell tempCell = new Cell(this, new CoOrdinates(row, column), Color.BLACK, new BlackPiece());
-                        tempCell.getPiece().setCellPieceIsIn(tempCell);
+                        tempCell.getPiece().setCellImIn(tempCell);
                         board[row][column] = tempCell;
                         blackPieces.add(tempCell.getPiece());
                     }
                 } else {
                     if (column % 2 == 0) {
                         Cell tempCell = new Cell(this, new CoOrdinates(row, column), Color.BLACK, new BlackPiece());
-                        tempCell.getPiece().setCellPieceIsIn(tempCell);
+                        tempCell.getPiece().setCellImIn(tempCell);
                         board[row][column] = tempCell;
                         blackPieces.add(tempCell.getPiece());
                     } else {
@@ -130,9 +131,14 @@ public class Board {
             if (movement.piece.isCaptureMove(getCell(movement.destination))) {
                 capturePiece(movement.piece, movement.origin, movement.destination);
             }
-            movement.piece.setCellPieceIsIn(getCell(movement.destination));
+            movement.piece.setCellImIn(getCell(movement.destination));
             getCell(movement.origin).clearCell();
             getCell(movement.destination).setPiece(movement.piece);
+
+            if (needsCrowning(getCell(movement.destination), movement.piece)) {
+                getCell(movement.destination).setPiece(((ICrownable) movement.piece).crownMe());
+                removePieceFromSet(movement.piece);
+            }
         }
     }
 
@@ -154,17 +160,12 @@ public class Board {
                 tempCell = getCell(new CoOrdinates(origin.row - 1, origin.column - 1));
             }
         }
-        if (tempCell.getPiece().color == online.recroom.server.poolCheckers.pieces.Color.BLACK) {
-            blackPieces.remove(tempCell.getPiece());
-        } else {
-            redPieces.remove(tempCell.getPiece());
-        }
+        removePieceFromSet(tempCell.getPiece());
         tempCell.clearCell();
     }
 
-    //TODO check if is regular piece, then check if red or black.
-    public void crown(Cell c, Piece p) {
-
+    public boolean needsCrowning(Cell c, Piece p) {
+        return c.isCrowningCell() && p instanceof ICrownable;
     }
     public boolean blackHasNoPiecesLeft() {
         return blackPieces.isEmpty();
@@ -199,4 +200,13 @@ public class Board {
     public boolean redHasNoMoves() throws CoOrdinatesOutOfBoundsException {
         return !redHasMoves();
     }
+
+    private void removePieceFromSet(Piece p) {
+        if (p.color == online.recroom.server.poolCheckers.pieces.Color.BLACK) {
+            blackPieces.remove(p);
+        } else {
+            redPieces.remove(p);
+        }
+    }
+
 }

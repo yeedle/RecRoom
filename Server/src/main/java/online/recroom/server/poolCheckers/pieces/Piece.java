@@ -14,23 +14,23 @@ import java.util.Set;
 public abstract class Piece {
     public final Color color;
 
-    private Cell cellPieceIsIn;
+    private Cell cellImIn;
 
 
     public Piece(Color color) {
         this.color = color;
     }
 
-    public Cell getCellPieceIsIn() {
-        return cellPieceIsIn;
+    public Cell getCellImIn() {
+        return cellImIn;
     }
 
-    public void setCellPieceIsIn(Cell cellPieceIsIn) {
-        this.cellPieceIsIn = cellPieceIsIn;
+    public void setCellImIn(Cell cellImIn) {
+        this.cellImIn = cellImIn;
     }
 
     protected CoOrdinates getCoordinates() {
-        return cellPieceIsIn.getCoOrdinates();
+        return cellImIn.getCoOrdinates();
     }
 
     protected int getRow() {
@@ -53,7 +53,7 @@ public abstract class Piece {
         HashSet<CoOrdinates> validDestinations = new HashSet<>();
         for (int row = 0; row < Board.ROWS; row++) {
             for (int column = 0; column < Board.COLUMNS; column++) {
-                Cell theoreticalDestination = cellPieceIsIn.getBoardCellIsOn().getCell(new CoOrdinates(row, column));
+                Cell theoreticalDestination = cellImIn.getBoardCellIsOn().getCell(new CoOrdinates(row, column));
                 if (isDestinationValid(theoreticalDestination)) {
                     validDestinations.add(theoreticalDestination.getCoOrdinates());
                 }

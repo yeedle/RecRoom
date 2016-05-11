@@ -8,7 +8,7 @@ import online.recroom.server.poolCheckers.board.CoOrdinatesOutOfBoundsException;
 /**
  * Created by theje on 5/7/2016.
  */
-public class BlackPiece extends Piece {
+public class BlackPiece extends Piece implements ICrownable {
     public BlackPiece() {
         super(Color.BLACK);
     }
@@ -21,8 +21,7 @@ public class BlackPiece extends Piece {
         if (destination.getRow() != (this.getRow() - 1)) {
             return false;
         }
-        if (destination.getColumn() == (this.getColumn() + 1)
-                || destination.getColumn() == (this.getColumn() - 1)) {
+        if (Math.abs(this.getColumn() - destination.getColumn()) == 1) {
             return true;
         }
         return false;
@@ -39,7 +38,7 @@ public class BlackPiece extends Piece {
         if (destination.getColumn() == (this.getColumn() + 2)) {
             Cell cellInBetween = null;
             try {
-                cellInBetween = getCellPieceIsIn().getBoardCellIsOn()
+                cellInBetween = getCellImIn().getBoardCellIsOn()
                         .getCell(new CoOrdinates((getRow() - 1), getColumn() + 1));
             } catch (CoOrdinatesOutOfBoundsException e) {
                 return false;
@@ -50,7 +49,7 @@ public class BlackPiece extends Piece {
         if (destination.getColumn() == (this.getColumn() - 2)) {
             Cell cellInBetween = null;
             try {
-                cellInBetween = getCellPieceIsIn().getBoardCellIsOn()
+                cellInBetween = getCellImIn().getBoardCellIsOn()
                         .getCell(new CoOrdinates((getRow() - 1), getColumn() - 1));
             } catch (CoOrdinatesOutOfBoundsException e) {
                 return false;
@@ -58,5 +57,10 @@ public class BlackPiece extends Piece {
             return cellInBetween.isOccupied() && cellInBetween.containsOpponent(this.color);
         }
         return false;
+    }
+
+    @Override
+    public King crownMe() {
+        return new King(this);
     }
 }
