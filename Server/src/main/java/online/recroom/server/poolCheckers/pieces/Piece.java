@@ -45,7 +45,9 @@ public abstract class Piece {
         return destination.isColorWeArePlayingOn() && (isRegularMove(destination) || isCaptureMove(destination));
     }
 
-    protected abstract boolean isRegularMove(Cell destination);
+    protected boolean isRegularMove(Cell destination) {
+        return destination.isNotOccupied() && (Math.abs(this.getColumn() - destination.getColumn())) == 1;
+    }
 
     public abstract boolean isCaptureMove(Cell destination);
 

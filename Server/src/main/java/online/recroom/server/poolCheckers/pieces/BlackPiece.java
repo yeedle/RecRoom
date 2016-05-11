@@ -15,18 +15,9 @@ public class BlackPiece extends Piece implements ICrownable {
 
     @Override
     protected boolean isRegularMove(Cell destination) {
-        if (destination.isOccupied()) {
-            return false;
-        }
-        if (destination.getRow() != (this.getRow() - 1)) {
-            return false;
-        }
-        if (Math.abs(this.getColumn() - destination.getColumn()) == 1) {
-            return true;
-        }
-        return false;
+        return super.isRegularMove(destination) && (destination.getRow() == (this.getRow() - 1));
     }
-
+    
     @Override
     public boolean isCaptureMove(Cell destination) {
         if (destination.isOccupied()) {

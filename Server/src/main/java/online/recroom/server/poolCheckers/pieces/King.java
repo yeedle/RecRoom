@@ -16,11 +16,8 @@ public class King extends Piece {
 
     @Override
     protected boolean isRegularMove(Cell destination) {
-        if (destination.isOccupied()) {
-            return false;
-        }
-        return Math.abs(this.getRow() - destination.getRow()) == 1 &&
-                Math.abs(this.getColumn() - destination.getColumn()) == 1;
+        return super.isRegularMove(destination) &&
+                (Math.abs(this.getColumn() - destination.getColumn())) == 1;
     }
 
     @Override
