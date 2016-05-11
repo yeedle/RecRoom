@@ -109,6 +109,7 @@ public class Board
         currentMovement = movement;
         checkForErrors();
         move();
+
     }
 
     private void checkForErrors() throws InvalidMoveException, IllegalMoveException
@@ -163,4 +164,6 @@ public class Board
         if (color.equals(BLACK))
             blackKingsPosition = to;
     }
+
+
 }

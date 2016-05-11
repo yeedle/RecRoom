@@ -11,12 +11,12 @@ import static online.recroom.server.chess.pieces.Player.WHITE;
 public class Game
 {
     Board board;
-    Player turn;
+    Player turn = WHITE;
+
 
     public Game() throws IllegalCoordinateException
     {
         board = new Board();
-        turn = WHITE;
     }
 
     public void move(Movement movement) throws IllegalMoveException, InvalidMoveException
@@ -26,7 +26,6 @@ public class Game
 
         board.execute(movement);
         changeTurn();
-
     }
 
     private void changeTurn()
