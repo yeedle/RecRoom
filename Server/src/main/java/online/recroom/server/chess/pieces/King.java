@@ -59,7 +59,7 @@ public class King extends Piece
                 || isThreatenedByPawn();
     }
 
-    private boolean isThreatenedByKnight()
+    private boolean isThreatenedByKnight() throws IllegalCoordinateException
     {
         if (   opponentHasKnightOffsetFromKing(2, 1)
             || opponentHasKnightOffsetFromKing(2, -1)
@@ -74,7 +74,7 @@ public class King extends Piece
         return false;
     }
 
-    private boolean opponentHasKnightOffsetFromKing(int columnOffset, int rowOffset)
+    private boolean opponentHasKnightOffsetFromKing(int columnOffset, int rowOffset) throws IllegalCoordinateException
     {
         return opponentHasPieceOffsetFromKing(columnOffset, rowOffset, Knight.class);
     }
@@ -189,7 +189,7 @@ public class King extends Piece
         return pieceInQuestion.isInstanceOf(theClass) && pieceInQuestion.isNotColorOf(this.player());
     }
 
-    private boolean isThreatenedByPawn()
+    private boolean isThreatenedByPawn() throws IllegalCoordinateException
     {
         return opponentHasPawnOffsetFromKing(colOffsetBasedOnPlayer(), 1)
                 || opponentHasPawnOffsetFromKing(colOffsetBasedOnPlayer(), -1) ? true :false;
@@ -200,18 +200,26 @@ public class King extends Piece
         return this.player().equals(Player.WHITE) ? 1 : -1;
     }
 
-    private boolean opponentHasPawnOffsetFromKing(int colOffset, int rowOffset)
+    private boolean opponentHasPawnOffsetFromKing(int colOffset, int rowOffset) throws IllegalCoordinateException
     {
         return opponentHasPieceOffsetFromKing(colOffset, rowOffset, Pawn.class);
     }
 
-    private <T extends Piece> boolean opponentHasPieceOffsetFromKing(int colOffset, int rowOffset, Class<T> theClass)
+    private <T extends Piece> boolean opponentHasPieceOffsetFromKing(int colOffset, int rowOffset, Class<T> type) throws IllegalCoordinateException
     {
-        try
-        {
-            T piece = theClass.cast(board.pieceInSquare(Coordinates.byColumnAndRow(kingsPosition.column()+colOffset, kingsPosition.row()+rowOffset)));
-            return piece.isNotColorOf(this.player());
-        }
-        catch (IllegalCoordinateException | ClassCastException e){ return false;}
+        if (coordinatesAreOutOfBounds(colOffset, rowOffset))
+            return false;
+        Piece piece = board.pieceInSquare(Coordinates.byColumnAndRow(kingsPosition.column()+colOffset, kingsPosition.row()+rowOffset));
+        if (piece.isNotInstanceOf(type))
+            return false;
+        return piece.isNotColorOf(this.player());
+    }
+
+    private boolean coordinatesAreOutOfBounds(int colOffset, int rowOffset)
+    {
+        return kingsPosition.column()+colOffset > Board.COLUMNS
+                || kingsPosition.column()+colOffset < 0
+                || kingsPosition.row()+rowOffset > Board.ROWS
+                || kingsPosition.row()+rowOffset < 0;
     }
 }

@@ -46,4 +46,9 @@ public abstract class Piece
     {
         return (type.isInstance(this));
     }
+
+    public <T extends Piece> boolean isNotInstanceOf(Class<T> type)
+    {
+        return !isInstanceOf(type);
+    }
 }
