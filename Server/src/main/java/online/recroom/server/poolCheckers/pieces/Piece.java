@@ -51,7 +51,7 @@ public abstract class Piece {
 
     public abstract boolean isCaptureMove(Cell destination);
 
-    private boolean cellInBetweenIsCapturable(int row, int column) {
+    protected boolean cellInBetweenIsCapturable(int row, int column) {
         try {
             Cell cellInBetween = getCellImIn().getBoardCellIsOn()
                     .getCell(new CoOrdinates(row, column));
