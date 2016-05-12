@@ -3,6 +3,7 @@ package online.recroom.server.chess.pieces;
 import online.recroom.server.chess.Board;
 import online.recroom.server.chess.Coordinates;
 import online.recroom.server.chess.Movement;
+import online.recroom.server.chess.StatusChecker;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -44,7 +45,7 @@ public class KingTest
         movement = new Movement(Player.BLACK, Coordinates.byColumnAndRow(2, 7), Coordinates.byColumnAndRow(0, 5));
         board.execute(movement);
         King king = (King)board.pieceInSquare(Coordinates.byColumnAndRow(4, 0));
-        Boolean isInCheck = king.isInCheck(board);
+        Boolean isInCheck = new StatusChecker(board).isKingInCheck(Player.WHITE);
         assertTrue(isInCheck);
     }
 
