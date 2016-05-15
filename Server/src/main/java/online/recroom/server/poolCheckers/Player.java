@@ -10,9 +10,9 @@ public class Player {
     public final String name;
     public final Color color;
 
-    public Player(String fName, String lName, Color color)
+    public Player(String name, Color color)
     {
-        name = fName;
+        this.name = name;
         this.color = color;
     }
 }
