@@ -7,14 +7,12 @@ import online.recroom.server.poolCheckers.pieces.Color;
  */
 
 public class Player {
-    private final String firstName;
-    private final String lastName;
-    private final Color color;
+    public final String name;
+    public final Color color;
 
     public Player(String fName, String lName, Color color)
     {
-        firstName = fName;
-        lastName = lName;
+        name = fName;
         this.color = color;
     }
 }
