@@ -2,7 +2,7 @@ package online.recroom.server.poolCheckers;
 
 
 import online.recroom.server.poolCheckers.board.CoOrdinates;
-import online.recroom.server.poolCheckers.board.Color;
+import online.recroom.server.poolCheckers.pieces.Color;
 import online.recroom.server.poolCheckers.pieces.Piece;
 
 public class Movement {
