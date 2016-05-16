@@ -50,7 +50,7 @@
                 </Menu>
             </menus>
         </MenuBar>
-        <BorderPane >
+        <BorderPane>
             <top>
                 <Label contentDisplay="CENTER" text="RecRoom" BorderPane.alignment="CENTER">
                     <font>
@@ -59,7 +59,7 @@
                 </Label>
             </top>
             <center>
-                <VBox  BorderPane.alignment="CENTER">
+                <VBox BorderPane.alignment="CENTER">
                     <children>
                         <HBox styleClass="menu-hbox">
                             <children>
@@ -96,7 +96,7 @@
                                     </font>
 
                                 </Button>
-                                <Button id="chatBtn" mnemonicParsing="false" text="Chat">
+                                <Button id="comingSoonBtn" disable="true" mnemonicParsing="false" text="TBD">
                                     <font>
                                         <Font size="24.0" />
                                     </font>
@@ -108,13 +108,6 @@
                     </children>
                 </VBox>
             </center>
-         <bottom>
-            <Label text="choose a game..." BorderPane.alignment="CENTER">
-               <font>
-                  <Font size="24.0" />
-               </font>
-            </Label>
-         </bottom>
         </BorderPane>
     </children>
     <stylesheets>

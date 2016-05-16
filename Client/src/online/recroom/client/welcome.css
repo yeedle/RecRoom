@@ -65,9 +65,9 @@
 
 }
 
-#chatBtn {
+#comingSoonBtn {
     -fx-text-fill: black;
-    -fx-graphic: url('chat.png');
+    -fx-graphic: url('crane.png');
     -fx-alignment: center;
 
 
