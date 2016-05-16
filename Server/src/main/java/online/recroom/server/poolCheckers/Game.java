@@ -9,9 +9,9 @@ import online.recroom.server.poolCheckers.board.CoOrdinatesOutOfBoundsException;
 public class Game {
     private static long idGenerator = Long.MIN_VALUE;
     public final long id;
-    private Player redPlayer;
-    private Player blackPlayer;
-    private Player currentTurn;
+    private CheckersPlayer redPlayer;
+    private CheckersPlayer blackPlayer;
+    private CheckersPlayer currentTurn;
     private final Board board;
 
     public Game(Board board) {
@@ -21,27 +21,27 @@ public class Game {
         currentTurn = redPlayer;
     }
 
-    public Player getRedPlayer() {
+    public CheckersPlayer getRedPlayer() {
         return redPlayer;
     }
 
-    public void setRedPlayer(Player redPlayer) {
+    public void setRedPlayer(CheckersPlayer redPlayer) {
         this.redPlayer = redPlayer;
     }
 
-    public Player getBlackPlayer() {
+    public CheckersPlayer getBlackPlayer() {
         return blackPlayer;
     }
 
-    public void setBlackPlayer(Player blackPlayer) {
+    public void setBlackPlayer(CheckersPlayer blackPlayer) {
         this.blackPlayer = blackPlayer;
     }
 
-    public Player getCurrentTurn() {
+    public CheckersPlayer getCurrentTurn() {
         return currentTurn;
     }
 
-    private void setCurrentTurn(Player currentTurn) {
+    private void setCurrentTurn(CheckersPlayer currentTurn) {
         this.currentTurn = currentTurn;
     }
 
@@ -60,10 +60,12 @@ public class Game {
             throw new NotYourTurnException();
 
         board.movePiece(movement);
+        draw();
+        calculateWinner();
         changeCurrentTurn();
     }
 
-    public Player calculateWinner() throws CoOrdinatesOutOfBoundsException {
+    public CheckersPlayer calculateWinner() throws CoOrdinatesOutOfBoundsException {
         if (!draw()) {
             if (board.blackHasNoPiecesLeft() || board.blackHasNoMoves()) {
                 return redPlayer;
@@ -78,7 +80,7 @@ public class Game {
         return board.redHasNoMoves() && board.blackHasNoMoves();
     }
 
-    public void forfeit(Player p) {
+    public void forfeit(CheckersPlayer p) {
 
     }
 }

@@ -1,5 +1,7 @@
 package online.recroom.server.bubbles;
 
+import online.recroom.server.Player;
+
 import java.util.HashSet;
 
 /**
@@ -9,8 +11,14 @@ public class Game
 {
     private static long idGenerator = Long.MIN_VALUE;
 
+    public Player player1;
+    public Player player2;
     public final long id = idGenerator++;
-    private HashSet<Bubble> bubbles = new HashSet<>();
+    private final HashSet<Bubble> bubbles = new HashSet<>();
+
+    public Game(Player player1) {
+        this.player1 = player1;
+    }
 
     public void generateBubbles(int amount) {
         for (int i = 0; i < amount; i++) {
