@@ -1,9 +1,12 @@
 package online.recroom.server;
 
 /**
- * Created by Yeedle on 4/5/2016 9:28 PM.
+ * Created by Yehuda Globerman on 5/15/2016.
  */
-public enum Player
-{
-    PLAYER1, PLAYER2;
+public class Player {
+    public final String name;
+
+    public Player(String name) {
+        this.name = name;
+    }
 }
