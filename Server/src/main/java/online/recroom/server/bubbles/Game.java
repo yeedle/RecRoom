@@ -11,13 +11,12 @@ public class Game
 {
     private static long idGenerator = Long.MIN_VALUE;
 
-    public Player player1;
-    public Player player2;
+    private HashSet<Player> players = new HashSet();
     public final long id = idGenerator++;
     private final HashSet<Bubble> bubbles = new HashSet<>();
 
-    public Game(Player player1) {
-        this.player1 = player1;
+    public Game(Player p) {
+        players.add(p);
     }
 
     public void generateBubbles(int amount) {
@@ -33,5 +32,13 @@ public class Game
                 break;
             }
         }
+    }
+
+    public void addPlayer(Player p) {
+        players.add(p);
+    }
+
+    public Player removePlayer(Player p) {
+        return players.remove(p) ? p : null;
     }
 }
