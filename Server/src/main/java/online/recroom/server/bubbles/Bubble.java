@@ -9,10 +9,13 @@ import java.util.Random;
 public class Bubble {
     private static Random random = new Random();
     private static long idGenerator = Long.MIN_VALUE;
+    private final static int MINIMUM_PIXEL_DELTA = 5;
 
     public final long id = idGenerator++;
     public final double relativeXPosittion = random.nextDouble();
     public final double relativeYPosition = random.nextDouble();
+    public final double deltaX = Math.random() * MINIMUM_PIXEL_DELTA +1;
+    public final double deltaY = Math.random() * MINIMUM_PIXEL_DELTA +1;
 
     @Override
     public boolean equals(Object o) {
