@@ -1,0 +1,85 @@
+.menu-bar {
+    -fx-background-color: #aeb5ba, linear-gradient(to bottom, #ecf4fa 0%, #ced4d9 100%);
+    -fx-background-insets: 0, 0 0 1 0;
+}
+
+.menu-bar .menu .label {
+    -fx-text-fill: #2d3e4c;
+}
+
+#chessBtn {
+    -fx-text-fill: black;
+    -fx-graphic: url('chess.png');
+    -fx-alignment: center;
+
+
+    -fx-content-display: top;
+    -fx-pref-height: 150;
+    -fx-pref-width: 150;
+
+
+}
+#checkersBtn {
+    -fx-text-fill: black;
+    -fx-graphic: url('checkersboard.png');
+    -fx-alignment: center;
+
+
+    -fx-content-display: top;
+    -fx-pref-height: 150;
+    -fx-pref-width: 150;
+
+}
+#bubblesBtn {
+    -fx-text-fill: black;
+    -fx-graphic: url('bubbles.png');
+    -fx-alignment: center;
+
+
+    -fx-content-display: top;
+    -fx-pref-height: 150;
+    -fx-pref-width: 150;
+
+}
+#tictactoeBtn {
+    -fx-text-fill: black;
+    -fx-graphic: url('tic-tac-toe.png');
+    -fx-alignment: center;
+
+
+    -fx-content-display: top;
+    -fx-pref-height: 150;
+    -fx-pref-width: 150;
+
+}
+
+#pongBtn {
+    -fx-text-fill: black;
+    -fx-graphic: url('ping-pong.png');
+    -fx-alignment: center;
+
+
+    -fx-content-display: top;
+    -fx-pref-height: 150;
+    -fx-pref-width: 150;
+
+}
+
+#chatBtn {
+    -fx-text-fill: black;
+    -fx-graphic: url('chat.png');
+    -fx-alignment: center;
+
+
+    -fx-content-display: top;
+    -fx-pref-height: 150;
+    -fx-pref-width: 150;
+
+}
+
+.menu-hbox
+{
+    -fx-alignment: center;
+    -fx-pref-width: 200;
+    -fx-pref-height: 150;
+}
