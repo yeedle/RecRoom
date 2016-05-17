@@ -1,6 +1,7 @@
 package online.recroom.client;
 
 import javafx.animation.KeyFrame;
+import javafx.animation.ScaleTransition;
 import javafx.animation.Timeline;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -9,7 +10,6 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.util.Duration;
 
-import javax.annotation.Resources;
 import javax.websocket.*;
 import java.io.File;
 import java.net.URI;
@@ -35,18 +35,28 @@ public class BubblesEndpoint implements Initializable
     public void onOpen(final Session session)
     {
 
-        MediaPlayer player = new MediaPlayer(popSound);
+        t.setCycleCount(Timeline.INDEFINITE);
+        t.play();
     }
 
     @OnMessage
     public void onMessage(final Bubble bubble)
     {
 
-        bubble.setOnMouseClicked(e -> {bubblePane.getChildren().remove(bubble); new MediaPlayer(popSound).play();});
+        bubble.setOnMouseClicked(e -> mouseClickHandler(bubble));
 
-        t.getKeyFrames().add(new KeyFrame(Duration.millis(40), event1 -> {bubble.move();}));
+        t.getKeyFrames().add(new KeyFrame(Duration.millis(40), e -> bubble.move()));
         bubblePane.getChildren().add(bubble);
 
+    }
+
+    private void mouseClickHandler(Bubble bubble)
+    {
+        ScaleTransition st = new ScaleTransition(Duration.millis(100), bubble);
+            st.setByX(5);
+            st.setByY(5);
+            st.setOnFinished(e -> {bubblePane.getChildren().remove(bubble); new MediaPlayer(popSound).play();});
+            st.play();
     }
 
     @OnError
