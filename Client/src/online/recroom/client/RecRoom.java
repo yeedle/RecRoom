@@ -1,15 +1,10 @@
 package online.recroom.client;
 
 import javafx.application. Application;
-import javafx.scene.Group;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-
-import javax.websocket.*;
-import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.logging.Logger;
 
 /**
  * This class is the entry point for our JavaFX client
@@ -26,10 +21,10 @@ public class RecRoom extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
 
-        Group root = new Group();
+      //  Group root = new Group();
 
-
-        Scene welcomeScene = new Scene(new WelcomeScene(), WIDTH, HEIGHT);
+        Parent root = FXMLLoader.load(getClass().getResource("fxml/welcome.fxml"));
+        Scene welcomeScene = new Scene(root, WIDTH, HEIGHT);
         primaryStage.setTitle("RecRoom");
         primaryStage.setScene(welcomeScene);
         primaryStage.show();

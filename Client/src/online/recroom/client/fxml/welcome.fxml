@@ -72,7 +72,7 @@
         </BorderPane>
     </children>
     <stylesheets>
-        <URL value="@global.css" />
-        <URL value="@welcome.css" />
+        <URL value="@../css/global.css" />
+        <URL value="@../css/welcome.css" />
     </stylesheets>
 </VBox>
