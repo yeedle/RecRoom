@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import java.net.URL?>
+<?import javafx.scene.text.Font?>
+<VBox prefHeight="640.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+    <children>
+        <BorderPane>
+            <top>
+                <Label fx:id="titleLbl" contentDisplay="CENTER" text="Game Name" BorderPane.alignment="CENTER">
+                    <font>
+                        <Font name="Code2000" size="64.0" />
+                    </font>
+                </Label>
+            </top>
+            <center>
+                <VBox>
+                <HBox BorderPane.alignment="CENTER" alignment="CENTER">
+                    <Button alignment="CENTER" text="Start A New Game">
+
+                    </Button>
+                </HBox>
+                    <TableView>
+                    </TableView>
+                </VBox>
+            </center>
+        </BorderPane>
+    </children>
+    <stylesheets>
+        <URL value="@../css/global.css" />
+        <URL value="@../css/gameIntro.css" />
+    </stylesheets>
+</VBox>
