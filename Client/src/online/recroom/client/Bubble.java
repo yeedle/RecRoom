@@ -22,21 +22,27 @@ public class Bubble extends Circle
     {
         x = RecRoom.HEIGHT * xAsAPercentage;
         y = RecRoom.WIDTH * yAsAPercentage;
+        radius = (RecRoom.WIDTH/RecRoom.HEIGHT) * radiusAsAPercentage;
+
         super.setCenterX(x);
         super.setCenterY(y);
-        Color color = getRandomColor();
-        RadialGradient g = new RadialGradient(
-                0, 0,
-                0.35, 0.35,
-                0.5,
-                true,
-                CycleMethod.NO_CYCLE,
-                new Stop(0.0, Color.WHITE),
-                new Stop(1.0, color));
-        super.setFill(g);
+        super.setRadius(radius);
+        super.setFill(getRadialGradientOf(RandomColor()));
     }
 
-    private Color getRandomColor()
+    private RadialGradient getRadialGradientOf(Color color)
+    {
+        return new RadialGradient(
+                    0, 0,
+                    0.35, 0.35,
+                    0.5,
+                    true,
+                    CycleMethod.NO_CYCLE,
+                    new Stop(0.0, Color.WHITE),
+                    new Stop(1.0, color));
+    }
+
+    private Color RandomColor()
     {
         Double r = Math.random();
         double transparency = 0.3;
@@ -47,5 +53,35 @@ public class Bubble extends Circle
                r < 0.65? Color.rgb(143, 188, 143, transparency) : r < 0.7 ? Color.rgb(255,  20, 147, transparency) : r < 0.75? Color.rgb(222, 184, 135, transparency) :
                r < 0.8 ? Color.rgb(105, 105, 105, transparency) : r < 0.85? Color.rgb(30,  144, 255, transparency) : r < 0.9 ? Color.rgb(188, 143, 143, transparency) :
                r < 0.95? Color.rgb(102, 205, 170, transparency) :           Color.rgb(173,216,230,transparency);
+    }
+
+    public void move()
+    {
+        super.setCenterX(super.getCenterX() + this.deltaX);
+        super.setCenterY(super.getCenterY() + this.deltaY);
+// Detect collision with left edge ➝97
+        if (super.getCenterX() <= this.radius)
+        {
+            super.setCenterX(this.radius);
+            this.deltaX = -this.deltaX;
+        }
+// Detect collision with right edge ➝104
+        if (super.getCenterX() >= RecRoom.WIDTH - this.radius)
+        {
+            super.setCenterX(RecRoom.WIDTH - this.radius);
+            this.deltaX = -this.deltaX;
+        }
+// Detect collision with top edge ➝111
+        if (super.getCenterY() <= this.radius)
+        {
+            super.setCenterY(this.radius);
+            this.deltaY = -this.deltaY;
+        }
+// Detect collision with bottom edge ➝118
+        if (super.getCenterY() >= RecRoom.HEIGHT - this.radius)
+        {
+            super.setCenterY(RecRoom.HEIGHT - this.radius);
+            this.deltaY = -this.deltaY;
+        }
     }
 }
