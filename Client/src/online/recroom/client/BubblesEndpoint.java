@@ -12,6 +12,7 @@ import javafx.util.Duration;
 
 import javax.websocket.*;
 import java.io.File;
+import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
@@ -52,6 +53,7 @@ public class BubblesEndpoint implements Initializable
 
     private void mouseClickHandler(Bubble bubble)
     {
+        sendMessage(Long.toString(bubble.id));
         ScaleTransition st = new ScaleTransition(Duration.millis(100), bubble);
             st.setByX(5);
             st.setByY(5);
@@ -95,6 +97,19 @@ public class BubblesEndpoint implements Initializable
             e.printStackTrace();
         }
     }
+
+    public void sendMessage(final String o)
+    {
+        try
+        {
+            session.getBasicRemote().sendText(o);
+        } catch (IOException e)
+
+        {
+            e.printStackTrace();
+        }
+    }
+
 
 
 }

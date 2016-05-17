@@ -12,14 +12,16 @@ import javafx.scene.shape.Circle;
 public class Bubble extends Circle
 {
     //all variables are as a percentage
-    public double x;
-    public double y;
-    public double deltaX;
-    public double deltaY;
-    public double radius;
+    public final long id;
+    private double x;
+    private double y;
+    private double deltaX;
+    private double deltaY;
+    private double radius;
 
-    public Bubble(double xAsAPercentage, double yAsAPercentage, double deltaXAsAPercentage, double deltaYAsAPercentage, double radiusAsAPercentage)
+    public Bubble(long id, double xAsAPercentage, double yAsAPercentage, double deltaXAsAPercentage, double deltaYAsAPercentage, double radiusAsAPercentage)
     {
+        this.id = id;
         x = RecRoom.HEIGHT * xAsAPercentage;
         y = RecRoom.WIDTH * yAsAPercentage;
         radius = (RecRoom.WIDTH/RecRoom.HEIGHT) * radiusAsAPercentage;
