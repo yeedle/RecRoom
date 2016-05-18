@@ -5,14 +5,11 @@
 <?import javafx.scene.layout.*?>
 <?import java.net.URL?>
 <?import javafx.scene.text.Font?>
-<VBox prefHeight="640.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<VBox prefHeight="640.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="online.recroom.client.chess.ChessIntroController">
     <children>
         <BorderPane>
             <top>
-                <Label fx:id="titleLbl" contentDisplay="CENTER" text="Game Name" BorderPane.alignment="CENTER">
-                    <font>
-                        <Font name="Code2000" size="64.0" />
-                    </font>
+                <Label styleClass="heading" fx:id="titleLbl" contentDisplay="CENTER"  BorderPane.alignment="CENTER">
                 </Label>
             </top>
             <center>

@@ -1,10 +1,11 @@
-package online.recroom.client;
+package online.recroom.client.welcome;
 
 import javafx.application. Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import online.recroom.client.GameClientEndpoint;
 
 /**
  * This class is the entry point for our JavaFX client
@@ -23,7 +24,7 @@ public class RecRoom extends Application {
 
       //  Group root = new Group();
 
-        Parent root = FXMLLoader.load(getClass().getResource("fxml/welcome.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("welcome.fxml"));
         Scene welcomeScene = new Scene(root, WIDTH, HEIGHT);
         primaryStage.setTitle("RecRoom");
         primaryStage.setScene(welcomeScene);

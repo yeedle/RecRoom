@@ -1,10 +1,11 @@
-package online.recroom.client;
+package online.recroom.client.bubbles;
 
 import javafx.scene.paint.Color;
 import javafx.scene.paint.CycleMethod;
 import javafx.scene.paint.RadialGradient;
 import javafx.scene.paint.Stop;
 import javafx.scene.shape.Circle;
+import online.recroom.client.welcome.RecRoom;
 
 /**
  * Created by Yeedle on 5/17/2016 9:35 AM.

@@ -1,4 +1,4 @@
-package online.recroom.client;
+package online.recroom.client.bubbles;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.ScaleTransition;

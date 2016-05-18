@@ -9,7 +9,7 @@
 <?import javafx.scene.paint.*?>
 <?import javafx.scene.text.*?>
 
-<VBox prefHeight="640.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="online.recroom.client.WelcomeController">
+<VBox prefHeight="640.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="online.recroom.client.welcome.WelcomeController">
     <children>
         <BorderPane>
             <top>
@@ -21,18 +21,18 @@
                     <children>
                         <HBox styleClass="menu-hbox">
                             <children>
-                                <Button styleClass="text, button" fx:id="chessBtn" mnemonicParsing="false" prefHeight="134.0" prefWidth="161.0" text="Chess" onAction="#handleButtonAction">
+                                <Button styleClass="button" fx:id="chessBtn" mnemonicParsing="false" prefHeight="134.0" prefWidth="161.0" text="Chess" onAction="#handleButtonAction">
                                     <font>
                                         <Font size="24.0" />
                                     </font>
                                 </Button>
-                                <Button styleClass="text, button" fx:id="checkersBtn" mnemonicParsing="false" text="Checkers ">
+                                <Button styleClass="button" fx:id="checkersBtn" mnemonicParsing="false" text="Checkers ">
                                     <font>
                                         <Font size="24.0" />
                                     </font>
 
                                 </Button>
-                                <Button styleClass="text, button" fx:id="bubblesBtn" mnemonicParsing="false" text="Bubbles ">
+                                <Button styleClass="button" fx:id="bubblesBtn" mnemonicParsing="false" text="Bubbles ">
                                     <font>
                                         <Font size="24.0" />
                                     </font>
@@ -43,18 +43,18 @@
                         </HBox>
                         <HBox styleClass="menu-hbox">
                             <children>
-                                <Button styleClass="text, button" fx:id="tictactoeBtn" mnemonicParsing="false" prefHeight="134.0" prefWidth="161.0" text="Tic Tac Toe">
+                                <Button styleClass="button" fx:id="tictactoeBtn" mnemonicParsing="false" prefHeight="134.0" prefWidth="161.0" text="Tic Tac Toe">
                                     <font>
                                         <Font size="24.0" />
                                     </font>
                                 </Button>
-                                <Button styleClass="text, button" fx:id="pongBtn" mnemonicParsing="false" text="Pong ">
+                                <Button styleClass="button" fx:id="pongBtn" mnemonicParsing="false" text="Pong ">
                                     <font>
                                         <Font size="24.0" />
                                     </font>
 
                                 </Button>
-                                <Button styleClass="text, button" fx:id="comingSoonBtn" disable="true" mnemonicParsing="false" text="TBD">
+                                <Button styleClass="button" fx:id="comingSoonBtn" disable="true" mnemonicParsing="false" text="TBD">
                                     <font>
                                         <Font size="24.0" />
                                     </font>

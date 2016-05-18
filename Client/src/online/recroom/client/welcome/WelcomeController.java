@@ -1,4 +1,4 @@
-package online.recroom.client;
+package online.recroom.client.welcome;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -30,15 +30,10 @@ public class WelcomeController
     @FXML
     private void handleButtonAction(ActionEvent event) throws IOException
     {
-        Stage stage;
-        Parent root;
-            //get reference to the button's stage
-            stage=(Stage) ((Node)event.getSource()).getScene().getWindow();
-            //load up OTHER FXML document
-            root = FXMLLoader.load(getClass().getResource("fxml/GameIntro.fxml"));
-
-        //create a new scene with root and set the stage
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("../chess/ChessIntro.fxml"));
+        Parent root = loader.load();
         Scene scene = new Scene(root);
+        Stage  stage=(Stage) ((Node)event.getSource()).getScene().getWindow();
         stage.setScene(scene);
         stage.show();
     }
