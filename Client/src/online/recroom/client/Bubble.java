@@ -48,7 +48,7 @@ public class Bubble extends Circle
     {
         Double r = Math.random();
         double transparency = 0.3;
-        return r < 0.5 ? Color.rgb(123, 104, 238, transparency) : r < 0.1 ? Color.rgb(123, 104, 238, transparency) : r < 0.15? Color.rgb(245, 245, 220, transparency) :
+        return r < 0.5 ? Color.web("#FFEEFF", transparency): r < 0.1 ? Color.rgb(123, 104, 238, transparency) : r < 0.15? Color.rgb(245, 245, 220, transparency) :
                r < 0.2 ? Color.rgb(0,     0, 255, transparency) : r < 0.25? Color.rgb(205,  92,  92, transparency) : r < 0.3 ? Color.rgb(139,   0, 139, transparency) :
                r < 0.35? Color.rgb(165,  42,  42, transparency) : r < 0.4 ? Color.rgb(0,   100,   0, transparency) : r < 0.45? Color.rgb(189, 183, 107, transparency) :
                r < 0.5 ? Color.rgb(85,  107,  47, transparency) : r < 0.55? Color.rgb(255, 140,   0, transparency) : r < 0.6 ? Color.rgb(153,  50, 204, transparency) :

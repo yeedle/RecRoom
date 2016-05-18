@@ -28,7 +28,7 @@ public class BubblesEndpoint implements Initializable
     @FXML
     Pane bubblePane;
 
-    File popSoundFile =  new File("src/online/recroom/client/assets/pop.mp3");
+    File popSoundFile =  new File("src/online/recroom/client/online.recroom.client.assets/pop.mp3");
     Media popSound = new Media(popSoundFile.toURI().toString());
     Timeline t = new Timeline();
 

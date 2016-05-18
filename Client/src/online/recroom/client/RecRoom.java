@@ -13,8 +13,8 @@ import javafx.stage.Stage;
 public class RecRoom extends Application {
 
     GameClientEndpoint gameClientEndpoint;
-    public static final int HEIGHT = 650;
-    public static final int WIDTH = 650;
+    public static final int HEIGHT = 640;
+    public static final int WIDTH = 640;
 
     public static void main(String[] args) { launch();}
 
