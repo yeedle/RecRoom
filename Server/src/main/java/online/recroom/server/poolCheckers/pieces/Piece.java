@@ -75,6 +75,7 @@ public abstract class Piece {
         return validDestinations;
     }
 
+
     public boolean isMovable() throws CoOrdinatesOutOfBoundsException {
         return !getValidDestinations().isEmpty();
     }
