@@ -9,13 +9,13 @@
 
 
 <?import java.net.URL?>
-<Group xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="online.recroom.client.chess.ChessController">
+<Group xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="online.recroom.client.chess.ChessController">
    <children>
       <Pane layoutY="65.0">
          <children>
             <GridPane fx:id="chessBoard" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="500.0">
                <children>
-                  <StackPane prefHeight="150.0" prefWidth="200.0" styleClass="red" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+                  <StackPane fx:id="0,0" prefHeight="150.0" prefWidth="200.0" styleClass="red" GridPane.columnIndex="0" GridPane.rowIndex="0" />
                    <StackPane prefHeight="150.0" prefWidth="200.0" styleClass="white" GridPane.columnIndex="0" GridPane.rowIndex="1" />
                    <StackPane prefHeight="150.0" prefWidth="200.0" styleClass="red" GridPane.columnIndex="0" GridPane.rowIndex="2" />
                    <StackPane prefHeight="150.0" prefWidth="200.0" styleClass="white" GridPane.columnIndex="0" GridPane.rowIndex="3" />

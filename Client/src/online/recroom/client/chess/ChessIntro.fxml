@@ -15,7 +15,7 @@
             <center>
                 <VBox>
                 <HBox BorderPane.alignment="CENTER" alignment="CENTER">
-                    <Button alignment="CENTER" text="Start A New Game">
+                    <Button alignment="CENTER" text="Start A New Game" onAction="#newGame">
 
                     </Button>
                 </HBox>

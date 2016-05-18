@@ -66,6 +66,7 @@
                     </children>
                 </VBox>
             </center>
+
         </BorderPane>
     </children>
     <stylesheets>
