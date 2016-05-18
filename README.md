@@ -1,5 +1,6 @@
 # RecRoom
-##Description
+
+###Description
 A platora of games to be played with a friend over the Internet. 
 This includes a client desktop app (made with JavaFX), and a server that runs on WebSockets.
 
