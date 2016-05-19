@@ -1,3 +1,9 @@
 .red {
-    -fx-background-color: red;
+    -fx-background-color: #DB9356;
+
+}
+
+
+.white {
+    -fx-background-color: #D3D3D3;
 }
