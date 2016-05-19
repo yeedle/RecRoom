@@ -49,8 +49,8 @@ public class ChessController implements Initializable
         Image image = new Image(getClass().getResourceAsStream(url));
        ImageView iv = new ImageView(image);
         iv.setPreserveRatio(true);
-        iv.setFitWidth(35);
-        iv.setFitHeight(35);
+        iv.setFitWidth(50);
+        iv.setFitHeight(50);
         return iv;
 
     }
