@@ -28,8 +28,9 @@ public class WelcomeController
     Button pongBtn;
 
     @FXML
-    private void handleButtonAction(ActionEvent event) throws IOException
+    private void handleChessButtonAction(ActionEvent event) throws IOException
     {
+        System.out.println("chess");
         FXMLLoader loader = new FXMLLoader(getClass().getResource("../chess/ChessIntro.fxml"));
         Parent root = loader.load();
         Scene scene = new Scene(root);
@@ -39,4 +40,14 @@ public class WelcomeController
     }
 
 
+    public void handleTicTacToeButtonAction(ActionEvent event) throws IOException
+    {
+        System.out.println("tic tac toe");
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("../ticTacToe/TicTacToeIntro.fxml"));
+        Parent root = loader.load();
+        Scene scene = new Scene(root);
+        Stage  stage=(Stage) ((Node)event.getSource()).getScene().getWindow();
+        stage.setScene(scene);
+        stage.show();
+    }
 }

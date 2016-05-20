@@ -21,7 +21,7 @@
                     <children>
                         <HBox styleClass="menu-hbox">
                             <children>
-                                <Button styleClass="button" fx:id="chessBtn" mnemonicParsing="false" prefHeight="134.0" prefWidth="161.0" text="Chess" onAction="#handleButtonAction">
+                                <Button styleClass="button" fx:id="chessBtn" mnemonicParsing="false" prefHeight="134.0" prefWidth="161.0" text="Chess" onAction="#handleChessButtonAction">
                                     <font>
                                         <Font size="24.0" />
                                     </font>
@@ -43,7 +43,7 @@
                         </HBox>
                         <HBox styleClass="menu-hbox">
                             <children>
-                                <Button styleClass="button" fx:id="tictactoeBtn" mnemonicParsing="false" prefHeight="134.0" prefWidth="161.0" text="Tic Tac Toe">
+                                <Button styleClass="button" fx:id="tictactoeBtn" mnemonicParsing="false" prefHeight="134.0" prefWidth="161.0" text="Tic Tac Toe" onAction="#handleTicTacToeButtonAction">
                                     <font>
                                         <Font size="24.0" />
                                     </font>
