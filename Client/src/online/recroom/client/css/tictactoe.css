@@ -1,7 +1,6 @@
 #board {
     -fx-padding: 10;
-    -fx-background-color: #afafaf;
-    -fx-padding: 10;
+
     -fx-background-insets: 10;
 }
 
@@ -78,7 +77,9 @@
 
 .console {
     -fx-pref-width: 200;
-  -fx-fill: white;
+-fx-font-family: "NovaMono";
+  -fx-fill: greenyellow;
+    -fx-font-size: 16;
 
 
 }
