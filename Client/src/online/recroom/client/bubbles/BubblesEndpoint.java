@@ -10,6 +10,7 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.util.Duration;
 
+import javax.sound.midi.Soundbank;
 import javax.websocket.*;
 import java.io.File;
 import java.io.IOException;
@@ -17,6 +18,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Created by Yeedle on 5/17/2016 9:32 AM.
@@ -29,7 +31,7 @@ public class BubblesEndpoint implements Initializable
     private Session session;
     @FXML
     Pane bubblePane;
-
+    ConcurrentHashMap<Long, Bubble> bubbleMap = new ConcurrentHashMap<>();
     File popSoundFile =  new File("src/online/recroom/client/online.recroom.client.assets/pop.mp3");
     Media popSound = new Media(popSoundFile.toURI().toString());
     Timeline t = new Timeline();
@@ -44,8 +46,6 @@ public class BubblesEndpoint implements Initializable
     @OnMessage
     public void onMessage(final Message message)
     {
-        //when game starts add all bubbles
-
         switch (message.type)
         {
             case GAME_STARTED:
@@ -61,24 +61,42 @@ public class BubblesEndpoint implements Initializable
                 //TODO error if can't decode
                 break;
         }
-
-        //todo handle removal of a message
-
-        message.setOnMouseClicked(e -> mouseClickHandler(message));
-
-        t.getKeyFrames().add(new KeyFrame(Duration.millis(40), e -> message.move()));
-        bubblePane.getChildren().add(message);
-
     }
 
-    private void mouseClickHandler(Bubble bubble)
+    private void gameStarted(Bubble[] bubbles)
     {
-        sendMessage(bubble.id);
+        for (Bubble bubble : bubbles)
+        {
+            bubble.setOnMouseClicked(e -> onClickRemove(bubble.id));
+            t.getKeyFrames().add(new KeyFrame(Duration.millis(40), e -> bubble.move()));
+            bubbleMap.put(bubble.id, bubble);
+        }
+
+        bubblePane.getChildren().addAll(bubbles);
+    }
+
+    private void bubblePopped(long poppedBubbleId)
+    {
+        Bubble bubble = bubbleMap.get(poppedBubbleId);
         ScaleTransition st = new ScaleTransition(Duration.millis(100), bubble);
-            st.setByX(5);
-            st.setByY(5);
-            st.setOnFinished(e -> {bubblePane.getChildren().remove(bubble); new MediaPlayer(popSound).play();});
-            st.play();
+        st.setByX(5);
+        st.setByY(5);
+        st.setOnFinished(e -> {bubblePane.getChildren().remove(bubble); new MediaPlayer(popSound).play();});
+        st.play();
+    }
+
+
+    private void gameOver(String winner, int winnersScore) throws IOException
+    {
+        System.out.println("the winner is " + winner + " and the score is " + winnersScore);
+        session.close(new CloseReason(CloseReason.Cl));
+    }
+
+
+    private void onClickRemove(long bubbleId)
+    {
+        sendMessage(bubbleId);
+        bubblePopped(bubbleId);
     }
 
     @OnError
