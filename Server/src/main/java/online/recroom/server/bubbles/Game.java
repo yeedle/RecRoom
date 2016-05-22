@@ -1,10 +1,10 @@
 package online.recroom.server.bubbles;
 
-import online.recroom.server.Player;
-
+import javax.websocket.Session;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by Yeedle on 5/11/2016 6:25 PM.
@@ -13,8 +13,9 @@ public class Game
 {
     private static long idGenerator = Long.MIN_VALUE;
 
+    private final Set<Session> playersSessions = new HashSet<>();
     private List<BubblePlayer> players = new ArrayList<>();
-    public final long id = idGenerator == -1 ? ++idGenerator : idGenerator++;
+    public final long id = idGenerator++;
     private final HashSet<Bubble> bubbles = new HashSet<>();
 
     public Game(BubblePlayer player1) {
@@ -36,11 +37,15 @@ public class Game
         }
     }
 
-    public void addPlayer(Player p) {
-        players.add(new BubblePlayer(p.name));
+    public void addPlayer(BubblePlayer p) {
+        players.add(p);
     }
 
     public void removePlayer(BubblePlayer p) {
         players.remove(p);
+    }
+
+    public Set<Session> getPlayersSessions() {
+        return playersSessions;
     }
 }

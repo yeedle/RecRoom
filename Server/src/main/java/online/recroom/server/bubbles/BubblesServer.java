@@ -10,8 +10,8 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 @ServerEndpoint(
         value = "/bubbles/{gameId}",
-        decoders = {BubblePoppedMessageDecoder.class},
-        encoders = {BubblePoppedMessageEncoder.class})
+        decoders = {MessageDecoder.class},
+        encoders = {MessageEncoder.class})
 public class BubblesServer {
     private static ConcurrentHashMap<Long, Game> pendingGames = new ConcurrentHashMap<>();
     private static ConcurrentHashMap<Long, Game> activeGames = new ConcurrentHashMap<>();
@@ -45,7 +45,7 @@ public class BubblesServer {
 
 
     @OnMessage
-    public void onMessage(BubblePoppedMessage message) {
+    public void onMessage(long bubbleId) {
 
     }
 

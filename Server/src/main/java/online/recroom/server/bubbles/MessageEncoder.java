@@ -9,12 +9,12 @@ import javax.websocket.EndpointConfig;
 /**
  * Created by Yehuda Globerman on 5/21/2016.
  */
-public class BubblePoppedMessageEncoder implements Encoder.Text<BubblePoppedMessage> {
+public class MessageEncoder implements Encoder.Text<Message> {
     private static Gson gson = new Gson();
 
     @Override
-    public String encode(BubblePoppedMessage message) throws EncodeException {
-        return gson.toJson(message, BubblePoppedMessage.class);
+    public String encode(Message message) throws EncodeException {
+        return gson.toJson(message, Message.class);
     }
 
     @Override

@@ -9,7 +9,7 @@ import javax.websocket.EndpointConfig;
 /**
  * Created by Yehuda Globerman on 5/21/2016.
  */
-public class BubblePoppedMessageDecoder implements Decoder.Text<BubblePoppedMessage> {
+public class MessageDecoder implements Decoder.Text<Message> {
     private static Gson gson = new Gson();
 
     @Override
@@ -23,14 +23,14 @@ public class BubblePoppedMessageDecoder implements Decoder.Text<BubblePoppedMess
     }
 
     @Override
-    public BubblePoppedMessage decode(String s) throws DecodeException {
-        return gson.fromJson(s, BubblePoppedMessage.class);
+    public Message decode(String s) throws DecodeException {
+        return gson.fromJson(s, Message.class);
     }
 
     @Override
     public boolean willDecode(String s) {
         try {
-            gson.fromJson(s, BubblePoppedMessage.class);
+            gson.fromJson(s, Message.class);
             return true;
         } catch (Exception e) {
             return false;
