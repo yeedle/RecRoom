@@ -1,13 +1,8 @@
 package online.recroom.server.bubbles;
 
 
-import online.recroom.server.Player;
-
 import javax.websocket.*;
-import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
-import java.util.HashSet;
-import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -22,19 +17,20 @@ public class BubblesServer {
     private static ConcurrentHashMap<Long, Game> activeGames = new ConcurrentHashMap<>();
 
     private Session session;
-    private Set<Session> opponentsSession = new HashSet<>();
     private Game connectedGame;
 
     @OnOpen
-    public void onOpen(Session session, @PathParam("gameId") long gameId) throws Exception {
+    public void onOpen(Session session) throws Exception {
         this.session = session;
-        if (gameId == -1) {
+        if (!session.getRequestParameterMap().containsKey("gameId")) {
 //        TODO start new game
             connectedGame =
-                    new Game(new BubblePlayer((String) session.getUserProperties().getOrDefault("player", "Anonymous")));
-            session.getUserProperties().put("gameId", connectedGame.id);
+                    new Game(new BubblePlayer(extractQueryParam("player")));
+            connectedGame.getPlayersSessions().add(this.session);
         } else {
 //            TODO join a game based on the game id
+            long gameId = extractGameIdOfSession();
+            String name = extractPlayerName();
             if (pendingGames.containsKey(gameId)) {
                 connectedGame = pendingGames.get(gameId);
             } else if (activeGames.containsKey(gameId)) {
@@ -42,15 +38,11 @@ public class BubblesServer {
             } else {
 //                Close connection and return error message.
             }
-            connectedGame.addPlayer(new Player((String) session.getUserProperties().getOrDefault("player", "Anonymous")));
-            session.getUserProperties().put("gameId", connectedGame.id);
-            for (Session s : session.getOpenSessions()) {
-                if (s.isOpen() && ((Long) s.getUserProperties().get("gameId")) == gameId) {
-                    opponentsSession.add(s);
-                }
-            }
+            connectedGame.addPlayer(new BubblePlayer(name));
+            connectedGame.getPlayersSessions().add(this.session);
         }
     }
+
 
     @OnMessage
     public void onMessage(BubblePoppedMessage message) {
@@ -76,4 +68,19 @@ public class BubblesServer {
 //        TODO iterate through connected session and send the BubblePoppedMessage
     }
 
+    private long extractGameIdOfSession() {
+        return Long.parseLong(extractQueryParam("gameId"));
+    }
+
+    private String extractQueryParam(String key) {
+        return this.session.getRequestParameterMap().get(key).get(0);
+    }
+
+    private String extractPlayerName() {
+        if (session.getRequestParameterMap().containsKey("player")) {
+            return extractQueryParam("player");
+        } else {
+            return "Anonymous";
+        }
+    }
 }
