@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import java.net.URL?>
+<?import javafx.scene.text.Font?>
+<VBox prefHeight="640.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="online.recroom.client.chess.ChessIntroController">
+    <children>
+        <BorderPane>
+            <top>
+                <Label styleClass="heading" fx:id="titleLbl" contentDisplay="CENTER"  BorderPane.alignment="CENTER">
+                </Label>
+            </top>
+            <center>
+                <VBox>
+                <HBox BorderPane.alignment="CENTER" alignment="CENTER">
+                    <Button alignment="CENTER" text="Start A New Game">
+
+                    </Button>
+                </HBox>
+                    <TableView>
+                    </TableView>
+                </VBox>
+            </center>
+        </BorderPane>
+    </children>
+    <stylesheets>
+        <URL value="@../css/global.css" />
+        <URL value="@../css/gameIntro.css" />
+    </stylesheets>
+</VBox>

@@ -1,11 +1,15 @@
 package online.recroom.client;
 
+import javafx.fxml.FXMLLoader;
+import javafx.scene.media.Media;
 import org.glassfish.grizzly.http.server.Session;
 
 import javax.websocket.*;
 import javax.websocket.ClientEndpoint;
+import java.io.File;
 import java.io.IOException;
 import java.net.URI;
+import java.net.URL;
 import java.util.logging.Logger;
 
 /**
@@ -15,7 +19,7 @@ import java.util.logging.Logger;
 public class GameClientEndpoint
 {
     private javax.websocket.Session session;
-    private static final Logger LOGGER = Logger.getLogger(RecRoom.class.getName());
+
 
     public GameClientEndpoint(final URI uri)
     {

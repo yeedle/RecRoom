@@ -2,7 +2,9 @@ package online.recroom.server.bubbles;
 
 import online.recroom.server.Player;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 
 /**
  * Created by Yeedle on 5/11/2016 6:25 PM.
@@ -11,12 +13,12 @@ public class Game
 {
     private static long idGenerator = Long.MIN_VALUE;
 
-    private HashSet<Player> players = new HashSet();
-    public final long id = idGenerator++;
+    private List<BubblePlayer> players = new ArrayList<>();
+    public final long id = idGenerator == -1 ? ++idGenerator : idGenerator++;
     private final HashSet<Bubble> bubbles = new HashSet<>();
 
-    public Game(Player p) {
-        players.add(p);
+    public Game(BubblePlayer player1) {
+        players.add(player1);
     }
 
     public void generateBubbles(int amount) {
@@ -35,10 +37,10 @@ public class Game
     }
 
     public void addPlayer(Player p) {
-        players.add(p);
+        players.add(new BubblePlayer(p.name));
     }
 
-    public Player removePlayer(Player p) {
-        return players.remove(p) ? p : null;
+    public void removePlayer(BubblePlayer p) {
+        players.remove(p);
     }
 }

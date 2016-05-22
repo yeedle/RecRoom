@@ -1,0 +1,17 @@
+@font-face {
+    font-family: 'NovaMono';
+    font-style: normal;
+    font-weight: normal;
+    src: url('../assets/NovaMono.ttf');
+}
+
+.text {
+    -fx-font-family: "NovaMono";
+}
+
+.heading {
+    -fx-font-size: 64;
+}
+
+
+

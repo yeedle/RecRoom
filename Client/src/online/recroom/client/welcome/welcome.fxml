@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.*?>
+<?import java.lang.*?>
+<?import java.net.*?>
+<?import java.util.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.text.*?>
+
+<VBox prefHeight="640.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="online.recroom.client.welcome.WelcomeController">
+    <children>
+        <BorderPane>
+            <top>
+                <Label styleClass="heading, text" contentDisplay="CENTER" text="RecRoom" BorderPane.alignment="CENTER">
+                </Label>
+            </top>
+            <center>
+                <VBox BorderPane.alignment="CENTER">
+                    <children>
+                        <HBox styleClass="menu-hbox">
+                            <children>
+                                <Button styleClass="button" fx:id="chessBtn" mnemonicParsing="false" prefHeight="134.0" prefWidth="161.0" text="Chess" onAction="#handleChessButtonAction">
+                                    <font>
+                                        <Font size="24.0" />
+                                    </font>
+                                </Button>
+                                <Button styleClass="button" fx:id="checkersBtn" mnemonicParsing="false" text="Checkers ">
+                                    <font>
+                                        <Font size="24.0" />
+                                    </font>
+
+                                </Button>
+                                <Button styleClass="button" fx:id="bubblesBtn" mnemonicParsing="false" text="Bubbles ">
+                                    <font>
+                                        <Font size="24.0" />
+                                    </font>
+
+                                </Button>
+
+                            </children>
+                        </HBox>
+                        <HBox styleClass="menu-hbox">
+                            <children>
+                                <Button styleClass="button" fx:id="tictactoeBtn" mnemonicParsing="false" prefHeight="134.0" prefWidth="161.0" text="Tic Tac Toe" onAction="#handleTicTacToeButtonAction">
+                                    <font>
+                                        <Font size="24.0" />
+                                    </font>
+                                </Button>
+                                <Button styleClass="button" fx:id="pongBtn" mnemonicParsing="false" text="Pong ">
+                                    <font>
+                                        <Font size="24.0" />
+                                    </font>
+
+                                </Button>
+                                <Button styleClass="button" fx:id="comingSoonBtn" disable="true" mnemonicParsing="false" text="TBD">
+                                    <font>
+                                        <Font size="24.0" />
+                                    </font>
+
+                                </Button>
+
+                            </children>
+                        </HBox>
+                    </children>
+                </VBox>
+            </center>
+
+        </BorderPane>
+    </children>
+    <stylesheets>
+        <URL value="@../css/global.css" />
+        <URL value="@../css/welcome.css" />
+    </stylesheets>
+</VBox>

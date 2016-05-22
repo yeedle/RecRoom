@@ -1,3 +1,5 @@
+
+
 .menu-bar {
     -fx-background-color: #aeb5ba, linear-gradient(to bottom, #ecf4fa 0%, #ced4d9 100%);
     -fx-background-insets: 0, 0 0 1 0;
@@ -7,9 +9,14 @@
     -fx-text-fill: #2d3e4c;
 }
 
+.button {
+    -fx-font-size: 18;
+
+}
+
 #chessBtn {
     -fx-text-fill: black;
-    -fx-graphic: url('chess.png');
+    -fx-graphic: url('../assets/chess.png');
     -fx-alignment: center;
 
 
@@ -21,7 +28,7 @@
 }
 #checkersBtn {
     -fx-text-fill: black;
-    -fx-graphic: url('checkersboard.png');
+    -fx-graphic: url('../assets/checkersboard.png');
     -fx-alignment: center;
 
 
@@ -32,7 +39,7 @@
 }
 #bubblesBtn {
     -fx-text-fill: black;
-    -fx-graphic: url('bubbles.png');
+    -fx-graphic: url('../assets/bubbles.png');
     -fx-alignment: center;
 
 
@@ -43,7 +50,7 @@
 }
 #tictactoeBtn {
     -fx-text-fill: black;
-    -fx-graphic: url('tic-tac-toe.png');
+    -fx-graphic: url('../assets/tic-tac-toe.png');
     -fx-alignment: center;
 
 
@@ -55,7 +62,7 @@
 
 #pongBtn {
     -fx-text-fill: black;
-    -fx-graphic: url('ping-pong.png');
+    -fx-graphic: url('../assets/ping-pong-1.png');
     -fx-alignment: center;
 
 
@@ -67,7 +74,7 @@
 
 #comingSoonBtn {
     -fx-text-fill: black;
-    -fx-graphic: url('crane.png');
+    -fx-graphic: url('../assets/crane.png');
     -fx-alignment: center;
 
 

@@ -1,15 +1,11 @@
-package online.recroom.client;
+package online.recroom.client.welcome;
 
 import javafx.application. Application;
-import javafx.scene.Group;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-
-import javax.websocket.*;
-import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.logging.Logger;
+import online.recroom.client.GameClientEndpoint;
 
 /**
  * This class is the entry point for our JavaFX client
@@ -18,18 +14,18 @@ import java.util.logging.Logger;
 public class RecRoom extends Application {
 
     GameClientEndpoint gameClientEndpoint;
-    public static final int HEIGHT = 650;
-    public static final int WIDTH = 650;
+    public static final int HEIGHT = 640;
+    public static final int WIDTH = 640;
 
     public static void main(String[] args) { launch();}
 
     @Override
     public void start(Stage primaryStage) throws Exception {
 
-        Group root = new Group();
+      //  Group root = new Group();
 
-
-        Scene welcomeScene = new Scene(new WelcomeScene(), WIDTH, HEIGHT);
+        Parent root = FXMLLoader.load(getClass().getResource("welcome.fxml"));
+        Scene welcomeScene = new Scene(root, WIDTH, HEIGHT);
         primaryStage.setTitle("RecRoom");
         primaryStage.setScene(welcomeScene);
         primaryStage.show();

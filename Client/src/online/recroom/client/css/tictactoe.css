@@ -1,0 +1,85 @@
+#board {
+    -fx-padding: 10;
+
+    -fx-background-insets: 10;
+}
+
+
+
+#0_0 {
+    -fx-border-color: transparent blue blue transparent;
+    -fx-border-style: solid;
+    -fx-border-width: 2;
+
+}
+
+#1_0 {
+    -fx-border-color: transparent blue blue blue;
+    -fx-border-style: solid;
+    -fx-border-width: 2;
+
+}
+
+#2_0 {
+    -fx-border-color: transparent transparent blue blue;
+    -fx-border-style: solid;
+    -fx-border-width: 2;
+
+ }
+
+#0_1 {
+    -fx-border-color: blue blue blue transparent;
+    -fx-border-style: solid;
+    -fx-border-width: 2;
+
+}
+
+
+#1_1 {
+    -fx-border-color: blue blue blue blue;
+    -fx-border-style: solid;
+    -fx-border-width: 2;
+
+}
+
+#2_1 {
+    -fx-border-color: blue transparent blue blue;
+    -fx-border-style: solid;
+    -fx-border-width: 2;
+
+}
+
+
+#0_2 {
+    -fx-border-color: blue blue transparent transparent;
+    -fx-border-style: solid;
+    -fx-border-width: 2;
+
+}
+
+#1_2 {
+    -fx-border-color: blue blue  transparent blue;
+    -fx-border-style: solid;
+    -fx-border-width: 2;
+
+}
+
+
+#2_2 {
+    -fx-border-color: blue transparent transparent blue;
+    -fx-border-style: solid;
+    -fx-border-width: 2;
+
+}
+#vbox {
+  -fx-background-color: black;
+}
+
+.console {
+    -fx-pref-width: 200;
+-fx-font-family: "NovaMono";
+  -fx-fill: greenyellow;
+    -fx-font-size: 16;
+
+
+}
