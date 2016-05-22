@@ -5,14 +5,14 @@ package online.recroom.server.bubbles;
  */
 public class Message {
     public final Type type;
-    public final Bubble[] newBubble;
+    public final Bubble[] newBubbles;
     public final long poppedBubbleId;
     public final String winner;
     public final int winnersScore;
 
     public Message(Type type, Bubble[] newBubble, long poppedBubbleId, String winner, int winnersScore) {
         this.type = type;
-        this.newBubble = newBubble;
+        this.newBubbles = newBubble;
         this.poppedBubbleId = poppedBubbleId;
         this.winner = winner;
         this.winnersScore = winnersScore;
