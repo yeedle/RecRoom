@@ -89,7 +89,7 @@ public class BubblesEndpoint implements Initializable
     private void gameOver(String winner, int winnersScore) throws IOException
     {
         System.out.println("the winner is " + winner + " and the score is " + winnersScore);
-        session.close(new CloseReason(CloseReason.Cl));
+        session.close(new CloseReason(CloseReason.CloseCodes.NORMAL_CLOSURE, "Game over"));
     }
 
 
@@ -108,7 +108,7 @@ public class BubblesEndpoint implements Initializable
     @OnClose
     public void onClose()
     {
-
+        //TODO handle on close logic
     }
 
     @Override
