@@ -44,7 +44,7 @@ public class BubblesEndpoint implements Initializable
     }
 
     @OnMessage
-    public void onMessage(final Message message)
+    public void onMessage(final Message message) throws IOException
     {
         switch (message.type)
         {
