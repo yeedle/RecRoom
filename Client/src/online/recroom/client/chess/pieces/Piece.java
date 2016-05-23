@@ -10,8 +10,9 @@ public class Piece extends ImageView
 {
     private Player color;
     private PieceType pieceType;
+    private Coordinate coordinate;
 
-    public Piece(Player color, PieceType pieceType)
+    public Piece(Player color, PieceType pieceType, Coordinate coordinate)
     {
         this.color = color;
         this.pieceType = pieceType;
