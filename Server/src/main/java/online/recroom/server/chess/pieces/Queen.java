@@ -14,18 +14,11 @@ public class Queen extends Piece
     {
         super(player);
     }
-    Coordinates origin;
-    Coordinates destination;
-    Board board;
-    int vDirection, hDirection;
+
 
     @Override
     public boolean isLegalMove(Movement move, Board board) throws IllegalCoordinateException
     {
-        origin = move.origin;
-        destination = move.destination;
-        this.board = board;
-
         Rook rook = new Rook(this.player());
         Bishop bishop = new Bishop(this.player());
         return rook.isLegalMove(move, board) && bishop.isLegalMove(move, board);
