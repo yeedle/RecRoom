@@ -9,10 +9,11 @@ public class Bubble {
     private final static int MINIMUM_PIXEL_DELTA = 5;
 
     public final long id = idGenerator++;
-    public final double relativeXPosittion = Math.random();
+    public final double relativeXPosition = Math.random();
     public final double relativeYPosition = Math.random();
-    public final double deltaX = Math.random() * MINIMUM_PIXEL_DELTA +1;
-    public final double deltaY = Math.random() * MINIMUM_PIXEL_DELTA +1;
+    public final double deltaX = Math.random() * MINIMUM_PIXEL_DELTA + 1;
+    public final double deltaY = Math.random() * MINIMUM_PIXEL_DELTA + 1;
+    public final double relativeRadius = 5.0;
 
   
     @Override
@@ -23,7 +24,6 @@ public class Bubble {
         Bubble bubble = (Bubble) o;
 
         return id == bubble.id;
-
     }
 
     @Override
