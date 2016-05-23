@@ -26,8 +26,6 @@ public class King extends Piece
     {
         origin = move.origin;
         destination = move.destination;
-        if (board.pieceInSquare(destination).isColor(this.player()))
-            return false;
         return movedOneHorizontally() || movedOneDiagonally() || movedOneVertically();
 
     }
