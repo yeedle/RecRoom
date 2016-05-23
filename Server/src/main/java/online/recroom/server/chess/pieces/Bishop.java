@@ -2,6 +2,7 @@ package online.recroom.server.chess.pieces;
 
 import online.recroom.server.chess.Board;
 import online.recroom.server.chess.Coordinates;
+import online.recroom.server.chess.IllegalCoordinateException;
 import online.recroom.server.chess.Movement;
 
 /**
@@ -9,22 +10,49 @@ import online.recroom.server.chess.Movement;
  */
 public class Bishop extends Piece
 {
+
+    private int hDirection;
+    private int vDirection;
+
     public Bishop(Player player)
     {
         super(player);
     }
 
+    Coordinates origin;
+    Coordinates destination;
+
     @Override
-    public boolean isLegalMove(Movement move, Board board)
+    public boolean isLegalMove(Movement move, Board board) throws IllegalCoordinateException
     {
-        Coordinates origin =move.origin;
-        Coordinates destination = move.destination;
-        if (origin.row() < destination.row())
-            //peiece is moving up
-        {}
-        if (origin.column() < destination.column())
-            //piece is moving to the right
-        {}
-        return (Math.abs(origin.row()-destination.row())==(Math.abs(origin.column()-destination.column())));
+        origin =move.origin;
+        destination = move.destination;
+
+        return pieceIsMovingDiagonally() && pieceIsNotJumpingOverOtherPieces(board);
+    }
+
+    private boolean pieceIsNotJumpingOverOtherPieces(Board board) throws IllegalCoordinateException
+    {
+        vDirection = origin.row() < destination.row()? 1 : -1;
+        hDirection = origin.column() < destination.column()? 1 :-1;
+
+        for (int i = 1; i < numberOfSquareBetweenOriginAndDestination(); i++)
+            if (board.pieceInSquare(removedDiagonallyFromOriginBy(i)).isNotEmpty())
+                return false;
+        return true;
+    }
+
+    private Coordinates removedDiagonallyFromOriginBy(int i) throws IllegalCoordinateException
+    {
+        return Coordinates.byColumnAndRow(origin.column()+(i*hDirection), origin.row()+(i*vDirection));
+    }
+
+    private boolean pieceIsMovingDiagonally()
+    {
+        return Math.abs(origin.row()-destination.row())==(Math.abs(origin.column()-destination.column()));
+    }
+    private int numberOfSquareBetweenOriginAndDestination()
+    {
+        return Math.abs(origin.row()-destination.row());
     }
 }

@@ -2,6 +2,7 @@ package online.recroom.server.chess.pieces;
 
 import online.recroom.server.chess.Coordinates;
 import online.recroom.server.chess.Board;
+import online.recroom.server.chess.IllegalCoordinateException;
 import online.recroom.server.chess.Movement;
 
 /**
@@ -30,7 +31,7 @@ public abstract class Piece
         this.player = player;
     }
 
-    public abstract boolean isLegalMove(Movement move, Board board);
+    public abstract boolean isLegalMove(Movement move, Board board) throws IllegalCoordinateException;
 
     public boolean isColor(Player color)
     {
@@ -50,5 +51,15 @@ public abstract class Piece
     public <T extends Piece> boolean isNotInstanceOf(Class<T> type)
     {
         return !isInstanceOf(type);
+    }
+
+    public  boolean isEmpty()
+    {
+        return isInstanceOf(Empty.class);
+    }
+
+    public  boolean isNotEmpty()
+    {
+        return !isInstanceOf(Empty.class);
     }
 }

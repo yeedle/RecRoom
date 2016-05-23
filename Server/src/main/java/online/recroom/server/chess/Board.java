@@ -104,7 +104,7 @@ public class Board
         return pieces[coordinates.column()][coordinates.row()];
     }
 
-    public void execute(Movement movement) throws InvalidMoveException, IllegalMoveException
+    public void execute(Movement movement) throws InvalidMoveException, IllegalMoveException, IllegalCoordinateException
     {
         currentMovement = movement;
         checkForErrors();
@@ -112,7 +112,7 @@ public class Board
 
     }
 
-    private void checkForErrors() throws InvalidMoveException, IllegalMoveException
+    private void checkForErrors() throws InvalidMoveException, IllegalMoveException, IllegalCoordinateException
     {
         Piece pieceToMove = pieceInSquare(currentMovement.origin);
 
@@ -120,8 +120,13 @@ public class Board
             throw new InvalidMoveException("piece not found");
         if (destinationIsOccupiedByOwn())
             throw new IllegalMoveException("Occupied by own piece");
-        if(pieceToMove.isLegalMove(currentMovement, this))
+        if(isIllegalMove(pieceToMove))
             throw new IllegalMoveException("Piece can't do that move");
+    }
+
+    private boolean isIllegalMove(Piece pieceToMove) throws IllegalCoordinateException
+    {
+        return !pieceToMove.isLegalMove(currentMovement, this);
     }
 
     private boolean destinationIsOccupiedByOwn()

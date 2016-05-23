@@ -16,6 +16,6 @@ public class Pawn extends Piece
     @Override
     public boolean isLegalMove(Movement move, Board board)
     {
-        return false;
+        return true;
     }
 }

@@ -19,7 +19,7 @@ public class Game
         board = new Board();
     }
 
-    public void move(Movement movement) throws IllegalMoveException, InvalidMoveException
+    public void move(Movement movement) throws IllegalMoveException, InvalidMoveException, IllegalCoordinateException
     {
         if(isNotTurnOf(movement.madeBy))
             throw new IllegalMoveException("Not your turn");
