@@ -135,7 +135,7 @@ public class TicTacToeController implements Initializable
 
         Timeline timeline = new Timeline();
         KeyFrame keyFrame = new KeyFrame(
-                Duration.millis(75),
+                Duration.millis(90),
                 event -> {
                     if (i.get() > str.length()) {
                         timeline.stop();

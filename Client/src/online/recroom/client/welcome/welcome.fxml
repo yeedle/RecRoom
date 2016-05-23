@@ -32,7 +32,7 @@
                                     </font>
 
                                 </Button>
-                                <Button styleClass="button" fx:id="bubblesBtn" mnemonicParsing="false" text="Bubbles ">
+                                <Button styleClass="button" fx:id="bubblesBtn" mnemonicParsing="false" text="Bubbles" onAction="#handleBubblesButtonAction">
                                     <font>
                                         <Font size="24.0" />
                                     </font>

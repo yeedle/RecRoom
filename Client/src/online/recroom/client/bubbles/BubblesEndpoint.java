@@ -1,13 +1,16 @@
 package online.recroom.client.bubbles;
 
-import javafx.animation.KeyFrame;
-import javafx.animation.ScaleTransition;
-import javafx.animation.Timeline;
+import javafx.animation.*;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Group;
+import javafx.scene.control.Label;
+import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
+import javafx.scene.shape.Circle;
 import javafx.util.Duration;
 
 import javax.sound.midi.Soundbank;
@@ -28,11 +31,13 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class BubblesEndpoint implements Initializable
 {
+    @FXML
+    Circle circle;
     private Session session;
     @FXML
-    Pane bubblePane;
+    Group bubblePane;
     ConcurrentHashMap<Long, Bubble> bubbleMap = new ConcurrentHashMap<>();
-    File popSoundFile =  new File("src/online/recroom/client/online.recroom.client.assets/pop.mp3");
+    File popSoundFile =  new File("Client/src/online/recroom/client/assets/pop.mp3");
     Media popSound = new Media(popSoundFile.toURI().toString());
     Timeline t = new Timeline();
 
@@ -73,6 +78,7 @@ public class BubblesEndpoint implements Initializable
         }
 
         bubblePane.getChildren().addAll(bubbles);
+        t.play();
     }
 
     private void bubblePopped(long poppedBubbleId)
@@ -114,14 +120,24 @@ public class BubblesEndpoint implements Initializable
     @Override
     public void initialize(URL location, ResourceBundle resources)
     {
+        //TODO connect to websockets
 
-        try
+        Bubble bubble = new Bubble(1, .5, .4,.1, .1, .02);
+
+        bubbleMap.put(bubble.id, bubble);
+        bubblePane.getChildren().add(bubble);
+        bubble.setOnMouseClicked(e -> onClickRemove(bubble.id));
+       t.getKeyFrames().add(new KeyFrame(Duration.millis(70), e -> bubble.move()));
+        t.setCycleCount(Animation.INDEFINITE);
+       t.play();
+
+     /*   try
         {
             connectToBubbleServer(new URI("ws://")); //TODO: add ws URI of Server Endpoint
         } catch (URISyntaxException e)
         {
             e.printStackTrace();
-        }
+        }*/
     }
 
     private void connectToBubbleServer(URI uri)

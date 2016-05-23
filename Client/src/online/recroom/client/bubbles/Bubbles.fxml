@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.layout.VBox?>
+        <?import online.recroom.client.welcome.RecRoom?>
 
 
 <?import javafx.scene.layout.Pane?>
-<VBox prefHeight="640.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="online.recroom.client.bubbles.BubblesEndpoint">
-    <children>
-        <Pane fx:id="bubblePane" prefHeight="640.0" prefWidth="640.0"></Pane>
-        </children>
-    </VBox>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.Group?>
+<?import online.recroom.client.bubbles.Bubble?>
+<?import javafx.scene.shape.Circle?>
+<Group fx:id="bubblePane" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="online.recroom.client.bubbles.BubblesEndpoint">
+
+</Group>

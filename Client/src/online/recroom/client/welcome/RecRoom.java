@@ -4,6 +4,7 @@ import javafx.application. Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import online.recroom.client.GameClientEndpoint;
 
@@ -29,6 +30,7 @@ public class RecRoom extends Application {
         primaryStage.setTitle("RecRoom");
         primaryStage.setScene(welcomeScene);
         primaryStage.show();
+       primaryStage.getIcons().addAll(new Image(getClass().getResourceAsStream("../assets/icon.png")));
 
    /*     try {
             gameClientEndpoint = new GameClientEndpoint(new URI("ws://localhost:8080/recroom/echo"));
