@@ -9,10 +9,10 @@
 
 
 <?import java.net.URL?>
-<Group  xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="online.recroom.client.chess.ChessController">
+<?import javafx.scene.layout.VBox?>
+<Group xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="online.recroom.client.chess.ChessController">
    <children>
-      <Pane layoutY="65.0">
-         <children>
+      <VBox>
             <GridPane fx:id="chessBoard" minHeight="-Infinity" minWidth="-Infinity" prefHeight="640.0" prefWidth="640.0">
                <children>
                   <StackPane prefHeight="150.0" prefWidth="200.0" styleClass="red" GridPane.columnIndex="0" GridPane.rowIndex="0" />
@@ -89,8 +89,7 @@
 
                </children>
             </GridPane>
-         </children>
-      </Pane>
+      </VBox>
    </children>
     <stylesheets>
         <URL value="@../css/global.css" />
