@@ -2,7 +2,9 @@ package online.recroom.server.chess.pieces;
 
 import online.recroom.server.chess.Board;
 import online.recroom.server.chess.Coordinates;
+import online.recroom.server.chess.IllegalMoveException;
 import online.recroom.server.chess.Movement;
+import online.recroom.server.poolCheckers.IllegalMovementException;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -44,6 +46,35 @@ public class KnightTest
         assertTrue(test2);
         assertTrue(test3);
         assertTrue(test4);
+    }
+
+    @Test (expected = IllegalMoveException.class)
+    public void aBadKnightMove() throws Exception
+    {
+        Knight k = (Knight) board.pieceInSquare(Coordinates.byColumnAndRow(6, 0));
+        Movement movement = new Movement(Player.WHITE, Coordinates.byColumnAndRow(6, 0), Coordinates.byColumnAndRow(5, 2));
+
+        board.execute(movement);
+
+        movement = new Movement(Player.WHITE, Coordinates.byColumnAndRow(5, 2), Coordinates.byColumnAndRow(3, 4));
+        boolean test1 = k.isLegalMove(movement, board);
+        board.execute(movement);
+
+        assertFalse(test1);
+
+    }
+
+    @Test (expected = IllegalMoveException.class)
+    public void movingAKnightToItsOwnColorWillBeLegalButWIllThrowError() throws Exception
+    {
+        Knight k = (Knight) board.pieceInSquare(Coordinates.byColumnAndRow(6, 0));
+        Movement movement = new Movement(Player.WHITE, Coordinates.byColumnAndRow(6, 0), Coordinates.byColumnAndRow(4, 1));
+        boolean test1 = k.isLegalMove(movement, board);
+        board.execute(movement);
+
+
+        assertTrue(test1);
+
     }
 
 }
