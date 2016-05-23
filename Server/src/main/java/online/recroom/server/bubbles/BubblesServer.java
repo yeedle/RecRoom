@@ -3,19 +3,19 @@ package online.recroom.server.bubbles;
 
 import javax.websocket.*;
 import javax.websocket.server.ServerEndpoint;
-import java.util.List;
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Created by Yehuda Globerman on 5/15/2016.
  */
 @ServerEndpoint(
-        value = "/bubbles/{gameId}",
+        value = "/bubbles/",
         decoders = {MessageDecoder.class},
         encoders = {MessageEncoder.class})
 public class BubblesServer {
-    private static ConcurrentHashMap<Long, Game> pendingGames = new ConcurrentHashMap<>();
-    private static ConcurrentHashMap<Long, Game> activeGames = new ConcurrentHashMap<>();
+    private static Set<Game> pendingGames = new HashSet<>();
+    private static Set<Game> activeGames = new HashSet<>();
 
     private Session session;
     private Game connectedGame;
@@ -23,30 +23,23 @@ public class BubblesServer {
     @OnOpen
     public void onOpen(Session session) throws Exception {
         this.session = session;
-        if (!session.getRequestParameterMap().containsKey("gameId")) {
-//        TODO start new game
+        String name = extractPlayerName();
+
+        if (!isThereActiveGameWithRoom() && pendingGames.isEmpty()) {
+            //        TODO start new game
             connectedGame =
-                    new Game(new BubblePlayer(extractQueryParam("player")));
-            connectedGame.getPlayersSessions().add(this.session);
-            pendingGames.put(connectedGame.id, connectedGame);
-        } else {
-//            TODO join a game based on the game id
-            long gameId = extractGameIdOfSession();
-            String name = extractPlayerName();
-            if (pendingGames.containsKey(gameId)) {
-                connectedGame = pendingGames.get(gameId);
-                activeGames.put(connectedGame.id, connectedGame);
-                pendingGames.remove(connectedGame.id);
-//                TODO send list of bubbles to both players
-            } else if (activeGames.containsKey(gameId)) {
-                connectedGame = activeGames.get(gameId);
-//                TODO send list of bubbles to player that joined
-            } else {
-//                Close connection and return error message.
-            }
+                    new Game(new BubblePlayer(name));
+            pendingGames.add(connectedGame);
+        } else if (!isThereActiveGameWithRoom() && !pendingGames.isEmpty()) {
+            connectedGame = getAPendingGame();
+            pendingGames.remove(connectedGame);
+            activeGames.add(connectedGame);
             connectedGame.addPlayer(new BubblePlayer(name));
-            connectedGame.getPlayersSessions().add(this.session);
+        } else {
+            connectedGame = getActiveGameThatHasRoom();
+            connectedGame.addPlayer(new BubblePlayer(name));
         }
+        connectedGame.getPlayersSessions().add(this.session);
     }
 
 
@@ -63,6 +56,32 @@ public class BubblesServer {
     @OnClose
     public void onClose() {
 
+    }
+
+    private boolean isThereActiveGameWithRoom() {
+        for (Game g : activeGames) {
+            if (g.getPlayersSessions().size() < 6)
+                return true;
+        }
+        return false;
+    }
+
+    private Game getActiveGameThatHasRoom() throws Exception {
+        if (!isThereActiveGameWithRoom())
+            throw new Exception();
+        for (Game g : activeGames) {
+            if (g.getPlayersSessions().size() < 6) {
+                return g;
+            }
+        }
+        return null;
+    }
+
+    private Game getAPendingGame() {
+        for (Game g : pendingGames) {
+            return g;
+        }
+        return null;
     }
 
     private void sendGameStateOnJoin() {
@@ -88,9 +107,5 @@ public class BubblesServer {
         } else {
             return "Anonymous";
         }
-    }
-
-    public static List<Long> getListOfGameIds() {
-
     }
 }
