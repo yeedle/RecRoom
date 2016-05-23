@@ -16,6 +16,8 @@ public class Queen extends Piece
     @Override
     public boolean isLegalMove(Movement move, Board board)
     {
-        return false;
+
+        return movedDiagonally() || movedStraight && noOneInHerWay()
+
     }
 }

@@ -22,8 +22,16 @@ public class Knight extends Piece
         origin = move.origin;
         destination = move.destination;
 
-        return ((Math.abs(origin.row()-destination.row())==2) && (Math.abs(origin.column()-destination.column())==1))
-                ||
-                ((Math.abs(origin.row()-destination.row())==1) && (Math.abs(origin.column()-destination.column())==2));
+        return movedTwoRowsAndOneColumn() || movedTwoColumnsAndOneRow();
+    }
+
+    private boolean movedTwoColumnsAndOneRow()
+    {
+        return (Math.abs(origin.row()-destination.row())==1) && (Math.abs(origin.column()-destination.column())==2);
+    }
+
+    private boolean movedTwoRowsAndOneColumn()
+    {
+        return (Math.abs(origin.row()-destination.row())==2) && (Math.abs(origin.column()-destination.column())==1);
     }
 }
