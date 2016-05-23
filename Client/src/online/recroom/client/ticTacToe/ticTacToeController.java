@@ -1,15 +1,48 @@
 package online.recroom.client.ticTacToe;
 
+import javafx.animation.Animation;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.control.SplitPane;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
+import javafx.util.Duration;
+
 import javax.websocket.*;
 import java.io.IOException;
 import java.net.URI;
+import java.net.URL;
+import java.util.ResourceBundle;
 
 /**
  * Created by Yeedle on 5/19/2016 5:24 PM.
  */
 @ClientEndpoint
-public class ticTacToeController
+public class TicTacToeController implements Initializable
 {
+    @FXML
+    SplitPane pane;
+    @FXML
+    GridPane board;
+    @FXML
+    ScrollPane console;
+    @FXML
+    VBox vbox;
+
+    Pane[][] squares = new Pane[3][3];
+
     private Session session;
 
     @OnOpen
@@ -61,5 +94,58 @@ public class ticTacToeController
             e.printStackTrace();
         }
 
+    }
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources)
+    {
+
+        int k = 0;
+        for(int row = 0; row < 3; row++)
+            for (int column = 0; column < 3; column++)
+            {
+                squares[column][row] = (Pane)board.getChildren().get(k);
+                k++;
+            }
+        pane.setOnKeyPressed(e ->runningText("Hello, I'm glad you're playing me today ;)"));
+
+        console.setVvalue(1.0);
+        console.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+        console.setFitToHeight(true);
+        vbox.heightProperty().addListener((observable, oldValue, newValue) -> console.setVvalue(newValue.doubleValue()));
+    }
+
+    private ImageView imageViewOf(String url) throws IOException
+    {
+        Image image = new Image(getClass().getResourceAsStream(url));
+        ImageView iv = new ImageView(image);
+        iv.setPreserveRatio(true);
+        iv.setFitWidth(60);
+        iv.setFitHeight(60);
+        return iv;
+    }
+
+    private void runningText(String str)
+    {
+        Text text = new Text();
+        text.getStyleClass().add("console");
+        vbox.getChildren().add(text);
+
+        final IntegerProperty i = new SimpleIntegerProperty(0);
+
+        Timeline timeline = new Timeline();
+        KeyFrame keyFrame = new KeyFrame(
+                Duration.millis(75),
+                event -> {
+                    if (i.get() > str.length()) {
+                        timeline.stop();
+                    } else {
+                        text.setText(str.substring(0, i.get()));
+                        i.set(i.get() + 1);
+                    }
+                });
+        timeline.getKeyFrames().add(keyFrame);
+        timeline.setCycleCount(Animation.INDEFINITE);
+        timeline.play();
     }
 }

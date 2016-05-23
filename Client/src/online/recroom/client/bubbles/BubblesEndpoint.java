@@ -22,6 +22,8 @@ import java.util.ResourceBundle;
  * Created by Yeedle on 5/17/2016 9:32 AM.
  */
 @ClientEndpoint
+        (decoders = MessageDecoder.class)
+
 public class BubblesEndpoint implements Initializable
 {
     private Session session;
@@ -35,25 +37,43 @@ public class BubblesEndpoint implements Initializable
     @OnOpen
     public void onOpen(final Session session)
     {
-
         t.setCycleCount(Timeline.INDEFINITE);
         t.play();
     }
 
     @OnMessage
-    public void onMessage(final Bubble bubble)
+    public void onMessage(final Message message)
     {
+        //when game starts add all bubbles
 
-        bubble.setOnMouseClicked(e -> mouseClickHandler(bubble));
+        switch (message.type)
+        {
+            case GAME_STARTED:
+                gameStarted(message.newBubble);
+                break;
+            case BUBBLE_POPPED:
+                bubblePopped(message.poppedBubbleId);
+                break;
+            case GAME_OVER:
+                gameOver(message.winner, message.winnersScore);
+                break;
+            default:
+                //TODO error if can't decode
+                break;
+        }
 
-        t.getKeyFrames().add(new KeyFrame(Duration.millis(40), e -> bubble.move()));
-        bubblePane.getChildren().add(bubble);
+        //todo handle removal of a message
+
+        message.setOnMouseClicked(e -> mouseClickHandler(message));
+
+        t.getKeyFrames().add(new KeyFrame(Duration.millis(40), e -> message.move()));
+        bubblePane.getChildren().add(message);
 
     }
 
     private void mouseClickHandler(Bubble bubble)
     {
-        sendMessage(Long.toString(bubble.id));
+        sendMessage(bubble.id);
         ScaleTransition st = new ScaleTransition(Duration.millis(100), bubble);
             st.setByX(5);
             st.setByY(5);
@@ -98,11 +118,11 @@ public class BubblesEndpoint implements Initializable
         }
     }
 
-    public void sendMessage(final String o)
+    public void sendMessage(final Long id)
     {
         try
         {
-            session.getBasicRemote().sendText(o);
+            session.getBasicRemote().sendText(Long.toString(id));
         } catch (IOException e)
 
         {
