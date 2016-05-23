@@ -12,6 +12,25 @@ import online.recroom.client.welcome.RecRoom;
  */
 public class Bubble extends Circle
 {
+
+    public class ServerBubble {
+        public long id;
+        public final double relativeXPosition;
+        public final double relativeYPosition;
+        public final double deltaX;
+        public final double deltaY;
+        public  final double relativeRadius;
+
+        private ServerBubble(long id, double relativeXPosition, double relativeYPosition, double deltaX, double deltaY, double relativeRadius)
+        {
+            this.id = id;
+            this.relativeXPosition = relativeXPosition;
+            this.relativeYPosition = relativeYPosition;
+            this.deltaX = deltaX;
+            this.deltaY = deltaY;
+            this.relativeRadius = relativeRadius;
+        }
+    }
     //all variables are as a percentage
     public final long id;
     private double x;
@@ -19,6 +38,21 @@ public class Bubble extends Circle
     private double deltaX;
     private double deltaY;
     private double radius;
+
+    public Bubble(ServerBubble serverBubble)
+    {
+        id = serverBubble.id;
+        x = RecRoom.HEIGHT * serverBubble.relativeXPosition;
+        y = RecRoom.WIDTH * serverBubble.relativeYPosition;
+        radius = RecRoom.WIDTH/RecRoom.HEIGHT * serverBubble.relativeRadius+10;
+        deltaX =  serverBubble.deltaX *5 + 1;
+        deltaY = serverBubble.deltaY * 5 +1;
+
+        super.setCenterX(x);
+        super.setCenterY(y);
+        super.setRadius(radius);
+        super.setFill(getRadialGradientOf(RandomColor()));
+    }
 
     public Bubble(long id, double xAsAPercentage, double yAsAPercentage, double deltaXAsAPercentage, double deltaYAsAPercentage, double radiusAsAPercentage)
     {
@@ -51,7 +85,7 @@ public class Bubble extends Circle
     private Color RandomColor()
     {
         Double r = Math.random();
-        double transparency = 0.9;
+        double transparency = 0.5;
         return r < 0.5 ? Color.rgb(123, 104, 238, transparency) : r < 0.1 ? Color.rgb(123, 104, 238, transparency) : r < 0.15? Color.rgb(245, 245, 220, transparency) :
                 r < 0.2 ? Color.rgb(0,     0, 255, transparency) : r < 0.25? Color.rgb(205,  92,  92, transparency) : r < 0.3 ? Color.rgb(139,   0, 139, transparency) :
                         r < 0.35? Color.rgb(165,  42,  42, transparency) : r < 0.4 ? Color.rgb(0,   100,   0, transparency) : r < 0.45? Color.rgb(189, 183, 107, transparency) :
