@@ -54,12 +54,14 @@ public class BubblesServer {
         }
     }
 
-
     @OnMessage
-    public void onMessage(long bubbleId) throws IOException, EncodeException {
+    public void onMessage(long bubbleId) throws Exception {
 //        TODO keep score and send message to all players, check if game is over
-        player.incerementBubblesPopped();
+        if (connectedGame.wasBubblePopped(bubbleId))
+            throw new Exception("Someone beat you to it, sorry");
+
         sendBubblePoppedMessage(bubbleId);
+        player.incerementBubblesPopped();
     }
 
     @OnError

@@ -43,6 +43,17 @@ public class Game
         }
     }
 
+    public boolean wasBubblePopped(long id) {
+        boolean found = false;
+        for (Bubble bubble : bubbles) {
+            if (bubble.id == id) {
+                found = true;
+                break;
+            }
+        }
+        return !found;
+    }
+
     public void addPlayer(BubblePlayer p) {
         players.add(p);
     }
