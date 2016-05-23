@@ -26,34 +26,32 @@ public class BubblesServer {
     @OnOpen
     public void onOpen(Session session) throws Exception {
         this.session = session;
-        String name = extractPlayerName();
+        player = new BubblePlayer(extractPlayerName());
 
-        if (!isThereActiveAnGameWithRoom() && pendingGames.isEmpty()) {
-            //        TODO start new game
-            connectedGame =
-                    new Game(new BubblePlayer(name));
-            pendingGames.add(connectedGame);
+        if (isThereActiveAnGameWithRoom()) {
+            connectedGame = getActiveGameThatHasRoom();
+            connectedGame.addPlayer(this.player);
             connectedGame.getPlayersSessions().add(this.session);
+//            TODO send bubbles to player that joined the game
+            sendListOfBubblesToSession(this.session, connectedGame.getArrayOfBubbles());
 
-        } else if (!isThereActiveAnGameWithRoom() && !pendingGames.isEmpty()) {
+        } else if (!pendingGames.isEmpty()) {
             connectedGame = getAPendingGame();
             pendingGames.remove(connectedGame);
             activeGames.add(connectedGame);
-            connectedGame.addPlayer(new BubblePlayer(name));
+            connectedGame.addPlayer(this.player);
             connectedGame.getPlayersSessions().add(this.session);
 //            TODO send bubbles to both players
             for (Session s : connectedGame.getPlayersSessions()) {
-                sendGameStateOnJoin(s);
+                sendListOfBubblesToSession(s, connectedGame.getArrayOfBubbles());
             }
         } else {
-            connectedGame = getActiveGameThatHasRoom();
-            connectedGame.addPlayer(new BubblePlayer(name));
+            //        TODO start new game
+            connectedGame =
+                    new Game(this.player);
+            pendingGames.add(connectedGame);
             connectedGame.getPlayersSessions().add(this.session);
-
-//            TODO send bubbles to player that joined the game
-            sendGameStateOnJoin(this.session);
         }
-        player = new BubblePlayer(extractPlayerName());
     }
 
 
@@ -90,20 +88,20 @@ public class BubblesServer {
                 return g;
             }
         }
-        return null;
+        throw new Exception();
     }
 
-    private Game getAPendingGame() {
+    private Game getAPendingGame() throws Exception {
         for (Game g : pendingGames) {
             return g;
         }
-        return null;
+        throw new Exception();
     }
 
-    private void sendGameStateOnJoin(Session aSession) throws IOException, EncodeException {
+    private static void sendListOfBubblesToSession(Session aSession, Bubble[] bubbles) throws IOException, EncodeException {
 //        TODO when player joins a game that has already begun, send them the state of the game
         RemoteEndpoint.Basic endpoint = aSession.getBasicRemote();
-        endpoint.sendObject(Message.createGameStartedMessage(connectedGame.getArrayOfBubbles()));
+        endpoint.sendObject(Message.createGameStartedMessage(bubbles));
     }
 
     private void sendBubblePoppedMessage(long id) throws IOException, EncodeException {
