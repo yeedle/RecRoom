@@ -29,21 +29,23 @@ public class Rook extends Piece
         destination = move.destination;
         this.board = board;
 
-        return movedStraight();
-
+        return (movedVertically() && noPiecesInWayVertically()) || movedHorizontally() && noPiecesInWayHorizontally();
     }
 
-    private boolean movedStraight() throws IllegalCoordinateException
+    private boolean movedHorizontally()
     {
-        return (origin.column()==destination.column() && noPiecesInWayVertically())
-                ||
-                origin.row() == destination.row() && noPiecesInWayHorizontally();
+        return origin.row() == destination.row();
     }
+
+    private boolean movedVertically()
+    {
+        return origin.column()==destination.column();
+    }
+
 
     private boolean noPiecesInWayVertically() throws IllegalCoordinateException
     {
         vDirection = origin.row() < destination.row()? 1 : -1;
-
         for (int i =1; i < numberOfSquareVerticallyBetweenOriginAndDestination(); i++)
             if(board.pieceInSquare(removedVerticallyFromOriginBy(i)).isNotEmpty())
                 return false;

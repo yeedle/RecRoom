@@ -22,7 +22,6 @@ public class Queen extends Piece
         Rook rook = new Rook(this.player());
         Bishop bishop = new Bishop(this.player());
         return rook.isLegalMove(move, board) && bishop.isLegalMove(move, board);
-
     }
 
 
