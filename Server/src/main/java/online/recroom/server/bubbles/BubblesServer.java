@@ -3,6 +3,7 @@ package online.recroom.server.bubbles;
 
 import javax.websocket.*;
 import javax.websocket.server.ServerEndpoint;
+import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -27,14 +28,19 @@ public class BubblesServer {
             connectedGame =
                     new Game(new BubblePlayer(extractQueryParam("player")));
             connectedGame.getPlayersSessions().add(this.session);
+            pendingGames.put(connectedGame.id, connectedGame);
         } else {
 //            TODO join a game based on the game id
             long gameId = extractGameIdOfSession();
             String name = extractPlayerName();
             if (pendingGames.containsKey(gameId)) {
                 connectedGame = pendingGames.get(gameId);
+                activeGames.put(connectedGame.id, connectedGame);
+                pendingGames.remove(connectedGame.id);
+//                TODO send list of bubbles to both players
             } else if (activeGames.containsKey(gameId)) {
                 connectedGame = activeGames.get(gameId);
+//                TODO send list of bubbles to player that joined
             } else {
 //                Close connection and return error message.
             }
@@ -46,7 +52,7 @@ public class BubblesServer {
 
     @OnMessage
     public void onMessage(long bubbleId) {
-
+//        TODO keep score and send message to all players, check if game is over
     }
 
     @OnError
@@ -82,5 +88,9 @@ public class BubblesServer {
         } else {
             return "Anonymous";
         }
+    }
+
+    public static List<Long> getListOfGameIds() {
+
     }
 }

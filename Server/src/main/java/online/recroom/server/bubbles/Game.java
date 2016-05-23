@@ -45,6 +45,10 @@ public class Game
         players.remove(p);
     }
 
+    private void generateBubbles() {
+//        TODO generate the bubbles when the game starts
+    }
+
     public Set<Session> getPlayersSessions() {
         return playersSessions;
     }
