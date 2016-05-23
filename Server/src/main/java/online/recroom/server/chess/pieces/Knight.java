@@ -1,6 +1,7 @@
 package online.recroom.server.chess.pieces;
 
 import online.recroom.server.chess.Board;
+import online.recroom.server.chess.Coordinates;
 import online.recroom.server.chess.Movement;
 
 /**
@@ -12,10 +13,17 @@ public class Knight extends Piece
     {
        super(player);
     }
+    private Coordinates origin;
+    private Coordinates destination;
 
     @Override
     public boolean isLegalMove(Movement move, Board board)
     {
-        return false;
+        origin = move.origin;
+        destination = move.destination;
+
+        return ((Math.abs(origin.row()-destination.row())==2) && (Math.abs(origin.column()-destination.column())==1))
+                ||
+                ((Math.abs(origin.row()-destination.row())==1) && (Math.abs(origin.column()-destination.column())==2));
     }
 }
