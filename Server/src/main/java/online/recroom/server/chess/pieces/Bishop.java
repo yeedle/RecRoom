@@ -28,10 +28,10 @@ public class Bishop extends Piece
         origin =move.origin;
         destination = move.destination;
 
-        return pieceIsMovingDiagonally() && pieceIsNotJumpingOverOtherPieces(board);
+        return pieceIsMovingDiagonally() && noPiecesInWay(board);
     }
 
-    private boolean pieceIsNotJumpingOverOtherPieces(Board board) throws IllegalCoordinateException
+    private boolean noPiecesInWay(Board board) throws IllegalCoordinateException
     {
         vDirection = origin.row() < destination.row()? 1 : -1;
         hDirection = origin.column() < destination.column()? 1 :-1;
