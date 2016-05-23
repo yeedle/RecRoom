@@ -14,18 +14,24 @@ public class Game
     private static long idGenerator = Long.MIN_VALUE;
 
     private final Set<Session> playersSessions = new HashSet<>();
-    private List<BubblePlayer> players = new ArrayList<>();
     public final long id = idGenerator++;
+    private final List<BubblePlayer> players = new ArrayList<>();
     private final HashSet<Bubble> bubbles = new HashSet<>();
 
     public Game(BubblePlayer player1) {
         players.add(player1);
+        generateBubbles(40);
     }
 
     public void generateBubbles(int amount) {
         for (int i = 0; i < amount; i++) {
             bubbles.add(new Bubble());
         }
+    }
+
+    public Bubble[] getArrayOfBubbles() {
+        Bubble[] bubbles = new Bubble[this.bubbles.size()];
+        return this.bubbles.toArray(bubbles);
     }
 
     public void removeBubble(long id) {
