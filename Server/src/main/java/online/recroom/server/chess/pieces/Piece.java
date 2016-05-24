@@ -1,6 +1,5 @@
 package online.recroom.server.chess.pieces;
 
-import online.recroom.server.chess.Coordinates;
 import online.recroom.server.chess.Board;
 import online.recroom.server.chess.IllegalCoordinateException;
 import online.recroom.server.chess.Movement;

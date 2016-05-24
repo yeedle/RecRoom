@@ -20,7 +20,7 @@ import java.util.Set;
 @ServerEndpoint("/game/{gameId}/{username}")
 public class RecRoomServer
 {
-    protected static Set<Session> sessions = Collections.synchronizedSet(new HashSet<Session>());
+    protected static Set<Session> sessions = Collections.synchronizedSet(new HashSet<>());
 
     @OnOpen
     public void onOpen(Session session, @PathParam("gameId") long gameId,

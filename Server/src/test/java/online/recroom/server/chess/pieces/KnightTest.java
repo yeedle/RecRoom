@@ -4,7 +4,6 @@ import online.recroom.server.chess.Board;
 import online.recroom.server.chess.Coordinates;
 import online.recroom.server.chess.IllegalMoveException;
 import online.recroom.server.chess.Movement;
-import online.recroom.server.poolCheckers.IllegalMovementException;
 import org.junit.Before;
 import org.junit.Test;
 

@@ -44,7 +44,7 @@ public class KingTest
         board.execute(movement);
         movement = new Movement(Player.BLACK, Coordinates.byColumnAndRow(2, 7), Coordinates.byColumnAndRow(0, 5));
         board.execute(movement);
-        King king = (King)board.pieceInSquare(Coordinates.byColumnAndRow(4, 0));
+
         Boolean isInCheck = new StatusChecker(board).isKingInCheck(Player.WHITE);
         assertTrue(isInCheck);
     }

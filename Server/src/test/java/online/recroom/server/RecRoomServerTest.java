@@ -1,7 +1,5 @@
 package online.recroom.server;
 
-import static org.junit.Assert.*;
-
 /**
  * Created by Yeedle on 4/7/2016 3:38 PM.
  */
