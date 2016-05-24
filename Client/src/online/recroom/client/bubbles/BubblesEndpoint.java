@@ -2,7 +2,9 @@ package online.recroom.client.bubbles;
 
 import com.google.gson.Gson;
 import javafx.animation.*;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Group;
 import javafx.scene.media.Media;
@@ -34,32 +36,49 @@ public class BubblesEndpoint implements Initializable
     File popSoundFile =  new File("Client/src/online/recroom/client/assets/pop.mp3");
     Media popSound = new Media(popSoundFile.toURI().toString());
     Timeline t = new Timeline();
-    private double bubbleSpeed = 40;
+    private double bubbleSpeed = 100;
 
     @OnOpen
     public void onOpen(final Session session)
     {
+        this.session = session;
         System.out.println("connected");
-        t.setCycleCount(Timeline.INDEFINITE);
-        t.play();
+       // t.setCycleCount(Timeline.INDEFINITE);
+      //  t.play();
     }
 
     @OnMessage
     public void onMessage(final Message message) throws IOException
     {
+        System.out.println("message received");
         switch (message.type)
         {
-            case GAME_STARTED:
+            case GAME_PENDING:
+                System.out.println("waiting for another player to join");
+                break;
+            case JOINED_GAME:
+            {
+                System.out.println("someone joined your game");
                 gameStarted(message.newBubbles);
                 break;
+            }
+                case GAME_STARTED:
+            {
+                System.out.println("game started");
+                gameStarted(message.newBubbles);
+                break;
+            }
             case BUBBLE_POPPED:
+            {
+                System.out.println("a bubble was popped");
                 bubblePopped(message.poppedBubbleId);
                 break;
+            }
             case GAME_OVER:
                 gameOver(message.winner, message.winnersScore);
                 break;
             default:
-                //TODO error if can't decode
+                System.out.println("default");
                 break;
         }
     }
@@ -71,13 +90,20 @@ public class BubblesEndpoint implements Initializable
         for (Bubble.ServerBubble serverBubble : bubbles)
         {
             Bubble bubble = new Bubble(serverBubble);
-            bubble.setOnMouseClicked(e -> onClickRemove(bubble.id));
+            System.out.println(bubble.id);
+
             t.getKeyFrames().add(new KeyFrame(Duration.millis(bubbleSpeed), e -> bubble.move()));
             bubbleMap.put(bubble.id, bubble);
-            bubblePane.getChildren().add(bubble);
+            long id = bubble.id;
+            bubble.setOnMouseClicked(e -> sendMessage(id));
+            Platform.runLater(() -> bubblePane.getChildren().add(bubble));
+
         }
 
-        t.play();
+        t.setCycleCount(Timeline.INDEFINITE);
+            t.play();
+
+
     }
 
     private void bubblePopped(long poppedBubbleId)
@@ -88,6 +114,7 @@ public class BubblesEndpoint implements Initializable
         st.setByY(5);
         st.setOnFinished(e -> {bubblePane.getChildren().remove(bubble); new MediaPlayer(popSound).play();});
         st.play();
+        bubbleMap.remove(poppedBubbleId);
     }
 
 
@@ -121,15 +148,7 @@ public class BubblesEndpoint implements Initializable
     {
         //TODO connect to websockets
 
-        /*Bubble bubble = new Bubble(1, .5, .4,.1, .1, .02);
 
-        bubbleMap.put(bubble.id, bubble);
-        bubblePane.getChildren().add(bubble);
-        bubble.setOnMouseClicked(e -> onClickRemove(bubble.id));
-       t.getKeyFrames().add(new KeyFrame(Duration.millis(70), e -> bubble.move()));
-        t.setCycleCount(Animation.INDEFINITE);
-       t.play();
-*/
         try
         {
             connectToBubbleServer(new URI("ws://localhost:8080/recroom/bubbles")); //TODO: add ws URI of Server Endpoint
@@ -155,6 +174,8 @@ public class BubblesEndpoint implements Initializable
     {
         try
         {
+            System.out.println("in try");
+            System.out.println(id);
             session.getBasicRemote().sendText(Long.toString(id));
         } catch (IOException e)
 

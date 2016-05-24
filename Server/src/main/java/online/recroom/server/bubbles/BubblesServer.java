@@ -24,7 +24,7 @@ public class BubblesServer {
     private BubblePlayer player;
 
     @OnOpen
-    public Message onOpen(Session session) throws Exception {
+    public void onOpen(Session session) throws Exception {
         this.session = session;
         player = new BubblePlayer(extractPlayerName());
 
@@ -33,7 +33,7 @@ public class BubblesServer {
             game.addPlayer(this.player);
             game.getPlayersSessions().add(this.session);
 //            TODO send bubbles to player that joined the game
-            return Message.createJoinedGameMessage(game.getArrayOfBubbles(), game.getArrayOfPlayers());
+            session.getBasicRemote().sendObject(Message.createJoinedGameMessage(game.getArrayOfBubbles(), game.getArrayOfPlayers()));
         } else if (!pendingGames.isEmpty()) {
             game = getAPendingGame();
             pendingGames.remove(game);
@@ -46,13 +46,13 @@ public class BubblesServer {
                     sendListOfBubblesToSession(s, game.getArrayOfBubbles(), game.getArrayOfPlayers());
                 }
             }
-            return Message.createGameStartedMessage(game.getArrayOfBubbles(), game.getArrayOfPlayers());
+            session.getBasicRemote().sendObject(Message.createGameStartedMessage(game.getArrayOfBubbles(), game.getArrayOfPlayers()));
         } else {
             //        TODO start new game
             game = new Game(this.player);
             pendingGames.add(game);
             game.getPlayersSessions().add(this.session);
-            return Message.createGamePendingMessage();
+            session.getBasicRemote().sendObject(Message.createGamePendingMessage());
         }
     }
 

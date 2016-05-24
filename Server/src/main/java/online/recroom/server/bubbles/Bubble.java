@@ -13,7 +13,7 @@ public class Bubble {
     public final double relativeYPosition = Math.random();
     public final double deltaX = Math.random() * MINIMUM_PIXEL_DELTA + 1;
     public final double deltaY = Math.random() * MINIMUM_PIXEL_DELTA + 1;
-    public final double relativeRadius = 5.0;
+    public final double relativeRadius = 10.0;
 
   
     @Override

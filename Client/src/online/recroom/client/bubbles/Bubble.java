@@ -14,7 +14,7 @@ public class Bubble extends Circle
 {
 
     public class ServerBubble {
-        public long id;
+        public final long id;
         public final double relativeXPosition;
         public final double relativeYPosition;
         public final double deltaX;
@@ -45,8 +45,8 @@ public class Bubble extends Circle
         x = RecRoom.HEIGHT * serverBubble.relativeXPosition;
         y = RecRoom.WIDTH * serverBubble.relativeYPosition;
         radius = RecRoom.WIDTH/RecRoom.HEIGHT * serverBubble.relativeRadius+10;
-        deltaX =  serverBubble.deltaX *5 + 1;
-        deltaY = serverBubble.deltaY * 5 +1;
+        deltaX =  serverBubble.deltaX;
+        deltaY = serverBubble.deltaY;
 
         super.setCenterX(x);
         super.setCenterY(y);
