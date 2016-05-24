@@ -1,7 +1,6 @@
 package online.recroom.server.chess;
 
 import online.recroom.server.chess.pieces.Player;
-import online.recroom.server.chess.pieces.Piece;
 
 /**
  * Created by Yeedle on 4/11/2016 9:04 PM.

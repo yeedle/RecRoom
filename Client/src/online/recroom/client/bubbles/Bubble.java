@@ -54,21 +54,6 @@ public class Bubble extends Circle
         super.setFill(getRadialGradientOf(RandomColor()));
     }
 
-    public Bubble(long id, double xAsAPercentage, double yAsAPercentage, double deltaXAsAPercentage, double deltaYAsAPercentage, double radiusAsAPercentage)
-    {
-
-        this.id = id;
-        x = RecRoom.HEIGHT * xAsAPercentage;
-        y = RecRoom.WIDTH * yAsAPercentage;
-        radius = RecRoom.WIDTH/RecRoom.HEIGHT * radiusAsAPercentage+10;
-        deltaX =  deltaXAsAPercentage *5 + 1;
-        deltaY = deltaYAsAPercentage * 5 +1;
-
-        super.setCenterX(x);
-        super.setCenterY(y);
-        super.setRadius(radius);
-        super.setFill(getRadialGradientOf(RandomColor()));
-    }
 
     private RadialGradient getRadialGradientOf(Color color)
     {

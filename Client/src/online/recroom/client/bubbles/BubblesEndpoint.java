@@ -6,7 +6,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.Group;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
-import javafx.scene.shape.Circle;
 import javafx.util.Duration;
 
 import javax.websocket.*;
@@ -20,16 +19,14 @@ import java.util.concurrent.ConcurrentHashMap;
 /**
  * Created by Yeedle on 5/17/2016 9:32 AM.
  */
-@ClientEndpoint
-        (decoders = MessageDecoder.class)
-
+@ClientEndpoint (decoders = MessageDecoder.class)
 public class BubblesEndpoint implements Initializable
 {
-    @FXML
-    Circle circle;
+
     private Session session;
     @FXML
     Group bubblePane;
+
     ConcurrentHashMap<Long, Bubble> bubbleMap = new ConcurrentHashMap<>();
     File popSoundFile =  new File("Client/src/online/recroom/client/assets/pop.mp3");
     Media popSound = new Media(popSoundFile.toURI().toString());
@@ -37,7 +34,7 @@ public class BubblesEndpoint implements Initializable
     private double bubbleSpeed = 40;
 
     @OnOpen
-    public void onOpen(final Session session)
+    public void onOpen(final Session session, Message message)
     {
         t.setCycleCount(Timeline.INDEFINITE);
         t.play();
@@ -118,7 +115,7 @@ public class BubblesEndpoint implements Initializable
     {
         //TODO connect to websockets
 
-        Bubble bubble = new Bubble(1, .5, .4,.1, .1, .02);
+        /*Bubble bubble = new Bubble(1, .5, .4,.1, .1, .02);
 
         bubbleMap.put(bubble.id, bubble);
         bubblePane.getChildren().add(bubble);
@@ -126,7 +123,7 @@ public class BubblesEndpoint implements Initializable
        t.getKeyFrames().add(new KeyFrame(Duration.millis(70), e -> bubble.move()));
         t.setCycleCount(Animation.INDEFINITE);
        t.play();
-
+*/
      /*   try
         {
             connectToBubbleServer(new URI("ws://")); //TODO: add ws URI of Server Endpoint

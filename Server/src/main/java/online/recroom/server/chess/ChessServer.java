@@ -13,12 +13,21 @@ import javax.websocket.server.ServerEndpoint;
 public class ChessServer
 {
     private Session session;
-
+    private Game game;
 
     @OnOpen
     public void onOpen(Session session)
     {
+        //TODO assign Player color to session
         this.session = session;
+        try
+        {
+            game = new Game();
+        }
+        catch (IllegalCoordinateException e)
+        {
+            e.printStackTrace();
+        }
     }
 
     @OnMessage

@@ -34,16 +34,14 @@ public class StatusChecker
 
     private boolean isThreatenedByKnight() throws IllegalCoordinateException
     {
-        if (opponentHasKnightOffsetFromKing(2, 1)
+        return opponentHasKnightOffsetFromKing(2, 1)
                 || opponentHasKnightOffsetFromKing(2, -1)
                 || opponentHasKnightOffsetFromKing(1, 2)
                 || opponentHasKnightOffsetFromKing(1, -2)
                 || opponentHasKnightOffsetFromKing(-2, 1)
                 || opponentHasKnightOffsetFromKing(-2, -1)
                 || opponentHasKnightOffsetFromKing(-1, 2)
-                || opponentHasKnightOffsetFromKing(-1, -2))
-            return true;
-        return false;
+                || opponentHasKnightOffsetFromKing(-1, -2);
     }
 
     private boolean opponentHasKnightOffsetFromKing(int columnOffset, int rowOffset) throws IllegalCoordinateException
@@ -182,10 +180,8 @@ public class StatusChecker
     {
         if (coordinatesAreOutOfBounds(colOffset, rowOffset))
             return false;
-        Piece piece = board.pieceInSquare(Coordinates.byColumnAndRow(kingsPosition.column()+colOffset, kingsPosition.row()+rowOffset));
-        if (piece.isNotInstanceOf(type))
-            return false;
-        return piece.isNotColorOf(this.player);
+        Piece piece = board.pieceInSquare(Coordinates.byColumnAndRow(kingsPosition.column() + colOffset, kingsPosition.row() + rowOffset));
+        return piece.isInstanceOf(type) && piece.isNotColorOf(this.player);
     }
 
     private boolean coordinatesAreOutOfBounds(int colOffset, int rowOffset)

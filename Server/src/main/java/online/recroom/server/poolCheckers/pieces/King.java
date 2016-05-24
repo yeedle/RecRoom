@@ -1,8 +1,6 @@
 package online.recroom.server.poolCheckers.pieces;
 
 import online.recroom.server.poolCheckers.board.Cell;
-import online.recroom.server.poolCheckers.board.CoOrdinates;
-import online.recroom.server.poolCheckers.board.CoOrdinatesOutOfBoundsException;
 
 /**
  * Created by theje on 5/7/2016.
