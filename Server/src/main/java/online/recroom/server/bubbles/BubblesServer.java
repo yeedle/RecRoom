@@ -20,44 +20,47 @@ public class BubblesServer {
     private static Set<Game> activeGames = new HashSet<>();
 
     private Session session;
-    private Game connectedGame;
+    private Game game;
     private BubblePlayer player;
 
     @OnOpen
-    public void onOpen(Session session) throws Exception {
+    public Message onOpen(Session session) throws Exception {
         this.session = session;
         player = new BubblePlayer(extractPlayerName());
 
         if (isThereActiveAnGameWithRoom()) {
-            connectedGame = getActiveGameThatHasRoom();
-            connectedGame.addPlayer(this.player);
-            connectedGame.getPlayersSessions().add(this.session);
+            game = getActiveGameThatHasRoom();
+            game.addPlayer(this.player);
+            game.getPlayersSessions().add(this.session);
 //            TODO send bubbles to player that joined the game
-            sendListOfBubblesToSession(this.session, connectedGame.getArrayOfBubbles());
-
+            return Message.createJoinedGameMessage(game.getArrayOfBubbles(), game.getArrayOfPlayers());
         } else if (!pendingGames.isEmpty()) {
-            connectedGame = getAPendingGame();
-            pendingGames.remove(connectedGame);
-            activeGames.add(connectedGame);
-            connectedGame.addPlayer(this.player);
-            connectedGame.getPlayersSessions().add(this.session);
+            game = getAPendingGame();
+            pendingGames.remove(game);
+            activeGames.add(game);
+            game.addPlayer(this.player);
+            game.getPlayersSessions().add(this.session);
 //            TODO send bubbles to both players
-            for (Session s : connectedGame.getPlayersSessions()) {
-                sendListOfBubblesToSession(s, connectedGame.getArrayOfBubbles());
+            for (Session s : game.getPlayersSessions()) {
+                if (s != this.session) {
+                    sendListOfBubblesToSession(s, game.getArrayOfBubbles(), game.getArrayOfPlayers());
+                }
             }
+            return Message.createGameStartedMessage(game.getArrayOfBubbles(), game.getArrayOfPlayers());
         } else {
             //        TODO start new game
-            connectedGame =
+            game =
                     new Game(this.player);
-            pendingGames.add(connectedGame);
-            connectedGame.getPlayersSessions().add(this.session);
+            pendingGames.add(game);
+            game.getPlayersSessions().add(this.session);
+            return Message.createGamePendingMessage();
         }
     }
 
     @OnMessage
     public void onMessage(long bubbleId) throws Exception {
 //        TODO keep score and send message to all players, check if game is over
-        if (connectedGame.wasBubblePopped(bubbleId))
+        if (game.wasBubblePopped(bubbleId))
             throw new Exception("Someone beat you to it, sorry");
 
         sendBubblePoppedMessage(bubbleId);
@@ -100,16 +103,17 @@ public class BubblesServer {
         throw new Exception();
     }
 
-    private static void sendListOfBubblesToSession(Session aSession, Bubble[] bubbles) throws IOException, EncodeException {
+    private static void sendListOfBubblesToSession(Session aSession, Bubble[] bubbles, BubblePlayer[] players) throws IOException, EncodeException {
 //        TODO when player joins a game that has already begun, send them the state of the game
         RemoteEndpoint.Basic endpoint = aSession.getBasicRemote();
-        endpoint.sendObject(Message.createGameStartedMessage(bubbles));
+        endpoint.sendObject(Message.createGameStartedMessage(bubbles, players));
     }
+
 
     private void sendBubblePoppedMessage(long id) throws IOException, EncodeException {
 //        TODO iterate through connected session and send the BubblePoppedMessage
         Message bubblePoppedMessage = Message.createBubblePoppedMessage(id);
-        for (Session s : connectedGame.getPlayersSessions()) {
+        for (Session s : game.getPlayersSessions()) {
             RemoteEndpoint.Basic endpoint = s.getBasicRemote();
             endpoint.sendObject(bubblePoppedMessage);
         }

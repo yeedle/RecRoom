@@ -30,8 +30,7 @@ public class Game
     }
 
     public Bubble[] getArrayOfBubbles() {
-        Bubble[] bubbles = new Bubble[this.bubbles.size()];
-        return this.bubbles.toArray(bubbles);
+        return this.bubbles.toArray(new Bubble[this.bubbles.size()]);
     }
 
     public void removeBubble(long id) {
@@ -62,6 +61,9 @@ public class Game
         players.remove(p);
     }
 
+    public BubblePlayer[] getArrayOfPlayers() {
+        return this.players.toArray(new BubblePlayer[this.players.size()]);
+    }
     private void generateBubbles() {
 //        TODO generate the bubbles when the game starts
     }
