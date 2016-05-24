@@ -8,6 +8,9 @@ import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import online.recroom.client.GameClientEndpoint;
 
+import java.net.URI;
+import java.net.URISyntaxException;
+
 /**
  * This class is the entry point for our JavaFX client
  */
@@ -32,7 +35,7 @@ public class RecRoom extends Application {
         primaryStage.show();
        primaryStage.getIcons().addAll(new Image(getClass().getResourceAsStream("../assets/icon.png")));
 
-   /*     try {
+     /* try {
             gameClientEndpoint = new GameClientEndpoint(new URI("ws://localhost:8080/recroom/echo"));
         } catch (URISyntaxException e) {
             e.printStackTrace();

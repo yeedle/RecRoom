@@ -54,7 +54,6 @@ public class WelcomeController
 
     public void handleBubblesButtonAction(ActionEvent event) throws IOException
     {
-        System.out.println("tic tac toe");
         FXMLLoader loader = new FXMLLoader(getClass().getResource("../bubbles/Bubbles.fxml"));
         Group root = loader.load();
         Scene scene = new Scene(root, RecRoom.WIDTH, RecRoom.HEIGHT);

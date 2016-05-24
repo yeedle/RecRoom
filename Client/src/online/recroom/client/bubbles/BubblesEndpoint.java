@@ -1,5 +1,6 @@
 package online.recroom.client.bubbles;
 
+import com.google.gson.Gson;
 import javafx.animation.*;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -12,7 +13,9 @@ import javax.websocket.*;
 import java.io.File;
 import java.io.IOException;
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
+import java.nio.ByteBuffer;
 import java.util.ResourceBundle;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -34,8 +37,9 @@ public class BubblesEndpoint implements Initializable
     private double bubbleSpeed = 40;
 
     @OnOpen
-    public void onOpen(final Session session, Message message)
+    public void onOpen(final Session session)
     {
+        System.out.println("connected");
         t.setCycleCount(Timeline.INDEFINITE);
         t.play();
     }
@@ -46,7 +50,7 @@ public class BubblesEndpoint implements Initializable
         switch (message.type)
         {
             case GAME_STARTED:
-                gameStarted(message.newBubble);
+                gameStarted(message.newBubbles);
                 break;
             case BUBBLE_POPPED:
                 bubblePopped(message.poppedBubbleId);
@@ -59,6 +63,8 @@ public class BubblesEndpoint implements Initializable
                 break;
         }
     }
+
+
 
     private void gameStarted(Bubble.ServerBubble[] bubbles)
     {
@@ -99,9 +105,9 @@ public class BubblesEndpoint implements Initializable
     }
 
     @OnError
-    public void onError()
+    public void onError(Throwable t)
     {
-
+        t.printStackTrace();
     }
 
     @OnClose
@@ -124,13 +130,13 @@ public class BubblesEndpoint implements Initializable
         t.setCycleCount(Animation.INDEFINITE);
        t.play();
 */
-     /*   try
+        try
         {
-            connectToBubbleServer(new URI("ws://")); //TODO: add ws URI of Server Endpoint
+            connectToBubbleServer(new URI("ws://localhost:8080/recroom/bubbles")); //TODO: add ws URI of Server Endpoint
         } catch (URISyntaxException e)
         {
             e.printStackTrace();
-        }*/
+        }
     }
 
     private void connectToBubbleServer(URI uri)
