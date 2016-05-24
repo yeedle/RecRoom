@@ -49,8 +49,7 @@ public class BubblesServer {
             return Message.createGameStartedMessage(game.getArrayOfBubbles(), game.getArrayOfPlayers());
         } else {
             //        TODO start new game
-            game =
-                    new Game(this.player);
+            game = new Game(this.player);
             pendingGames.add(game);
             game.getPlayersSessions().add(this.session);
             return Message.createGamePendingMessage();
@@ -63,6 +62,7 @@ public class BubblesServer {
         if (game.wasBubblePopped(bubbleId))
             throw new Exception("Someone beat you to it, sorry");
 
+        game.removeBubble(bubbleId);
         sendBubblePoppedMessage(bubbleId);
         player.incerementBubblesPopped();
     }
