@@ -24,11 +24,13 @@ public class BubblesEndpoint
     private Session session;
     private BubblesController controller;
     private String username = "Anonymous";
-    private String  WebSocketURI = "ws://localhost:8080/recroom/bubble?username=" + username;
+    private String  WebSocketURI;
 
     public BubblesEndpoint(String username, BubblesController controller)
     {
-        this.username = username;
+
+        this.username = username.isEmpty()? "Anonymous" : username;
+        WebSocketURI = "ws://localhost:8080/recroom/bubble?username=" + username;
         this.controller = controller;
     }
 

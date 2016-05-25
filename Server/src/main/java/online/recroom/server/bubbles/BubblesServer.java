@@ -85,7 +85,7 @@ public class BubblesServer {
             broadcastGameOverMessage(this.player);
             endedGames.add(game);
             activeGames.remove(game);
-        } else if (game.getPlayersSessions == 0) {
+        } else if (game.getPlayersSessions().size() == 0) {
             endedGames.remove(game);
         }
     }
