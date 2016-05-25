@@ -15,27 +15,36 @@ import javafx.util.Duration;
  */
 public class Animator
 {
+
+    private static Timeline timeline = new Timeline();
+    final static double TEXT_TYPING_SPEED = 90;
+
     public static void runningText(String str, VBox vbox)
     {
         Text text = new Text();
         text.getStyleClass().add("console-text");
+        text.setWrappingWidth(500);
         Platform.runLater(() -> vbox.getChildren().add(text));
 
         final IntegerProperty i = new SimpleIntegerProperty(0);
 
-        Timeline timeline = new Timeline();
+        timeline = new Timeline();
+
         KeyFrame keyFrame = new KeyFrame(
-                Duration.millis(90),
-                event -> {
-                    if (i.get() > str.length()) {
-                        timeline.stop();
-                    } else {
-                        text.setText(str.substring(0, i.get()));
-                        i.set(i.get() + 1);
-                    }
-                });
+                Duration.millis(TEXT_TYPING_SPEED),
+                event -> typingKeyFrameEvent(str, text, i));
         timeline.getKeyFrames().add(keyFrame);
         timeline.setCycleCount(Animation.INDEFINITE);
         timeline.play();
+    }
+
+    private static void typingKeyFrameEvent(String str, Text text, IntegerProperty i)
+    {
+        if (i.get() > str.length()) {
+            timeline.stop();
+        } else {
+            text.setText(str.substring(0, i.get()));
+            i.set(i.get() + 1);
+        }
     }
 }

@@ -16,6 +16,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
+import online.recroom.client.Animator;
 
 import javax.websocket.*;
 import java.io.IOException;
@@ -28,7 +29,7 @@ import java.util.ResourceBundle;
  * Created by Yeedle on 5/19/2016 5:24 PM.
  */
 @ClientEndpoint
-public class TicTacToeController implements Initializable
+public class TicTacToeController
 {
     @FXML
     SplitPane pane;
@@ -95,8 +96,8 @@ public class TicTacToeController implements Initializable
 
     }
 
-    @Override
-    public void initialize(URL location, ResourceBundle resources)
+
+    public void initialize()
     {
         try
         {
@@ -113,11 +114,9 @@ public class TicTacToeController implements Initializable
                 squares[column][row] = (Pane)board.getChildren().get(k);
                 k++;
             }
-        pane.setOnKeyPressed(e ->runningText("Hello, I'm glad you're playing me today ;)"));
+        pane.setOnKeyPressed(e -> Animator.runningText("Hello, I'm glad you're playing me today ;)", vbox));
 
         console.setVvalue(1.0);
-        console.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
-        console.setFitToHeight(true);
         vbox.heightProperty().addListener((observable, oldValue, newValue) -> console.setVvalue(newValue.doubleValue()));
     }
 
@@ -131,27 +130,4 @@ public class TicTacToeController implements Initializable
         return iv;
     }
 
-    private void runningText(String str)
-    {
-        Text text = new Text();
-        text.getStyleClass().add("console");
-        vbox.getChildren().add(text);
-
-        final IntegerProperty i = new SimpleIntegerProperty(0);
-
-        Timeline timeline = new Timeline();
-        KeyFrame keyFrame = new KeyFrame(
-                Duration.millis(90),
-                event -> {
-                    if (i.get() > str.length()) {
-                        timeline.stop();
-                    } else {
-                        text.setText(str.substring(0, i.get()));
-                        i.set(i.get() + 1);
-                    }
-                });
-        timeline.getKeyFrames().add(keyFrame);
-        timeline.setCycleCount(Animation.INDEFINITE);
-        timeline.play();
-    }
 }
