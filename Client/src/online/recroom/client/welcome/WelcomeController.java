@@ -8,7 +8,9 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import online.recroom.client.bubbles.BubblesEndpoint;
 
 import java.io.IOException;
 
@@ -27,6 +29,8 @@ public class WelcomeController
     Button bubblesBtn;
     @FXML
     Button pongBtn;
+    @FXML
+    TextField usernameTextField;
 
     @FXML
     private void handleChessButtonAction(ActionEvent event) throws IOException
@@ -56,9 +60,16 @@ public class WelcomeController
     {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("../bubbles/Bubbles.fxml"));
         Group root = loader.load();
+        BubblesEndpoint controller = loader.getController();
+        controller.setUsername(usernameTextField.getText());
+        controller.connect();
+
+
+
         Scene scene = new Scene(root, RecRoom.WIDTH, RecRoom.HEIGHT);
         Stage  stage=(Stage) ((Node)event.getSource()).getScene().getWindow();
         stage.setScene(scene);
         stage.show();
+
     }
 }

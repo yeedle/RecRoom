@@ -32,6 +32,12 @@ public class BubblesEndpoint implements Initializable
     @FXML
     Group bubblePane;
 
+    public void setUsername(String username)
+    {
+        this.username = username;
+    }
+
+    String username = "anon";
     ConcurrentHashMap<Long, Bubble> bubbleMap = new ConcurrentHashMap<>();
     File popSoundFile =  new File("Client/src/online/recroom/client/assets/pop.mp3");
     Media popSound = new Media(popSoundFile.toURI().toString());
@@ -42,7 +48,7 @@ public class BubblesEndpoint implements Initializable
     public void onOpen(final Session session)
     {
         this.session = session;
-        System.out.println("connected");
+        System.out.println("connected by " + username);
        // t.setCycleCount(Timeline.INDEFINITE);
       //  t.play();
     }
@@ -146,12 +152,14 @@ public class BubblesEndpoint implements Initializable
     @Override
     public void initialize(URL location, ResourceBundle resources)
     {
-        //TODO connect to websockets
 
+    }
 
+    public void connect()
+    {
         try
         {
-            connectToBubbleServer(new URI("ws://localhost:8080/recroom/bubbles")); //TODO: add ws URI of Server Endpoint
+            connectToBubbleServer(new URI("ws://localhost:8080/recroom/bubble")); //TODO: add ws URI of Server Endpoint
         } catch (URISyntaxException e)
         {
             e.printStackTrace();
@@ -166,7 +174,7 @@ public class BubblesEndpoint implements Initializable
             container.connectToServer(this, uri);
         } catch (Exception e)
         {
-            System.out.println("The server might be offline right now");
+            e.printStackTrace();
         }
     }
 

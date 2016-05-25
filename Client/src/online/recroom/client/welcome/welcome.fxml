@@ -75,7 +75,7 @@
                   </Label>
                    <HBox styleClass="bottom">
                       <children>
-                          <TextField prefHeight="40" />
+                          <TextField fx:id="usernameTextField" prefHeight="40" />
                           <Button prefHeight="40" text="submit" />
                       </children>
                    </HBox>

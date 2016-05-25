@@ -11,7 +11,7 @@ import java.util.Set;
  * Created by Yehuda Globerman on 5/15/2016.
  */
 @ServerEndpoint(
-        value = "/bubbles",
+        value = "/bubble",
         decoders = {MessageDecoder.class},
         encoders = {MessageEncoder.class})
 public class BubblesServer {
