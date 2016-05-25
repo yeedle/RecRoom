@@ -1,15 +1,10 @@
 package online.recroom.client.bubbles;
 
-import com.google.gson.Gson;
 import javafx.animation.*;
-import javafx.application.Platform;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Group;
 import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
-import javafx.util.Duration;
 
 import javax.websocket.*;
 import java.io.File;
@@ -17,7 +12,6 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.nio.ByteBuffer;
 import java.util.ResourceBundle;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -25,32 +19,26 @@ import java.util.concurrent.ConcurrentHashMap;
  * Created by Yeedle on 5/17/2016 9:32 AM.
  */
 @ClientEndpoint (decoders = MessageDecoder.class)
-public class BubblesEndpoint implements Initializable
+public class BubblesEndpoint
 {
-
     private Session session;
-    @FXML
-    Group bubblePane;
 
-    public void setUsername(String username)
+    BubblesController controller;
+    String username = "anon";
+
+    public BubblesEndpoint(String username, BubblesController controller)
     {
         this.username = username;
+        this.controller = controller;
     }
-
-    String username = "anon";
-    ConcurrentHashMap<Long, Bubble> bubbleMap = new ConcurrentHashMap<>();
-    File popSoundFile =  new File("Client/src/online/recroom/client/assets/pop.mp3");
-    Media popSound = new Media(popSoundFile.toURI().toString());
-    Timeline t = new Timeline();
-    private double bubbleSpeed = 100;
 
     @OnOpen
     public void onOpen(final Session session)
     {
         this.session = session;
+        controller.setSession(session);
         System.out.println("connected by " + username);
-       // t.setCycleCount(Timeline.INDEFINITE);
-      //  t.play();
+
     }
 
     @OnMessage
@@ -90,37 +78,21 @@ public class BubblesEndpoint implements Initializable
     }
 
 
-
-    private void gameStarted(Bubble.ServerBubble[] bubbles)
+    private void gameStarted(Bubble.ServerBubble[] serverBubbles)
     {
-        for (Bubble.ServerBubble serverBubble : bubbles)
+
+        Bubble[] bubbles = new Bubble[serverBubbles.length];
+        for (int i = 0; i < serverBubbles.length ; i++)
         {
-            Bubble bubble = new Bubble(serverBubble);
-            System.out.println(bubble.id);
-
-            t.getKeyFrames().add(new KeyFrame(Duration.millis(bubbleSpeed), e -> bubble.move()));
-            bubbleMap.put(bubble.id, bubble);
-            long id = bubble.id;
-            bubble.setOnMouseClicked(e -> sendMessage(id));
-            Platform.runLater(() -> bubblePane.getChildren().add(bubble));
-
+            bubbles[i] = new Bubble(serverBubbles[i]);
         }
-
-        t.setCycleCount(Timeline.INDEFINITE);
-            t.play();
-
+        controller.gameStarted(bubbles);
 
     }
 
     private void bubblePopped(long poppedBubbleId)
     {
-        Bubble bubble = bubbleMap.get(poppedBubbleId);
-        ScaleTransition st = new ScaleTransition(Duration.millis(100), bubble);
-        st.setByX(5);
-        st.setByY(5);
-        st.setOnFinished(e -> {bubblePane.getChildren().remove(bubble); new MediaPlayer(popSound).play();});
-        st.play();
-        bubbleMap.remove(poppedBubbleId);
+        controller.bubblePopped(poppedBubbleId);
     }
 
 
@@ -130,12 +102,6 @@ public class BubblesEndpoint implements Initializable
         session.close(new CloseReason(CloseReason.CloseCodes.NORMAL_CLOSURE, "Game over"));
     }
 
-
-    private void onClickRemove(long bubbleId)
-    {
-        sendMessage(bubbleId);
-        bubblePopped(bubbleId);
-    }
 
     @OnError
     public void onError(Throwable t)
@@ -149,49 +115,16 @@ public class BubblesEndpoint implements Initializable
         //TODO handle on close logic
     }
 
-    @Override
-    public void initialize(URL location, ResourceBundle resources)
-    {
-
-    }
 
     public void connect()
-    {
-        try
-        {
-            connectToBubbleServer(new URI("ws://localhost:8080/recroom/bubble")); //TODO: add ws URI of Server Endpoint
-        } catch (URISyntaxException e)
-        {
-            e.printStackTrace();
-        }
-    }
-
-    private void connectToBubbleServer(URI uri)
     {
         WebSocketContainer container = ContainerProvider.getWebSocketContainer();
         try
         {
-            container.connectToServer(this, uri);
+            container.connectToServer(this, new URI("ws://localhost:8080/recroom/bubble"));
         } catch (Exception e)
         {
             e.printStackTrace();
         }
     }
-
-    public void sendMessage(final Long id)
-    {
-        try
-        {
-            System.out.println("in try");
-            System.out.println(id);
-            session.getBasicRemote().sendText(Long.toString(id));
-        } catch (IOException e)
-
-        {
-            e.printStackTrace();
-        }
-    }
-
-
-
 }

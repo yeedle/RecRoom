@@ -11,6 +11,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import online.recroom.client.bubbles.BubblesEndpoint;
+import online.recroom.client.bubbles.BubblesController;
 
 import java.io.IOException;
 
@@ -60,11 +61,8 @@ public class WelcomeController
     {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("../bubbles/Bubbles.fxml"));
         Group root = loader.load();
-        BubblesEndpoint controller = loader.getController();
-        controller.setUsername(usernameTextField.getText());
-        controller.connect();
-
-
+        BubblesEndpoint bubblesEndpoint = new BubblesEndpoint(usernameTextField.getText(), loader.getController());
+        bubblesEndpoint.connect();
 
         Scene scene = new Scene(root, RecRoom.WIDTH, RecRoom.HEIGHT);
         Stage  stage=(Stage) ((Node)event.getSource()).getScene().getWindow();
