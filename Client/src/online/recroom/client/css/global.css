@@ -14,4 +14,19 @@
 }
 
 
+#vbox {
+    -fx-background-color: black;
+    -fx-fill: greenyellow;
+}
 
+#console {
+
+    -fx-hbar-policy: never;
+    -fx-fit-to-height: true;
+}
+
+.console-text{
+    -fx-font-family: "NovaMono";
+    -fx-fill: greenyellow;
+    -fx-font-size: 16;
+}

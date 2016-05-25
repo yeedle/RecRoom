@@ -60,7 +60,7 @@ public class WelcomeController
     public void handleBubblesButtonAction(ActionEvent event) throws IOException
     {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("../bubbles/Bubbles.fxml"));
-        Group root = loader.load();
+        Parent root = loader.load();
         BubblesEndpoint bubblesEndpoint = new BubblesEndpoint(usernameTextField.getText(), loader.getController());
         bubblesEndpoint.connect();
 

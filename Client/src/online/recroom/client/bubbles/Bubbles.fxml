@@ -1,7 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-
+<?import java.lang.*?>
+<?import java.net.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 <?import javafx.scene.Group?>
-<Group fx:id="bubblePane" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="online.recroom.client.bubbles.BubblesController">
+<?import javafx.scene.layout.VBox?>
+<?import java.net.URL?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.layout.Pane?>
 
-</Group>
+<SplitPane dividerPositions="0.84375" orientation="VERTICAL" prefHeight="640.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="online.recroom.client.bubbles.BubblesController">
+   <items>
+    <Pane fx:id="bubblePane" prefHeight="540.0" prefWidth="640.0">
+
+    </Pane>
+
+    <ScrollPane fx:id="console">
+   <content>
+           <VBox fx:id="vbox" prefHeight="100" prefWidth="640.0" styleClass="text" />
+   </content>
+    </ScrollPane>
+
+   </items>
+    <stylesheets>
+        <URL value="@../css/global.css" />
+    </stylesheets>
+</SplitPane>

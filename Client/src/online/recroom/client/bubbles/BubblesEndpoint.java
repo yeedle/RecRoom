@@ -22,9 +22,9 @@ import java.util.concurrent.ConcurrentHashMap;
 public class BubblesEndpoint
 {
     private Session session;
-
-    BubblesController controller;
-    String username = "anon";
+    private BubblesController controller;
+    private String username = "Anonymous";
+    private String  WebSocketURI = "ws://localhost:8080/recroom/bubble?username=" + username;
 
     public BubblesEndpoint(String username, BubblesController controller)
     {
@@ -36,9 +36,7 @@ public class BubblesEndpoint
     public void onOpen(final Session session)
     {
         this.session = session;
-        controller.setSession(session);
-        System.out.println("connected by " + username);
-
+        controller.setEndpoint(this);
     }
 
     @OnMessage
@@ -115,6 +113,16 @@ public class BubblesEndpoint
         //TODO handle on close logic
     }
 
+    public void sendMessage(final Long id)
+    {
+        try
+        {
+            session.getBasicRemote().sendText(Long.toString(id));
+        } catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+    }
 
     public void connect()
     {

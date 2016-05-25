@@ -82,6 +82,7 @@ public class Bubble extends Circle
 
     public void move()
     {
+        final double HEIGHT_PADDING = 102;
         super.setCenterX(super.getCenterX() + this.deltaX);
        super.setCenterY(super.getCenterY() + this.deltaY);
 // Detect collision with left edge ➝97
@@ -103,9 +104,9 @@ public class Bubble extends Circle
             this.deltaY = -this.deltaY;
         }
 // Detect collision with bottom edge ➝118
-        if (super.getCenterY() >= RecRoom.HEIGHT - this.radius)
+        if (super.getCenterY() >= RecRoom.HEIGHT - HEIGHT_PADDING - this.radius)
         {
-            super.setCenterY(RecRoom.HEIGHT - this.radius);
+            super.setCenterY(RecRoom.HEIGHT - HEIGHT_PADDING - this.radius);
             this.deltaY = -this.deltaY;
         }
     }

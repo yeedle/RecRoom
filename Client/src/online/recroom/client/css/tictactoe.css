@@ -71,15 +71,3 @@
     -fx-border-width: 2;
 
 }
-#vbox {
-  -fx-background-color: black;
-}
-
-.console {
-    -fx-pref-width: 200;
--fx-font-family: "NovaMono";
-  -fx-fill: greenyellow;
-    -fx-font-size: 16;
-
-
-}

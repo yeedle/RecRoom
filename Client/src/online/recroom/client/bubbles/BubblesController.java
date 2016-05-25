@@ -6,6 +6,9 @@ import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.Group;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.util.Duration;
@@ -20,8 +23,10 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class BubblesController
 {
-    @FXML
-    Group bubblePane;
+    @FXML Pane bubblePane;
+    @FXML ScrollPane console;
+    @FXML VBox vbox;
+    BubblesEndpoint endpoint;
     Session session;
     ConcurrentHashMap<Long, Bubble> bubbleMap = new ConcurrentHashMap<>();
     File popSoundFile =  new File("Client/src/online/recroom/client/assets/pop.mp3");
@@ -29,9 +34,20 @@ public class BubblesController
     Timeline t = new Timeline();
     private final double SPEED = 100;
 
-    public void setSession(Session session)
+    public void setEndpoint(BubblesEndpoint endpoint)
     {
-        this.session =session;
+        this.endpoint =endpoint;
+    }
+
+    public void initialize()
+    {
+        initializeConsoleSize();
+    }
+
+    private void initializeConsoleSize()
+    {
+        console.setVvalue(1.0);
+        vbox.heightProperty().addListener((observable, oldValue, newValue) -> console.setVvalue(newValue.doubleValue()));
     }
 
     public void gameStarted(Bubble[] bubbles)
@@ -47,19 +63,11 @@ public class BubblesController
 
         t.setCycleCount(Timeline.INDEFINITE);
         t.play();
-
-
     }
 
     public void sendMessage(final Long id)
     {
-        try
-        {
-            session.getBasicRemote().sendText(Long.toString(id));
-        } catch (IOException e)
-        {
-            e.printStackTrace();
-        }
+        endpoint.sendMessage(id);
     }
 
     public void bubblePopped(long poppedBubbleId)
