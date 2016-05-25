@@ -18,6 +18,7 @@ public class BubblesServer {
     public static final int PLAYER_LIMIT = 6;
     private static Set<Game> pendingGames = new HashSet<>();
     private static Set<Game> activeGames = new HashSet<>();
+    private static Set<Game> endedGames = new HashSet<>();
 
     private Session session;
     private Game game;
@@ -65,6 +66,8 @@ public class BubblesServer {
         player.incrementBubblesPopped();
         if (game.isOver()) {
             broadcastGameOverMessage(game.leader());
+            endedGames.add(game);
+            activeGames.remove(game);
         }
     }
 
@@ -80,6 +83,10 @@ public class BubblesServer {
         broadcastPlayerLeft(this.player.name);
         if (game.getPlayersSessions().size() == 1) {
             broadcastGameOverMessage(this.player);
+            endedGames.add(game);
+            activeGames.remove(game);
+        } else if (game.getPlayersSessions == 0) {
+            endedGames.remove(game);
         }
     }
 
@@ -142,8 +149,8 @@ public class BubblesServer {
     }
 
     private String extractPlayerName() {
-        if (session.getRequestParameterMap().containsKey("player")) {
-            return extractQueryParam("player");
+        if (session.getRequestParameterMap().containsKey("username")) {
+            return extractQueryParam("username");
         } else {
             return "Anonymous";
         }
