@@ -35,12 +35,7 @@ public class BubblesController
         this.endpoint =endpoint;
     }
 
-    public void initialize()
-    {
-        initializeConsoleSize();
-    }
-
-    private void initializeConsoleSize()
+    private void initialize()
     {
         console.setVvalue(1.0);
         vbox.heightProperty().addListener((observable, oldValue, newValue) -> console.setVvalue(newValue.doubleValue()));
@@ -53,14 +48,9 @@ public class BubblesController
             Animator.animate(bubble);
             bubbleMap.put(bubble.id, bubble);
             long id = bubble.id;
-            bubble.setOnMouseClicked(e -> sendMessage(id));
+            bubble.setOnMouseClicked(e -> endpoint.sendMessage(id));
             Platform.runLater(() -> bubblePane.getChildren().add(bubble));
         }
-    }
-
-    public void sendMessage(final Long id)
-    {
-        endpoint.sendMessage(id);
     }
 
     public void bubblePopped(long poppedBubbleId)
@@ -74,5 +64,4 @@ public class BubblesController
     {
         Animator.runningText(str, vbox);
     }
-
 }
