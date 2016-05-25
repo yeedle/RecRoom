@@ -12,6 +12,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.util.Duration;
+import online.recroom.client.Animator;
 
 import javax.websocket.Session;
 import java.io.File;
@@ -80,6 +81,11 @@ public class BubblesController
         st.setOnFinished(e -> {bubblePane.getChildren().remove(bubble); new MediaPlayer(popSound).play();});
         st.play();
         bubbleMap.remove(poppedBubbleId);
+    }
+
+    public void console(String str)
+    {
+        Animator.runningText(str, vbox);
     }
 
 }

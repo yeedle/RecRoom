@@ -6,5 +6,10 @@ package online.recroom.client.bubbles;
 public class BubblePlayer
 {
     private int bubblesPopped;
-    private String name;
+    public final String name;
+
+    public BubblePlayer(String name)
+    {
+        this.name = name;
+    }
 }

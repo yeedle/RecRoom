@@ -21,7 +21,7 @@
 
 #console {
 
-    -fx-hbar-policy: never;
+    -fx-hbar-policy: as-needed;
     -fx-fit-to-height: true;
 }
 

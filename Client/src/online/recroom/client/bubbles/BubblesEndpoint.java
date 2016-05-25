@@ -37,6 +37,7 @@ public class BubblesEndpoint
     {
         this.session = session;
         controller.setEndpoint(this);
+        controller.console("Hello, " + username + "!");
     }
 
     @OnMessage
@@ -46,33 +47,44 @@ public class BubblesEndpoint
         switch (message.type)
         {
             case GAME_PENDING:
-                System.out.println("waiting for another player to join");
+                controller.console("Waiting for another player to join...");
                 break;
             case JOINED_GAME:
-            {
-                System.out.println("someone joined your game");
-                gameStarted(message.newBubbles);
+                joinedGame(message);
                 break;
-            }
-                case GAME_STARTED:
-            {
-                System.out.println("game started");
-                gameStarted(message.newBubbles);
-                break;
-            }
+            case GAME_STARTED:
+                {
+                    controller.console("The game is under way...");
+                    gameStarted(message.newBubbles);
+                    break;
+                }
+            case PLAYER_JOINED:
+                controller.console(message.playerName + " joined your game");
             case BUBBLE_POPPED:
-            {
-                System.out.println("a bubble was popped");
                 bubblePopped(message.poppedBubbleId);
                 break;
-            }
             case GAME_OVER:
                 gameOver(message.winner, message.winnersScore);
                 break;
+            case PLAYER_LEFT:
+                controller.console(message.playerName + " couldn't take the heat");
             default:
-                System.out.println("default");
+
                 break;
         }
+    }
+
+    private void joinedGame(Message message)
+    {
+        BubblePlayer[] players = message.players;
+        String str = "";
+        for (int i = 0; i < players.length-1; i++)
+        {
+            str += players[i].name + ", ";
+        }
+        str += "and " + players[players.length-1].name +".";
+        controller.console("You joined a game with " + str);
+        gameStarted(message.newBubbles);
     }
 
 
@@ -96,7 +108,7 @@ public class BubblesEndpoint
 
     private void gameOver(String winner, int winnersScore) throws IOException
     {
-        System.out.println("the winner is " + winner + " and the score is " + winnersScore);
+        controller.console("the winner is " + winner + " and the score is " + winnersScore);
         session.close(new CloseReason(CloseReason.CloseCodes.NORMAL_CLOSURE, "Game over"));
     }
 
@@ -104,7 +116,8 @@ public class BubblesEndpoint
     @OnError
     public void onError(Throwable t)
     {
-        t.printStackTrace();
+
+        controller.console("Something went horribly wrong. :(");
     }
 
     @OnClose
@@ -129,7 +142,7 @@ public class BubblesEndpoint
         WebSocketContainer container = ContainerProvider.getWebSocketContainer();
         try
         {
-            container.connectToServer(this, new URI("ws://localhost:8080/recroom/bubble"));
+            container.connectToServer(this, new URI(WebSocketURI));
         } catch (Exception e)
         {
             e.printStackTrace();

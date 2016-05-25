@@ -10,17 +10,19 @@ public class Message {
     public final long poppedBubbleId;
     public final String winner;
     public final int winnersScore;
+    public final String playerName;
 
-    private Message(Type type, Bubble.ServerBubble[] newBubbles, BubblePlayer[] players, long poppedBubbleId, String winner, int winnersScore) {
+    private Message(Type type, Bubble.ServerBubble[] newBubbles, BubblePlayer[] players, long poppedBubbleId, String winner, int winnersScore, String playerName) {
         this.type = type;
         this.newBubbles = newBubbles;
         this.players = players;
         this.poppedBubbleId = poppedBubbleId;
         this.winner = winner;
         this.winnersScore = winnersScore;
+        this.playerName = playerName;
     }
 
     public enum Type {
-        GAME_STARTED, GAME_PENDING, JOINED_GAME, PLAYER_JOINED, BUBBLE_POPPED, GAME_OVER
+        GAME_STARTED, GAME_PENDING, JOINED_GAME, PLAYER_JOINED, PLAYER_LEFT, BUBBLE_POPPED, GAME_OVER
     }
 }
