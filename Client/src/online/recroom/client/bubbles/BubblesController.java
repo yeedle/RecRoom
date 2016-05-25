@@ -55,15 +55,12 @@ public class BubblesController
     {
         for (Bubble bubble : bubbles)
         {
-            t.getKeyFrames().add(new KeyFrame(Duration.millis(SPEED), e -> bubble.move()));
+            Animator.animate(bubble);
             bubbleMap.put(bubble.id, bubble);
             long id = bubble.id;
             bubble.setOnMouseClicked(e -> sendMessage(id));
             Platform.runLater(() -> bubblePane.getChildren().add(bubble));
         }
-
-        t.setCycleCount(Timeline.INDEFINITE);
-        t.play();
     }
 
     public void sendMessage(final Long id)

@@ -16,7 +16,6 @@ import javafx.util.Duration;
 import online.recroom.client.bubbles.Bubble;
 
 import java.io.File;
-import java.sql.Time;
 
 /**
  * Created by Yeedle on 5/25/2016 10:37 AM.
@@ -24,24 +23,26 @@ import java.sql.Time;
 public class Animator
 {
 
-    final static double TEXT_TYPING_SPEED = 90;
-    static File popSoundFile =  new File("Client/src/online/recroom/client/assets/pop.mp3");
-    static Media popSound = new Media(popSoundFile.toURI().toString());
+
+    private static File popSoundFile = new File("Client/src/online/recroom/client/assets/pop.mp3");
+    private static Media popSound = new Media(popSoundFile.toURI().toString());
+    private final static double TEXT_TYPING_SPEED = 90;
+    private static Duration textTypingDuration = Duration.millis(TEXT_TYPING_SPEED);
+    private static final int WRAPPING_WIDTH = 500;
+    private static final int BUBBLE_POPPING_DURATION = 100;
+    private static final int POPPING_SIZE = 5;
+    private static final double BUBBLE_SPEED = 100;
 
     public static void runningText(String str, VBox vbox)
     {
         Text text = new Text();
         text.getStyleClass().add("console-text");
-        text.setWrappingWidth(500);
+        text.setWrappingWidth(WRAPPING_WIDTH);
         Platform.runLater(() -> vbox.getChildren().add(text));
 
         final IntegerProperty i = new SimpleIntegerProperty(0);
-
         Timeline timeline = new Timeline();
-
-        KeyFrame keyFrame = new KeyFrame(
-                Duration.millis(TEXT_TYPING_SPEED),
-                event -> typingKeyFrameEvent(str, text, i, timeline));
+        KeyFrame keyFrame = new KeyFrame(textTypingDuration, e -> typingKeyFrameEvent(str, text, i, timeline));
         timeline.getKeyFrames().add(keyFrame);
         timeline.setCycleCount(Animation.INDEFINITE);
         timeline.play();
@@ -49,9 +50,11 @@ public class Animator
 
     private static void typingKeyFrameEvent(String str, Text text, IntegerProperty i, Timeline timeline)
     {
-        if (i.get() > str.length()) {
+        if (i.get() > str.length())
+        {
             timeline.stop();
-        } else {
+        } else
+        {
             text.setText(str.substring(0, i.get()));
             i.set(i.get() + 1);
         }
@@ -59,12 +62,20 @@ public class Animator
 
     public static void animateBubblePopping(long poppedBubbleId, Bubble bubble, Pane bubblePane)
     {
-        ScaleTransition st = new ScaleTransition(Duration.millis(100), bubble);
-        final int  POPPING_SIZE = 5;
+        ScaleTransition st = new ScaleTransition(Duration.millis(BUBBLE_POPPING_DURATION), bubble);
         st.setByX(POPPING_SIZE);
         st.setByY(POPPING_SIZE);
-        st.setOnFinished(e -> {bubblePane.getChildren().remove(bubble); new MediaPlayer(popSound).play();});
+        st.setOnFinished(e -> {
+            bubblePane.getChildren().remove(bubble);
+            new MediaPlayer(popSound).play();
+        });
         st.play();
-
+    }
+    public static void animate(Bubble bubble)
+    {
+        Timeline t = new Timeline();
+        t.getKeyFrames().add(new KeyFrame(Duration.millis(BUBBLE_SPEED), e -> bubble.move()));
+        t.setCycleCount(Animation.INDEFINITE);
+        t.play();
     }
 }
