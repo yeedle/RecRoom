@@ -34,6 +34,8 @@ public class BubblesServer {
             game.getPlayersSessions().add(this.session);
 //            TODO send bubbles to player that joined the game
             session.getBasicRemote().sendObject(Message.createJoinedGameMessage(game.getArrayOfBubbles(), game.getArrayOfPlayers()));
+//            Send message to all other players that a new player has joined
+
         } else if (!pendingGames.isEmpty()) {
             game = getAPendingGame();
             pendingGames.remove(game);
@@ -64,7 +66,14 @@ public class BubblesServer {
 
         game.removeBubble(bubbleId);
         sendBubblePoppedMessage(bubbleId);
-        player.incerementBubblesPopped();
+        player.incrementBubblesPopped();
+        if (game.isOver())
+            for (Session s : this.session.getOpenSessions()) {
+                if (s.isOpen()) {
+                    s.getBasicRemote().sendObject(Message.createGameOverMessage(
+                            game.leader().name, game.leader().getScore()));
+                }
+            }
     }
 
     @OnError
