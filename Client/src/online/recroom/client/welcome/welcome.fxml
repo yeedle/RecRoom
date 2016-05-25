@@ -1,14 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
+<?import java.lang.*?>
+<?import java.net.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 <?import java.net.URL?>
+
 <VBox prefHeight="640.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="online.recroom.client.welcome.WelcomeController">
     <children>
         <BorderPane>
             <top>
-                <Label styleClass="heading, text" contentDisplay="CENTER" text="RecRoom" BorderPane.alignment="CENTER">
+                <Label contentDisplay="CENTER" styleClass="heading, text" text="RecRoom" BorderPane.alignment="CENTER">
                 </Label>
             </top>
             <center>
@@ -16,18 +20,18 @@
                     <children>
                         <HBox styleClass="menu-hbox">
                             <children>
-                                <Button styleClass="button" fx:id="chessBtn" mnemonicParsing="false" prefHeight="134.0" prefWidth="161.0" text="Chess" onAction="#handleChessButtonAction">
+                                <Button fx:id="chessBtn" mnemonicParsing="false" onAction="#handleChessButtonAction" prefHeight="134.0" prefWidth="161.0" styleClass="button" text="Chess">
                                     <font>
                                         <Font size="24.0" />
                                     </font>
                                 </Button>
-                                <Button styleClass="button" fx:id="checkersBtn" mnemonicParsing="false" text="Checkers ">
+                                <Button fx:id="checkersBtn" mnemonicParsing="false" styleClass="button" text="Checkers ">
                                     <font>
                                         <Font size="24.0" />
                                     </font>
 
                                 </Button>
-                                <Button styleClass="button" fx:id="bubblesBtn" mnemonicParsing="false" text="Bubbles" onAction="#handleBubblesButtonAction">
+                                <Button fx:id="bubblesBtn" mnemonicParsing="false" onAction="#handleBubblesButtonAction" styleClass="button" text="Bubbles">
                                     <font>
                                         <Font size="24.0" />
                                     </font>
@@ -38,18 +42,18 @@
                         </HBox>
                         <HBox styleClass="menu-hbox">
                             <children>
-                                <Button styleClass="button" fx:id="tictactoeBtn" mnemonicParsing="false" prefHeight="134.0" prefWidth="161.0" text="Tic Tac Toe" onAction="#handleTicTacToeButtonAction">
+                                <Button fx:id="tictactoeBtn" mnemonicParsing="false" onAction="#handleTicTacToeButtonAction" prefHeight="134.0" prefWidth="161.0" styleClass="button" text="Tic Tac Toe">
                                     <font>
                                         <Font size="24.0" />
                                     </font>
                                 </Button>
-                                <Button styleClass="button" fx:id="pongBtn" mnemonicParsing="false" text="Pong ">
+                                <Button fx:id="pongBtn" mnemonicParsing="false" styleClass="button" text="Pong ">
                                     <font>
                                         <Font size="24.0" />
                                     </font>
 
                                 </Button>
-                                <Button styleClass="button" fx:id="comingSoonBtn" disable="true" mnemonicParsing="false" text="TBD">
+                                <Button fx:id="comingSoonBtn" disable="true" mnemonicParsing="false" styleClass="button" text="TBD">
                                     <font>
                                         <Font size="24.0" />
                                     </font>
@@ -61,7 +65,23 @@
                     </children>
                 </VBox>
             </center>
-
+            <bottom>
+                <VBox fx:id="bottomvbox" alignment="CENTER">
+                   <children>
+                       <Label text="Before you start a game, enter a username;">
+                     <VBox.margin>
+                        <Insets bottom="10.0" top="30.0" />
+                     </VBox.margin>
+                  </Label>
+                   <HBox styleClass="bottom">
+                      <children>
+                          <TextField prefHeight="40" />
+                          <Button prefHeight="40" text="submit" />
+                      </children>
+                   </HBox>
+                   </children>
+                </VBox>
+            </bottom>
         </BorderPane>
     </children>
     <stylesheets>

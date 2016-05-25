@@ -166,7 +166,7 @@ public class BubblesEndpoint implements Initializable
             container.connectToServer(this, uri);
         } catch (Exception e)
         {
-            e.printStackTrace();
+            System.out.println("The server might be offline right now");
         }
     }
 

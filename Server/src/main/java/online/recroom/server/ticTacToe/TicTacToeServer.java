@@ -2,6 +2,8 @@ package online.recroom.server.ticTacToe;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import online.recroom.server.ticTacToe.message.*;
+import online.recroom.server.ticTacToe.message.Message;
+import sun.plugin2.message.*;
 
 import javax.websocket.*;
 import javax.websocket.server.PathParam;

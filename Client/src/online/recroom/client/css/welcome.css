@@ -90,3 +90,15 @@
     -fx-pref-width: 200;
     -fx-pref-height: 150;
 }
+
+.bottom {
+    -fx-alignment: center;
+
+}
+
+#bottomvbox {
+ -fx-border-insets: 10, 10, 10, 10;
+}
+#bottom-button {
+
+}

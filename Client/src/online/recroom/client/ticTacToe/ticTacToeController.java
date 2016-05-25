@@ -20,6 +20,7 @@ import javafx.util.Duration;
 import javax.websocket.*;
 import java.io.IOException;
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -43,7 +44,8 @@ public class TicTacToeController implements Initializable
     private Session session;
 
     @OnOpen
-    public void onOpen(final Session session) {this.session = session; }
+    public void onOpen(final Session session) {this.session = session;
+        System.out.println("conntected"); }
 
     @OnMessage
     public void onMessage(final String string){
@@ -96,6 +98,13 @@ public class TicTacToeController implements Initializable
     @Override
     public void initialize(URL location, ResourceBundle resources)
     {
+        try
+        {
+            connectToWebSocket(new URI("ws://localhost:8080/recroom/ticTacToe/1/moshe?action=join"));
+        } catch (URISyntaxException e)
+        {
+            e.printStackTrace();
+        }
 
         int k = 0;
         for(int row = 0; row < 3; row++)
