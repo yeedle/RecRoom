@@ -74,14 +74,20 @@ public class BubblesController
     public void bubblePopped(long poppedBubbleId)
     {
         Bubble bubble = bubbleMap.get(poppedBubbleId);
+        Animator.animateBubblePopping(poppedBubbleId, bubble, bubblePane);
+        bubbleMap.remove(poppedBubbleId);
+    }
+
+    /*private void animateBubblePopping(long poppedBubbleId, Bubble bubble)
+    {
         ScaleTransition st = new ScaleTransition(Duration.millis(100), bubble);
         final int  POPPING_SIZE = 5;
         st.setByX(POPPING_SIZE);
         st.setByY(POPPING_SIZE);
         st.setOnFinished(e -> {bubblePane.getChildren().remove(bubble); new MediaPlayer(popSound).play();});
         st.play();
-        bubbleMap.remove(poppedBubbleId);
-    }
+
+    }*/
 
     public void console(String str)
     {
