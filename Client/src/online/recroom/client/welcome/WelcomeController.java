@@ -36,38 +36,43 @@ public class WelcomeController
     @FXML
     private void handleChessButtonAction(ActionEvent event) throws IOException
     {
-        System.out.println("chess");
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("../chess/Chess.fxml"));
+        final String PATH = "../chess/Chess.fxml";
+        FXMLLoader loader = getLoader(PATH);
         Parent root = loader.load();
-        Scene scene = new Scene(root);
-        Stage  stage=(Stage) ((Node)event.getSource()).getScene().getWindow();
-        stage.setScene(scene);
-        stage.show();
+        showScene(event, root);
     }
 
 
     public void handleTicTacToeButtonAction(ActionEvent event) throws IOException
     {
-        System.out.println("tic tac toe");
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("../ticTacToe/TicTacToe.fxml"));
+        final String PATH = "../ticTacToe/TicTacToe.fxml";
+        FXMLLoader loader = getLoader(PATH);
         Parent root = loader.load();
-        Scene scene = new Scene(root);
-        Stage  stage=(Stage) ((Node)event.getSource()).getScene().getWindow();
-        stage.setScene(scene);
-        stage.show();
+        showScene(event, root);
     }
 
     public void handleBubblesButtonAction(ActionEvent event) throws IOException
     {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("../bubbles/Bubbles.fxml"));
+        final String PATH = "../bubbles/Bubbles.fxml";
+        FXMLLoader loader = getLoader(PATH);
         Parent root = loader.load();
         BubblesEndpoint bubblesEndpoint = new BubblesEndpoint(usernameTextField.getText(), loader.getController());
         bubblesEndpoint.connect();
 
-        Scene scene = new Scene(root, RecRoom.WIDTH, RecRoom.HEIGHT);
-        Stage  stage=(Stage) ((Node)event.getSource()).getScene().getWindow();
+        showScene(event, root);
+
+    }
+
+    private FXMLLoader getLoader(String PATH)
+    {
+        return new FXMLLoader(getClass().getResource(PATH));
+    }
+
+    private void showScene(ActionEvent event, Parent root)
+    {
+        Scene scene = new Scene(root);
+        Stage stage=(Stage) ((Node)event.getSource()).getScene().getWindow();
         stage.setScene(scene);
         stage.show();
-
     }
 }
