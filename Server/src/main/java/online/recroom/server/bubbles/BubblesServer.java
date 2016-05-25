@@ -33,9 +33,10 @@ public class BubblesServer {
             game.addPlayer(this.player);
             game.getPlayersSessions().add(this.session);
 //            TODO send bubbles to player that joined the game
-            session.getBasicRemote().sendObject(Message.createJoinedGameMessage(game.getArrayOfBubbles(), game.getArrayOfPlayers()));
-//            Send message to all other players that a new player has joined
-
+            session.getBasicRemote().sendObject(Message.joinedGame(
+                    game.getArrayOfBubbles(), game.getArrayOfPlayers()));
+//           TODO Send message to all other players that a new player has joined
+            broadcastPlayerJoinedMessage();
         } else if (!pendingGames.isEmpty()) {
             game = getAPendingGame();
             pendingGames.remove(game);
@@ -43,18 +44,13 @@ public class BubblesServer {
             game.addPlayer(this.player);
             game.getPlayersSessions().add(this.session);
 //            TODO send bubbles to both players
-            for (Session s : game.getPlayersSessions()) {
-                if (s != this.session) {
-                    sendListOfBubblesToSession(s, game.getArrayOfBubbles(), game.getArrayOfPlayers());
-                }
-            }
-            session.getBasicRemote().sendObject(Message.createGameStartedMessage(game.getArrayOfBubbles(), game.getArrayOfPlayers()));
+            startNewGame(game.getArrayOfBubbles(), game.getArrayOfPlayers());
         } else {
             //        TODO start new game
             game = new Game(this.player);
             pendingGames.add(game);
             game.getPlayersSessions().add(this.session);
-            session.getBasicRemote().sendObject(Message.createGamePendingMessage());
+            session.getBasicRemote().sendObject(Message.gamePending());
         }
     }
 
@@ -65,15 +61,11 @@ public class BubblesServer {
             throw new Exception("Someone beat you to it, sorry");
 
         game.removeBubble(bubbleId);
-        sendBubblePoppedMessage(bubbleId);
+        broadcastBubblePoppedMessage(bubbleId);
         player.incrementBubblesPopped();
-        if (game.isOver())
-            for (Session s : this.session.getOpenSessions()) {
-                if (s.isOpen()) {
-                    s.getBasicRemote().sendObject(Message.createGameOverMessage(
-                            game.leader().name, game.leader().getScore()));
-                }
-            }
+        if (game.isOver()) {
+            broadcastGameOverMessage(game.leader());
+        }
     }
 
     @OnError
@@ -82,8 +74,13 @@ public class BubblesServer {
     }
 
     @OnClose
-    public void onClose() {
-
+    public void onClose() throws IOException, EncodeException {
+        game.removePlayer(this.player);
+        game.removeSession(this.session);
+        broadcastPlayerLeft(this.player.name);
+        if (game.getPlayersSessions().size() == 1) {
+            broadcastGameOverMessage(this.player);
+        }
     }
 
     private boolean isThereActiveAnGameWithRoom() {
@@ -112,20 +109,32 @@ public class BubblesServer {
         throw new Exception();
     }
 
-    private static void sendListOfBubblesToSession(Session aSession, Bubble[] bubbles, BubblePlayer[] players) throws IOException, EncodeException {
-//        TODO when player joins a game that has already begun, send them the state of the game
-        RemoteEndpoint.Basic endpoint = aSession.getBasicRemote();
-        endpoint.sendObject(Message.createGameStartedMessage(bubbles, players));
+    private void startNewGame(Bubble[] bubbles, BubblePlayer[] players) throws IOException, EncodeException {
+        broadcastMessage(Message.gameStarted(bubbles, players), true);
     }
 
-
-    private void sendBubblePoppedMessage(long id) throws IOException, EncodeException {
-//        TODO iterate through connected session and send the BubblePoppedMessage
-        Message bubblePoppedMessage = Message.createBubblePoppedMessage(id);
-        for (Session s : game.getPlayersSessions()) {
-            RemoteEndpoint.Basic endpoint = s.getBasicRemote();
-            endpoint.sendObject(bubblePoppedMessage);
+    private void broadcastMessage(Message m, boolean includeMe) throws IOException, EncodeException {
+        for (Session s : this.game.getPlayersSessions()) {
+            if ((includeMe || s != this.session) && s.isOpen())
+                s.getBasicRemote().sendObject(m);
         }
+    }
+
+    private void broadcastPlayerJoinedMessage() throws IOException, EncodeException {
+        broadcastMessage(Message.playerJoined(this.player.name), false);
+    }
+
+    private void broadcastBubblePoppedMessage(long id) throws IOException, EncodeException {
+//        iterate through connected session and send the BubblePoppedMessage
+        broadcastMessage(Message.bubblePopped(id), true);
+    }
+
+    public void broadcastPlayerLeft(String playerName) throws IOException, EncodeException {
+        broadcastMessage(Message.playerLeft(playerName), false);
+    }
+
+    public void broadcastGameOverMessage(BubblePlayer winner) throws IOException, EncodeException {
+        broadcastMessage(Message.gameOver(winner.name, winner.getScore()), true);
     }
 
     private String extractQueryParam(String key) {
