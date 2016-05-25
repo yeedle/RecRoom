@@ -85,6 +85,10 @@ public class Game
         return playersSessions;
     }
 
+    public void removeSession(Session s) {
+        playersSessions.remove(s);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
