@@ -68,7 +68,7 @@
             <bottom>
                 <VBox fx:id="bottomvbox" alignment="CENTER">
                    <children>
-                       <Label text="Before you start a game, enter a username;">
+                       <Label text="Before you start a game, enter a username:">
                      <VBox.margin>
                         <Insets bottom="10.0" top="30.0" />
                      </VBox.margin>
@@ -76,7 +76,6 @@
                    <HBox styleClass="bottom">
                       <children>
                           <TextField fx:id="usernameTextField" prefHeight="40" />
-                          <Button prefHeight="40" text="submit" />
                       </children>
                    </HBox>
                    </children>

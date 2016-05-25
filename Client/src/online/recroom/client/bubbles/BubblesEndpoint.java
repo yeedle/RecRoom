@@ -56,7 +56,7 @@ public class BubblesEndpoint
                 break;
             case GAME_STARTED:
                 {
-                    controller.console("The game is under way...");
+                    controller.console("GO!");
                     gameStarted(message.newBubbles);
                     break;
                 }
