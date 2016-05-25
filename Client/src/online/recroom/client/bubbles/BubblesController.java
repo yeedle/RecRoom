@@ -9,7 +9,6 @@ import javafx.scene.Group;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.util.Duration;
-import online.recroom.client.bubbles.Bubble;
 
 import javax.websocket.Session;
 import java.io.File;
@@ -28,7 +27,7 @@ public class BubblesController
     File popSoundFile =  new File("Client/src/online/recroom/client/assets/pop.mp3");
     Media popSound = new Media(popSoundFile.toURI().toString());
     Timeline t = new Timeline();
-    private double bubbleSpeed = 100;
+    private final double SPEED = 100;
 
     public void setSession(Session session)
     {
@@ -39,7 +38,7 @@ public class BubblesController
     {
         for (Bubble bubble : bubbles)
         {
-            t.getKeyFrames().add(new KeyFrame(Duration.millis(bubbleSpeed), e -> bubble.move()));
+            t.getKeyFrames().add(new KeyFrame(Duration.millis(SPEED), e -> bubble.move()));
             bubbleMap.put(bubble.id, bubble);
             long id = bubble.id;
             bubble.setOnMouseClicked(e -> sendMessage(id));
@@ -67,8 +66,9 @@ public class BubblesController
     {
         Bubble bubble = bubbleMap.get(poppedBubbleId);
         ScaleTransition st = new ScaleTransition(Duration.millis(100), bubble);
-        st.setByX(5);
-        st.setByY(5);
+        final int  POPPING_SIZE = 5;
+        st.setByX(POPPING_SIZE);
+        st.setByY(POPPING_SIZE);
         st.setOnFinished(e -> {bubblePane.getChildren().remove(bubble); new MediaPlayer(popSound).play();});
         st.play();
         bubbleMap.remove(poppedBubbleId);
