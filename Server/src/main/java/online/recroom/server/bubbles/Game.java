@@ -29,6 +29,19 @@ public class Game
         }
     }
 
+    public boolean isOver() {
+        return bubbles.size() == 0;
+    }
+
+    public BubblePlayer leader() {
+        BubblePlayer leader = players.get(0);
+        for (BubblePlayer p : players) {
+            if (p.getScore() > leader.getScore())
+                leader = p;
+        }
+        return leader;
+    }
+
     public Bubble[] getArrayOfBubbles() {
         return this.bubbles.toArray(new Bubble[this.bubbles.size()]);
     }
