@@ -61,9 +61,12 @@ public class TicTacToeServer {
         }
     }
 
+
+
     @OnMessage
     public void onMessage(Session session, String message,
                           @PathParam("gameId") long gameId) {
+
         Game game = TicTacToeServer.games.get(gameId);
         boolean isPlayer1 = session == game.player1;
 

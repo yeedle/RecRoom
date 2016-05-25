@@ -1,6 +1,6 @@
 package online.recroom.client.ticTacToe.message;
 
-import online.recroom.server.ticTacToe.TicTacToeGame;
+import online.recroom.client.ticTacToe.TicTacToeGame;
 
 /**
  * Created by Yehuda Globerman on 4/17/2016.
