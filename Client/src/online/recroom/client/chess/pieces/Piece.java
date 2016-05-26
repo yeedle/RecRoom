@@ -23,5 +23,7 @@ public class Piece extends ImageView
         super.setFitHeight(50);
     }
 
+
+
 }
 

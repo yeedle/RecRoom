@@ -1,32 +1,21 @@
 package online.recroom.client.bubbles;
 
-import javafx.animation.*;
-import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
-import javafx.scene.Group;
-import javafx.scene.media.Media;
-
 import javax.websocket.*;
-import java.io.File;
 import java.io.IOException;
 import java.net.URI;
-import java.net.URISyntaxException;
-import java.net.URL;
-import java.util.ResourceBundle;
-import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Created by Yeedle on 5/17/2016 9:32 AM.
  */
 @ClientEndpoint (decoders = MessageDecoder.class)
-public class BubblesEndpoint
+public class Endpoint
 {
     private Session session;
-    private BubblesController controller;
+    private Controller controller;
     private String username = "Anonymous";
     private String  WebSocketURI;
 
-    public BubblesEndpoint(String username, BubblesController controller)
+    public Endpoint(String username, Controller controller)
     {
 
         this.username = username.isEmpty()? "Anonymous" : username;
@@ -56,7 +45,7 @@ public class BubblesEndpoint
                 break;
             case GAME_STARTED:
                 {
-                    controller.console("The game is under way...");
+                    controller.console("GO!");
                     gameStarted(message.newBubbles);
                     break;
                 }
@@ -78,7 +67,7 @@ public class BubblesEndpoint
 
     private void joinedGame(Message message)
     {
-        BubblePlayer[] players = message.players;
+        Player[] players = message.players;
         String str = "";
         for (int i = 0; i < players.length-1; i++)
         {

@@ -1,36 +1,26 @@
 package online.recroom.client.bubbles;
 
-import javafx.animation.KeyFrame;
-import javafx.animation.ScaleTransition;
-import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
-import javafx.scene.Group;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
-import javafx.util.Duration;
 import online.recroom.client.Animator;
 
-import javax.websocket.Session;
-import java.io.File;
-import java.io.IOException;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Created by Yeedle on 5/25/2016 12:54 AM.
  */
-public class BubblesController
+public class Controller
 {
     @FXML Pane bubblePane;
     @FXML ScrollPane console;
     @FXML VBox vbox;
-    BubblesEndpoint endpoint;
+    Endpoint endpoint;
     ConcurrentHashMap<Long, Bubble> bubbleMap = new ConcurrentHashMap<>();
 
-    public void setEndpoint(BubblesEndpoint endpoint)
+    public void setEndpoint(Endpoint endpoint)
     {
         this.endpoint =endpoint;
     }

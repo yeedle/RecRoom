@@ -3,15 +3,13 @@ package online.recroom.client.welcome;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import online.recroom.client.bubbles.BubblesEndpoint;
-import online.recroom.client.bubbles.BubblesController;
+import online.recroom.client.bubbles.Endpoint;
 
 import java.io.IOException;
 
@@ -56,8 +54,8 @@ public class WelcomeController
         final String PATH = "../bubbles/Bubbles.fxml";
         FXMLLoader loader = getLoader(PATH);
         Parent root = loader.load();
-        BubblesEndpoint bubblesEndpoint = new BubblesEndpoint(usernameTextField.getText(), loader.getController());
-        bubblesEndpoint.connect();
+        Endpoint endpoint = new Endpoint(usernameTextField.getText(), loader.getController());
+        endpoint.connect();
 
         showScene(event, root);
 
