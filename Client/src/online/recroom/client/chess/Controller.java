@@ -19,7 +19,7 @@ import static online.recroom.client.chess.pieces.Player.WHITE;
 /**
  * Created by Yeedle on 5/18/2016 4:15 PM.
  */
-public class ChessController
+public class Controller
 {
 
     StackPane[][] pieces = new StackPane[8][8];

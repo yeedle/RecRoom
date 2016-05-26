@@ -9,6 +9,14 @@ import javax.websocket.*;
 public class Endpoint
 {
     private Session session;
+    private Controller controller;
+    private String username;
+
+    public Endpoint(String username, Controller controller)
+    {
+        this.username = username.isEmpty() ? "Anonymous" : username;
+        this.controller = controller;
+    }
 
     @OnOpen
     public void onOpen(Session session)
