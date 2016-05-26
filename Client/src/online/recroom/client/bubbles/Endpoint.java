@@ -3,6 +3,7 @@ package online.recroom.client.bubbles;
 import javax.websocket.*;
 import java.io.IOException;
 import java.net.URI;
+import java.net.URISyntaxException;
 
 /**
  * Created by Yeedle on 5/17/2016 9:32 AM.
@@ -34,28 +35,24 @@ public class Endpoint
     @OnMessage
     public void onMessage(final Message message) throws IOException
     {
-        System.out.println("message received");
         switch (message.type)
         {
             case GAME_PENDING:
-                controller.console("Waiting for another player to join...");
+                controller.gamePending();
                 break;
             case JOINED_GAME:
-                joinedGame(message);
+                onJoinedGame(message.newBubbles, message.players);
                 break;
             case GAME_STARTED:
-                {
-                    controller.console("GO!");
-                    gameStarted(message.newBubbles);
+                    OnGameStarted(message.newBubbles);
                     break;
-                }
             case PLAYER_JOINED:
                 controller.console(message.playerName + " joined your game");
             case BUBBLE_POPPED:
-                bubblePopped(message.poppedBubbleId);
+                OnBubblePopped(message.poppedBubbleId);
                 break;
             case GAME_OVER:
-                gameOver(message.winner, message.winnersScore);
+                OnGameOver(message.winner, message.winnersScore);
                 break;
             case PLAYER_LEFT:
                 controller.console(message.playerName + " couldn't take the heat");
@@ -65,50 +62,10 @@ public class Endpoint
         }
     }
 
-    private void joinedGame(Message message)
-    {
-        Player[] players = message.players;
-        String str = "";
-        for (int i = 0; i < players.length-1; i++)
-        {
-            str += players[i].name + ", ";
-        }
-        str += "and " + players[players.length-1].name +".";
-        controller.console("You joined a game with " + str);
-        gameStarted(message.newBubbles);
-    }
-
-
-    private void gameStarted(Bubble.ServerBubble[] serverBubbles)
-    {
-
-        Bubble[] bubbles = new Bubble[serverBubbles.length];
-        for (int i = 0; i < serverBubbles.length ; i++)
-        {
-            bubbles[i] = new Bubble(serverBubbles[i]);
-        }
-        controller.gameStarted(bubbles);
-
-    }
-
-    private void bubblePopped(long poppedBubbleId)
-    {
-        controller.bubblePopped(poppedBubbleId);
-    }
-
-
-    private void gameOver(String winner, int winnersScore) throws IOException
-    {
-        controller.console("the winner is " + winner + " and the score is " + winnersScore);
-        session.close(new CloseReason(CloseReason.CloseCodes.NORMAL_CLOSURE, "Game over"));
-    }
-
-
     @OnError
     public void onError(Throwable t)
     {
-
-        controller.console("Something went horribly wrong. :(");
+        controller.error(t);
     }
 
     @OnClose
@@ -117,26 +74,48 @@ public class Endpoint
         //TODO handle on close logic
     }
 
-    public void sendMessage(final Long id)
+    public void sendMessage(final Long id) throws IOException
     {
-        try
-        {
-            session.getBasicRemote().sendText(Long.toString(id));
-        } catch (IOException e)
-        {
-            e.printStackTrace();
-        }
+        session.getBasicRemote().sendText(Long.toString(id));
     }
 
-    public void connect()
+    private void onJoinedGame(Bubble.ServerBubble[] serverBubbles, Player[] players)
+    {
+        Bubble[] bubbles = generateBubblesFromServerBubbles(serverBubbles);
+        controller.gameJoined(bubbles, players);
+    }
+
+
+    private void OnGameStarted(Bubble.ServerBubble[] serverBubbles)
+    {
+        Bubble[] bubbles = generateBubblesFromServerBubbles(serverBubbles);
+        controller.gameStarted(bubbles);
+    }
+
+    private Bubble[] generateBubblesFromServerBubbles(Bubble.ServerBubble[] serverBubbles)
+    {
+        Bubble[] bubbles = new Bubble[serverBubbles.length];
+        for (int i = 0; i < serverBubbles.length ; i++)
+            bubbles[i] = new Bubble(serverBubbles[i]);
+        return bubbles;
+    }
+
+    private void OnBubblePopped(long poppedBubbleId)
+    {
+        controller.bubblePopped(poppedBubbleId);
+    }
+
+
+    private void OnGameOver(String winner, int score) throws IOException
+    {
+        controller.gameOver(winner, score);
+        session.close(new CloseReason(CloseReason.CloseCodes.NORMAL_CLOSURE, "Game over"));
+    }
+
+
+    public void connect() throws URISyntaxException, IOException, DeploymentException
     {
         WebSocketContainer container = ContainerProvider.getWebSocketContainer();
-        try
-        {
             container.connectToServer(this, new URI(WebSocketURI));
-        } catch (Exception e)
-        {
-            e.printStackTrace();
-        }
     }
 }

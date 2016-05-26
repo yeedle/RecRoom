@@ -7,6 +7,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import online.recroom.client.Animator;
 
+import java.io.IOException;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -25,7 +26,12 @@ public class Controller
         this.endpoint =endpoint;
     }
 
-    private void initialize()
+    public void initialize()
+    {
+        setUpConsoleAutoResize();
+    }
+
+    private void setUpConsoleAutoResize()
     {
         console.setVvalue(1.0);
         vbox.heightProperty().addListener((observable, oldValue, newValue) -> console.setVvalue(newValue.doubleValue()));
@@ -33,25 +39,71 @@ public class Controller
 
     public void gameStarted(Bubble[] bubbles)
     {
+        console("Go!");
+        addBubblesToPane(bubbles);
+    }
+
+    public void gameJoined(Bubble[] bubbles, Player[] players)
+    {
+        String str = getStringOf(players);
+        console("You joined a game with " + str);
+        addBubblesToPane(bubbles);
+    }
+
+    private void addBubblesToPane(Bubble[] bubbles)
+    {
         for (Bubble bubble : bubbles)
         {
-            Animator.animate(bubble);
+            Animator.setAnimationFor(bubble);
             bubbleMap.put(bubble.id, bubble);
-            long id = bubble.id;
-            bubble.setOnMouseClicked(e -> endpoint.sendMessage(id));
-            Platform.runLater(() -> bubblePane.getChildren().add(bubble));
+            bubble.setOnMouseClicked(e -> sendPoppedBubbleID(bubble.id));
+        }
+        Platform.runLater(() -> bubblePane.getChildren().addAll(bubbles));
+    }
+
+    private void sendPoppedBubbleID(Long id)
+    {
+        try
+        {
+            endpoint.sendMessage(id);
+        } catch (IOException exception)
+        {
+            exception.printStackTrace();
         }
     }
 
     public void bubblePopped(long poppedBubbleId)
     {
-        Bubble bubble = bubbleMap.get(poppedBubbleId);
-        Animator.animateBubblePopping(poppedBubbleId, bubble, bubblePane);
-        bubbleMap.remove(poppedBubbleId);
+        Animator.animateBubblePopping(bubbleMap.remove(poppedBubbleId), bubblePane);
     }
 
     public void console(String str)
     {
         Animator.runningText(str, vbox);
+    }
+
+    public void gamePending()
+    {
+        console("Waiting for another player to join...");
+    }
+
+
+    private String getStringOf(Player[] players)
+    {
+        String str = "";
+        for (int i = 0; i < players.length-1; i++)
+            str += players[i].name + ", ";
+        str += "and " + players[players.length-1].name +".";
+        return str;
+    }
+
+    public void gameOver(String winner, int score)
+    {
+        console(winner + " can click the fastest, and won with score of " + score);
+    }
+
+    public void error(Throwable t)
+    {
+        console(t.getMessage() + "! Sorry 'bout that :(");
     }
 }

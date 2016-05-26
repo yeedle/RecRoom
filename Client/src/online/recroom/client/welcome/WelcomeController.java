@@ -55,7 +55,14 @@ public class WelcomeController
         FXMLLoader loader = getLoader(PATH);
         Parent root = loader.load();
         Endpoint endpoint = new Endpoint(usernameTextField.getText(), loader.getController());
-        endpoint.connect();
+        try {
+            endpoint.connect();
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+
 
         showScene(event, root);
 
