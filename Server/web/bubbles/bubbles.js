@@ -3,44 +3,48 @@
  */
 var canvas = document.getElementById("canvas");
 var c = canvas.getContext("2d");
+var connection;
+var username = document.getElementById("username");
 
+var connect = function () {
+    try {
+        connection = new WebSocket("ws://"+window.location.host+"/recroom/bubble?username="+username);
+    } catch (error)
+    {
+        console.log(error)
+    }
+};
+
+$("button").on("click",connect() );
+
+
+var container;
+connection.onopen = function (event) {
+    
+}
+var circles;
+connection.onmessage = function (event) {
+    var message = JSON.parse(event.data);
+    switch (message.type){
+        case "GAME_STARTED":
+            circles = message.newBubbles;
+            break;
+        case "JOINED_GAME":
+            circles = message.newBubbles;
+        default:
+            break; 
+    }
+       
+}
 //create te container that will hold the boincing balls.
-var container = {
+container = {
     x: 0,
     y: 0,
     width: 640,
     height: 640
 };
 //create the array of circles that will be animated
-var circles = [{
-    x: 50,
-    y: 100,
-    r: 10,
-    vx: 10,
-    vy: 9,
-    color: 125
-}, {
-    x: 150,
-    y: 80,
-    r: 20,
-    vx: 15,
-    vy: 8,
-    color: 205
-}, {
-    x: 90,
-    y: 150,
-    r: 5,
-    vx: 5,
-    vy: 15,
-    color: 25
-}, {
-    x: 100,
-    y: 50,
-    r: 15,
-    vx: 8,
-    vy: 10,
-    color: 100
-}];
+
 
 function animate() {
     //draw the container
@@ -52,20 +56,20 @@ function animate() {
         //draw the circles
         c.fillStyle = 'hsl(' + circles[i].color++ + ', 100%, 50%)';
         c.beginPath();
-        c.arc(circles[i].x, circles[i].y, circles[i].r, 0, Math.PI * 2, true);
+        c.arc(circles[i].relativeXPosition, circles[i].relativeYPosition, circles[i].relativeRadius, 0, Math.PI * 2, true);
         c.fill()
 
         //time to animate our circles ladies and gentlemen.
-        if (circles[i].x - circles[i].r + circles[i].vx < container.x || circles[i].x + circles[i].r + circles[i].vx > container.x + container.width) {
-            circles[i].vx = -circles[i].vx;
+        if (circles[i].relativeXPosition - circles[i].relativeRadius + circles[i].vx < container.x || circles[i].relativeXPosition + circles[i].relativeRadius + circles[i].vx > container.x + container.width) {
+            circles[i].deltaX = -circles[i].deltaX;
         }
 
-        if (circles[i].y + circles[i].r + circles[i].vy > container.y + container.height || circles[i].y - circles[i].r + circles[i].vy < container.y) {
-            circles[i].vy = -circles[i].vy;
+        if (circles[i].relativeYPosition + circles[i].relativeRadius + circles[i].vy > container.y + container.height || circles[i].relativeYPosition - circles[i].relativeRadius + circles[i].vy < container.y) {
+            circles[i].deltaY = -circles[i].deltaY;
         }
 
-        circles[i].x += circles[i].vx
-        circles[i].y += circles[i].vy
+        circles[i].relativeXPosition += circles[i].deltaX
+        circles[i].relativeYPosition += circles[i].deltaY
     }
 
     requestAnimationFrame(animate);
