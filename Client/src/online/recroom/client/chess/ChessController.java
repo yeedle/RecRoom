@@ -19,18 +19,15 @@ import static online.recroom.client.chess.pieces.Player.WHITE;
 /**
  * Created by Yeedle on 5/18/2016 4:15 PM.
  */
-@ClientEndpoint
-public class ChessController implements Initializable
+public class ChessController
 {
 
     StackPane[][] pieces = new StackPane[8][8];
     @FXML
     GridPane chessBoard;
 
-    @Override
-    public void initialize(URL location, ResourceBundle resources)
+    public void initialize()
     {
-        //TODO set up websocket connection
         int k =0;
         for (int i =0; i < 8; i++)
             for (int j=7; j >= 0; j--)
@@ -44,6 +41,7 @@ public class ChessController implements Initializable
         positionPawns();
         positionQueens();
         positionRooks();
+
     }
 
     private void positionQueens()
