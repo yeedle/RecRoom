@@ -33,7 +33,7 @@
 
       </GridPane>
        <ScrollPane fx:id="console">
-      <VBox styleClass="text" fx:id="vbox" prefHeight="200.0" prefWidth="640.0"></VBox>
+      <VBox styleClass="text" fx:id="vbox" prefHeight="100.0" prefWidth="640.0"></VBox>
        </ScrollPane>
    </items>
     <stylesheets>

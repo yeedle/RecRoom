@@ -18,9 +18,8 @@
     </Pane>
 
     <ScrollPane fx:id="console">
-   <content>
-           <VBox fx:id="vbox" prefHeight="100" prefWidth="640.0" styleClass="text" />
-   </content>
+
+           <VBox fx:id="vbox" prefHeight="200" prefWidth="640.0" styleClass="text" />
     </ScrollPane>
 
    </items>

@@ -9,7 +9,7 @@ public class GameStartedMessage extends Message {
     private final TicTacToeGame game;
 
     public GameStartedMessage(TicTacToeGame game) {
-        super("gameStarted");
+        super("addBubblesToPane");
         this.game = game;
     }
 

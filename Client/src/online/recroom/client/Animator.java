@@ -14,6 +14,7 @@ import javafx.scene.media.MediaPlayer;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
 import online.recroom.client.bubbles.Bubble;
+import org.junit.Test;
 
 import java.io.File;
 
@@ -60,7 +61,7 @@ public class Animator
         }
     }
 
-    public static void animateBubblePopping(long poppedBubbleId, Bubble bubble, Pane bubblePane)
+    public static void animateBubblePopping(Bubble bubble, Pane bubblePane)
     {
         ScaleTransition st = new ScaleTransition(Duration.millis(BUBBLE_POPPING_DURATION), bubble);
         st.setByX(POPPING_SIZE);
@@ -71,7 +72,8 @@ public class Animator
         });
         st.play();
     }
-    public static void animate(Bubble bubble)
+
+    public static void setAnimationFor(Bubble bubble)
     {
         Timeline t = new Timeline();
         t.getKeyFrames().add(new KeyFrame(Duration.millis(BUBBLE_SPEED), e -> bubble.move()));
