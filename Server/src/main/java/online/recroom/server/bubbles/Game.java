@@ -21,7 +21,7 @@ public class Game implements Comparable<Game>
         generateBubbles(40);
     }
 
-    public void generateBubbles(int amount) {
+    private void generateBubbles(int amount) {
         for (int i = 0; i < amount; i++) {
             Bubble b = new Bubble();
             bubbles.put(b.id, b);
@@ -69,7 +69,7 @@ public class Game implements Comparable<Game>
     }
 
     public void removeSession(Session s) {
-        playersSessions.remove(s);
+        playersSessions.remove(s.hashCode());
     }
 
     @Override
