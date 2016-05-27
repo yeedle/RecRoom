@@ -33,24 +33,28 @@ public class BubblesServer {
         if (isThereActiveAnGameWithRoom()) {
             game = getActiveGameThatHasRoom();
             game.addPlayer(this.player);
-            game.getPlayersSessions().add(this.session);
+            game.getPlayersSessions().put(this.session.hashCode(), this.session);
 //            TODO send bubbles to player that joined the game
-            session.getBasicRemote().sendObject(Message.joinedGame(
-                    game.getArrayOfBubbles(), game.getArrayOfPlayers()));
+            this.session.getBasicRemote().sendObject(Message.joinedGame(
+                    game.getBubbles().values().toArray(new Bubble[game.getBubbles().size()]),
+                    game.getPlayers().toArray(new BubblePlayer[game.getAmountOfPlayers()])));
 //           TODO Send message to all other players that a new player has joined
             broadcastPlayerJoinedMessage();
         } else if (!PENDING_GAMES.isEmpty()) {
             game = PENDING_GAMES.remove();
             ACTIVE_GAMES.add(game);
             game.addPlayer(this.player);
-            game.getPlayersSessions().add(this.session);
+            game.getPlayersSessions().put(this.session.hashCode(), this.session);
+            ;
 //            TODO send bubbles to both players
-            startNewGame(game.getArrayOfBubbles(), game.getArrayOfPlayers());
+            startNewGame(game.getBubbles().values().toArray(new Bubble[game.getBubbles().size()]),
+                    game.getPlayers().toArray(new BubblePlayer[game.getAmountOfPlayers()]));
         } else {
             //        TODO start new game
             game = new Game(this.player);
             PENDING_GAMES.add(game);
-            game.getPlayersSessions().add(this.session);
+            game.getPlayersSessions().put(this.session.hashCode(), this.session);
+            ;
             session.getBasicRemote().sendObject(Message.gamePending());
         }
     }
@@ -103,7 +107,7 @@ public class BubblesServer {
     }
 
     private void broadcastMessage(Message m, boolean includeMe) throws IOException, EncodeException {
-        for (Session s : this.game.getPlayersSessions()) {
+        for (Session s : this.game.getPlayersSessions().values()) {
             if ((includeMe || s != this.session) && s.isOpen())
                 s.getBasicRemote().sendObject(m);
         }

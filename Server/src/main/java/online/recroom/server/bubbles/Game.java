@@ -1,22 +1,20 @@
 package online.recroom.server.bubbles;
 
 import javax.websocket.Session;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.PriorityBlockingQueue;
 
 /**
  * Created by Yeedle on 5/11/2016 6:25 PM.
  */
-public class Game
+public class Game implements Comparable<Game>
 {
     private static long idGenerator = Long.MIN_VALUE;
 
-    private final Set<Session> playersSessions = new HashSet<>();
     public final long id = idGenerator++;
-    private final List<BubblePlayer> players = new ArrayList<>();
-    private final HashSet<Bubble> bubbles = new HashSet<>();
+    private final ConcurrentHashMap<Integer, Session> playersSessions = new ConcurrentHashMap<>();
+    private final PriorityBlockingQueue<BubblePlayer> players = new PriorityBlockingQueue<>();
+    private final ConcurrentHashMap<Long, Bubble> bubbles = new ConcurrentHashMap<>();
 
     public Game(BubblePlayer player1) {
         players.add(player1);
@@ -25,45 +23,33 @@ public class Game
 
     public void generateBubbles(int amount) {
         for (int i = 0; i < amount; i++) {
-            bubbles.add(new Bubble());
+            Bubble b = new Bubble();
+            bubbles.put(b.id, b);
         }
     }
 
     public boolean isOver() {
-        return bubbles.size() == 0;
+        return bubbles.isEmpty();
     }
 
-    public BubblePlayer leader() {
-        BubblePlayer leader = players.get(0);
-        for (BubblePlayer p : players) {
-            if (p.getScore() > leader.getScore())
-                leader = p;
-        }
-        return leader;
+    public PriorityBlockingQueue<BubblePlayer> getPlayers() {
+        return players;
     }
 
-    public Bubble[] getArrayOfBubbles() {
-        return this.bubbles.toArray(new Bubble[this.bubbles.size()]);
+    public BubblePlayer getLeader() {
+        return players.element();
+    }
+
+    public ConcurrentHashMap<Long, Bubble> getBubbles() {
+        return bubbles;
     }
 
     public void removeBubble(long id) {
-        for (Bubble bubble : bubbles) {
-            if (id == bubble.id) {
-                bubbles.remove(bubble);
-                break;
-            }
-        }
+        bubbles.remove(id);
     }
 
-    public boolean wasBubblePopped(long id) {
-        boolean found = false;
-        for (Bubble bubble : bubbles) {
-            if (bubble.id == id) {
-                found = true;
-                break;
-            }
-        }
-        return !found;
+    public boolean isBubblePopped(long id) {
+        return bubbles.containsKey(id);
     }
 
     public void addPlayer(BubblePlayer p) {
@@ -74,14 +60,11 @@ public class Game
         players.remove(p);
     }
 
-    public BubblePlayer[] getArrayOfPlayers() {
-        return this.players.toArray(new BubblePlayer[this.players.size()]);
-    }
-    private void generateBubbles() {
-//        TODO generate the bubbles when the game starts
+    public int getAmountOfPlayers() {
+        return players.size();
     }
 
-    public Set<Session> getPlayersSessions() {
+    public ConcurrentHashMap<Integer, Session> getPlayersSessions() {
         return playersSessions;
     }
 
@@ -103,5 +86,10 @@ public class Game
     @Override
     public int hashCode() {
         return (int) (id ^ (id >>> 32));
+    }
+
+    @Override
+    public int compareTo(Game g) {
+        return this.players.size() - g.players.size();
     }
 }
