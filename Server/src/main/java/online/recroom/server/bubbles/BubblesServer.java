@@ -4,8 +4,8 @@ package online.recroom.server.bubbles;
 import javax.websocket.*;
 import javax.websocket.server.ServerEndpoint;
 import java.io.IOException;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.concurrent.PriorityBlockingQueue;
 
 /**
  * Created by Yehuda Globerman on 5/15/2016.
@@ -15,10 +15,11 @@ import java.util.Set;
         decoders = {MessageDecoder.class},
         encoders = {MessageEncoder.class})
 public class BubblesServer {
-    public static final int PLAYER_LIMIT = 6;
-    private static Set<Game> pendingGames = new HashSet<>();
-    private static Set<Game> activeGames = new HashSet<>();
-    private static Set<Game> endedGames = new HashSet<>();
+    private static final int PLAYER_LIMIT = 6;
+    private static final ConcurrentLinkedQueue<Game> PENDING_GAMES
+            = new ConcurrentLinkedQueue<>();
+    private static final PriorityBlockingQueue<Game> ACTIVE_GAMES
+            = new PriorityBlockingQueue<>();
 
     private Session session;
     private Game game;
@@ -34,46 +35,46 @@ public class BubblesServer {
             game.addPlayer(this.player);
             game.getPlayersSessions().add(this.session);
 //            TODO send bubbles to player that joined the game
-            session.getBasicRemote().sendObject(Message.joinedGame(
-                    game.getArrayOfBubbles(), game.getArrayOfPlayers()));
+            this.session.getBasicRemote().sendObject(Message.joinedGame(
+                    game.getBubbles().values().toArray(new Bubble[game.getBubbles().size()]),
+                    game.getPlayers().toArray(new BubblePlayer[game.getAmountOfPlayers()])));
 //           TODO Send message to all other players that a new player has joined
             broadcastPlayerJoinedMessage();
-        } else if (!pendingGames.isEmpty()) {
-            game = getAPendingGame();
-            pendingGames.remove(game);
-            activeGames.add(game);
+        } else if (!PENDING_GAMES.isEmpty()) {
+            game = PENDING_GAMES.remove();
+            ACTIVE_GAMES.add(game);
             game.addPlayer(this.player);
             game.getPlayersSessions().add(this.session);
 //            TODO send bubbles to both players
-            startNewGame(game.getArrayOfBubbles(), game.getArrayOfPlayers());
+            startGame();
         } else {
             //        TODO start new game
             game = new Game(this.player);
-            pendingGames.add(game);
+            PENDING_GAMES.add(game);
             game.getPlayersSessions().add(this.session);
             session.getBasicRemote().sendObject(Message.gamePending());
         }
     }
 
     @OnMessage
-    public void onMessage(long bubbleId) throws Exception {
+    public void onMessage(final long bubbleId) throws Exception {
 //        TODO keep score and send message to all players, check if game is over
-        if (game.wasBubblePopped(bubbleId))
+        if (game.isBubblePopped(bubbleId))
             throw new Exception("Someone beat you to it, sorry");
 
         game.removeBubble(bubbleId);
         broadcastBubblePoppedMessage(bubbleId);
         player.incrementBubblesPopped();
         if (game.isOver()) {
-            broadcastGameOverMessage(game.leader());
-            endedGames.add(game);
-            activeGames.remove(game);
+            broadcastGameOverMessage(game.getLeader());
+            ACTIVE_GAMES.remove(game);
         }
     }
 
     @OnError
     public void onError(Throwable throwable) {
-
+        System.out.println(throwable.getMessage());
+        throwable.printStackTrace();
     }
 
     @OnClose
@@ -81,42 +82,26 @@ public class BubblesServer {
         game.removePlayer(this.player);
         game.removeSession(this.session);
         broadcastPlayerLeft(this.player.name);
-        if (game.getPlayersSessions().size() == 1) {
-            broadcastGameOverMessage(this.player);
-            endedGames.add(game);
-            activeGames.remove(game);
-        } else if (game.getPlayersSessions().size() == 0) {
-            endedGames.remove(game);
+        if (game.getAmountOfPlayers() == 1) {
+            broadcastGameOverMessage(game.getLeader());
+            ACTIVE_GAMES.remove(game);
         }
     }
 
     private boolean isThereActiveAnGameWithRoom() {
-        for (Game g : activeGames) {
-            if (g.getPlayersSessions().size() < PLAYER_LIMIT)
-                return true;
-        }
-        return false;
+//        using priority queue, which gives me smallest game
+        return !ACTIVE_GAMES.isEmpty() && ACTIVE_GAMES.element().getAmountOfPlayers() < PLAYER_LIMIT;
     }
 
     private Game getActiveGameThatHasRoom() throws Exception {
         if (!isThereActiveAnGameWithRoom())
             throw new Exception();
-        for (Game g : activeGames) {
-            if (g.getPlayersSessions().size() < PLAYER_LIMIT) {
-                return g;
-            }
-        }
-        throw new Exception();
+        return ACTIVE_GAMES.peek();
     }
 
-    private Game getAPendingGame() throws Exception {
-        for (Game g : pendingGames) {
-            return g;
-        }
-        throw new Exception();
-    }
-
-    private void startNewGame(Bubble[] bubbles, BubblePlayer[] players) throws IOException, EncodeException {
+    private void startGame() throws IOException, EncodeException {
+        Bubble[] bubbles = this.game.getBubbles().values().toArray(new Bubble[game.getBubbles().size()]);
+        BubblePlayer[] players = this.game.getPlayers().toArray(new BubblePlayer[game.getAmountOfPlayers()]);
         broadcastMessage(Message.gameStarted(bubbles, players), true);
     }
 
@@ -136,11 +121,11 @@ public class BubblesServer {
         broadcastMessage(Message.bubblePopped(id), true);
     }
 
-    public void broadcastPlayerLeft(String playerName) throws IOException, EncodeException {
+    private void broadcastPlayerLeft(String playerName) throws IOException, EncodeException {
         broadcastMessage(Message.playerLeft(playerName), false);
     }
 
-    public void broadcastGameOverMessage(BubblePlayer winner) throws IOException, EncodeException {
+    private void broadcastGameOverMessage(BubblePlayer winner) throws IOException, EncodeException {
         broadcastMessage(Message.gameOver(winner.name, winner.getScore()), true);
     }
 
