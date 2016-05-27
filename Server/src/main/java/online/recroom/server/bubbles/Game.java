@@ -89,7 +89,7 @@ public class Game implements Comparable<Game>
     }
 
     @Override
-    public int compareTo(Game g) {
-        return this.players.size() - g.players.size();
+    public int compareTo(Game otherGame) {
+        return this.players.size() - otherGame.players.size();
     }
 }
