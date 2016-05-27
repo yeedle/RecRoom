@@ -28,28 +28,24 @@ public class Game implements Comparable<Game>
         }
     }
 
-    public boolean isOver() {
-        return bubbles.isEmpty();
+    public boolean isBubblePopped(long id) {
+        return bubbles.containsKey(id);
     }
 
-    public PriorityBlockingQueue<BubblePlayer> getPlayers() {
-        return players;
+    public boolean isOver() {
+        return bubbles.isEmpty();
     }
 
     public BubblePlayer getLeader() {
         return players.element();
     }
 
-    public ConcurrentHashMap<Long, Bubble> getBubbles() {
-        return bubbles;
+    public int getAmountOfPlayers() {
+        return players.size();
     }
 
-    public void removeBubble(long id) {
-        bubbles.remove(id);
-    }
-
-    public boolean isBubblePopped(long id) {
-        return bubbles.containsKey(id);
+    public PriorityBlockingQueue<BubblePlayer> getPlayers() {
+        return players;
     }
 
     public void addPlayer(BubblePlayer p) {
@@ -60,8 +56,12 @@ public class Game implements Comparable<Game>
         players.remove(p);
     }
 
-    public int getAmountOfPlayers() {
-        return players.size();
+    public ConcurrentHashMap<Long, Bubble> getBubbles() {
+        return bubbles;
+    }
+
+    public void removeBubble(long id) {
+        bubbles.remove(id);
     }
 
     public ConcurrentHashMap<Integer, Session> getPlayersSessions() {
