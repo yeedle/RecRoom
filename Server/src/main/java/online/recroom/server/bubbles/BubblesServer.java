@@ -6,10 +6,12 @@ import javax.websocket.server.ServerEndpoint;
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.concurrent.PriorityBlockingQueue;
 
 /**
  * Created by Yehuda Globerman on 5/15/2016.
  */
+@SuppressWarnings("ALL")
 @ServerEndpoint(
         value = "/bubble",
         decoders = {MessageDecoder.class},
@@ -17,7 +19,7 @@ import java.util.Set;
 public class BubblesServer {
     public static final int PLAYER_LIMIT = 6;
     private static Set<Game> pendingGames = new HashSet<>();
-    private static Set<Game> activeGames = new HashSet<>();
+    private static PriorityBlockingQueue<Game> activeGames = new PriorityBlockingQueue<>();
     private static Set<Game> endedGames = new HashSet<>();
 
     private Session session;
@@ -73,7 +75,8 @@ public class BubblesServer {
 
     @OnError
     public void onError(Throwable throwable) {
-
+        System.out.println(throwable.getMessage());
+        throwable.printStackTrace();
     }
 
     @OnClose
@@ -91,22 +94,17 @@ public class BubblesServer {
     }
 
     private boolean isThereActiveAnGameWithRoom() {
-        for (Game g : activeGames) {
-            if (g.getPlayersSessions().size() < PLAYER_LIMIT)
-                return true;
-        }
-        return false;
+//        using priority queue, which gives me smallest game
+        if (activeGames.peek().getAmountOfPlayers() < PLAYER_LIMIT)
+            return true;
+        else
+            return false;
     }
 
     private Game getActiveGameThatHasRoom() throws Exception {
         if (!isThereActiveAnGameWithRoom())
             throw new Exception();
-        for (Game g : activeGames) {
-            if (g.getPlayersSessions().size() < PLAYER_LIMIT) {
-                return g;
-            }
-        }
-        throw new Exception();
+        return activeGames.peek();
     }
 
     private Game getAPendingGame() throws Exception {
