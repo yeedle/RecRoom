@@ -46,8 +46,7 @@ public class BubblesServer {
             game.addPlayer(this.player);
             game.getPlayersSessions().add(this.session);
 //            TODO send bubbles to both players
-            startNewGame(game.getBubbles().values().toArray(new Bubble[game.getBubbles().size()]),
-                    game.getPlayers().toArray(new BubblePlayer[game.getAmountOfPlayers()]));
+            startGame();
         } else {
             //        TODO start new game
             game = new Game(this.player);
@@ -100,7 +99,9 @@ public class BubblesServer {
         return ACTIVE_GAMES.peek();
     }
 
-    private void startNewGame(Bubble[] bubbles, BubblePlayer[] players) throws IOException, EncodeException {
+    private void startGame() throws IOException, EncodeException {
+        Bubble[] bubbles = this.game.getBubbles().values().toArray(new Bubble[game.getBubbles().size()]);
+        BubblePlayer[] players = this.game.getPlayers().toArray(new BubblePlayer[game.getAmountOfPlayers()]);
         broadcastMessage(Message.gameStarted(bubbles, players), true);
     }
 
