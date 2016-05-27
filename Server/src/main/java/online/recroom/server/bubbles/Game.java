@@ -31,7 +31,7 @@ public class Game implements Comparable<Game>
     }
 
     public boolean isBubblePopped(long id) {
-        return bubbles.containsKey(id);
+        return !bubbles.containsKey(id);
     }
 
     public boolean isOver() {

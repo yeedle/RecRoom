@@ -45,7 +45,6 @@ public class BubblesServer {
             ACTIVE_GAMES.add(game);
             game.addPlayer(this.player);
             game.getPlayersSessions().add(this.session);
-            ;
 //            TODO send bubbles to both players
             startNewGame(game.getBubbles().values().toArray(new Bubble[game.getBubbles().size()]),
                     game.getPlayers().toArray(new BubblePlayer[game.getAmountOfPlayers()]));
@@ -92,13 +91,13 @@ public class BubblesServer {
 
     private boolean isThereActiveAnGameWithRoom() {
 //        using priority queue, which gives me smallest game
-        return ACTIVE_GAMES.element().getAmountOfPlayers() < PLAYER_LIMIT;
+        return !ACTIVE_GAMES.isEmpty() && ACTIVE_GAMES.element().getAmountOfPlayers() < PLAYER_LIMIT;
     }
 
     private Game getActiveGameThatHasRoom() throws Exception {
         if (!isThereActiveAnGameWithRoom())
             throw new Exception();
-        return ACTIVE_GAMES.element();
+        return ACTIVE_GAMES.peek();
     }
 
     private void startNewGame(Bubble[] bubbles, BubblePlayer[] players) throws IOException, EncodeException {
