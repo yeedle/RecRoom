@@ -1,6 +1,8 @@
 package online.recroom.server.bubbles;
 
 import javax.websocket.Session;
+import java.util.Collections;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.PriorityBlockingQueue;
 
@@ -12,7 +14,7 @@ public class Game implements Comparable<Game>
     private static long idGenerator = Long.MIN_VALUE;
 
     public final long id = idGenerator++;
-    private final ConcurrentHashMap<Integer, Session> playersSessions = new ConcurrentHashMap<>();
+    private final Set<Session> playersSessions = Collections.newSetFromMap(new ConcurrentHashMap<>());
     private final PriorityBlockingQueue<BubblePlayer> players = new PriorityBlockingQueue<>();
     private final ConcurrentHashMap<Long, Bubble> bubbles = new ConcurrentHashMap<>();
 
@@ -64,7 +66,7 @@ public class Game implements Comparable<Game>
         bubbles.remove(id);
     }
 
-    public ConcurrentHashMap<Integer, Session> getPlayersSessions() {
+    public Set<Session> getPlayersSessions() {
         return playersSessions;
     }
 

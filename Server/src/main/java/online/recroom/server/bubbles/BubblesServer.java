@@ -26,14 +26,14 @@ public class BubblesServer {
     private BubblePlayer player;
 
     @OnOpen
-    public void onOpen(final Session session) throws Exception {
+    public void onOpen(Session session) throws Exception {
         this.session = session;
         player = new BubblePlayer(extractPlayerName());
 
         if (isThereActiveAnGameWithRoom()) {
             game = getActiveGameThatHasRoom();
             game.addPlayer(this.player);
-            game.getPlayersSessions().put(this.session.hashCode(), this.session);
+            game.getPlayersSessions().add(this.session);
 //            TODO send bubbles to player that joined the game
             this.session.getBasicRemote().sendObject(Message.joinedGame(
                     game.getBubbles().values().toArray(new Bubble[game.getBubbles().size()]),
@@ -44,7 +44,7 @@ public class BubblesServer {
             game = PENDING_GAMES.remove();
             ACTIVE_GAMES.add(game);
             game.addPlayer(this.player);
-            game.getPlayersSessions().put(this.session.hashCode(), this.session);
+            game.getPlayersSessions().add(this.session);
             ;
 //            TODO send bubbles to both players
             startNewGame(game.getBubbles().values().toArray(new Bubble[game.getBubbles().size()]),
@@ -53,8 +53,7 @@ public class BubblesServer {
             //        TODO start new game
             game = new Game(this.player);
             PENDING_GAMES.add(game);
-            game.getPlayersSessions().put(this.session.hashCode(), this.session);
-            ;
+            game.getPlayersSessions().add(this.session);
             session.getBasicRemote().sendObject(Message.gamePending());
         }
     }
@@ -99,7 +98,7 @@ public class BubblesServer {
     private Game getActiveGameThatHasRoom() throws Exception {
         if (!isThereActiveAnGameWithRoom())
             throw new Exception();
-        return ACTIVE_GAMES.peek();
+        return ACTIVE_GAMES.element();
     }
 
     private void startNewGame(Bubble[] bubbles, BubblePlayer[] players) throws IOException, EncodeException {
@@ -107,7 +106,7 @@ public class BubblesServer {
     }
 
     private void broadcastMessage(Message m, boolean includeMe) throws IOException, EncodeException {
-        for (Session s : this.game.getPlayersSessions().values()) {
+        for (Session s : this.game.getPlayersSessions()) {
             if ((includeMe || s != this.session) && s.isOpen())
                 s.getBasicRemote().sendObject(m);
         }
