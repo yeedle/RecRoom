@@ -4,6 +4,7 @@ package online.recroom.server.bubbles;
 import javax.websocket.*;
 import javax.websocket.server.ServerEndpoint;
 import java.io.IOException;
+import java.util.Set;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.PriorityBlockingQueue;
 
@@ -21,6 +22,7 @@ public class BubblesServer {
     private static final PriorityBlockingQueue<Game> ACTIVE_GAMES
             = new PriorityBlockingQueue<>();
 
+    private Controller controller;
     private Session session;
     private Game game;
     private BubblePlayer player;
@@ -124,6 +126,13 @@ public class BubblesServer {
         broadcastMessage(Message.gameStarted(bubbles, players), true);
     }
 
+    public void broadcastMessage(Message m, Set<Session> sessions, boolean includeMe) throws IOException, EncodeException {
+        for (Session s : sessions) {
+            if ((includeMe || s != this.session) && s.isOpen())
+                s.getBasicRemote().sendObject(m);
+        }
+    }
+
     private void broadcastMessage(Message m, boolean includeMe) throws IOException, EncodeException {
         for (Session s : this.game.getPlayersSessions()) {
             if ((includeMe || s != this.session) && s.isOpen())
@@ -131,24 +140,28 @@ public class BubblesServer {
         }
     }
 
-    private void broadcastPlayerJoinedMessage() throws IOException, EncodeException {
+    public void sendMessage(Message m) throws IOException, EncodeException {
+        this.session.getBasicRemote().sendObject(m);
+    }
+
+    public void broadcastPlayerJoinedMessage() throws IOException, EncodeException {
         broadcastMessage(Message.playerJoined(this.player.name), false);
     }
 
-    private void broadcastBubblePoppedMessage(long id) throws IOException, EncodeException {
+    public void broadcastBubblePoppedMessage(long id) throws IOException, EncodeException {
 //        iterate through connected session and send the BubblePoppedMessage
         broadcastMessage(Message.bubblePopped(id), true);
     }
 
-    private void broadcastPlayerLeft(String playerName) throws IOException, EncodeException {
+    public void broadcastPlayerLeft(String playerName) throws IOException, EncodeException {
         broadcastMessage(Message.playerLeft(playerName), false);
     }
 
-    private void broadcastGameOverMessage(BubblePlayer winner) throws IOException, EncodeException {
+    public void broadcastGameOverMessage(BubblePlayer winner) throws IOException, EncodeException {
         broadcastMessage(Message.gameOver(winner.name, winner.getScore()), true);
     }
 
-    private String extractQueryParam(String key) {
+    public String extractQueryParam(String key) {
         return this.session.getRequestParameterMap().get(key).get(0);
     }
 
