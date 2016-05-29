@@ -42,7 +42,7 @@ public class Controller
         ACTIVE_GAMES.add(game);
         game.addPlayer(this.player);
         game.getPlayersSessions().add(session);
-        broadcastGameStartedMessage():
+        broadcastGameStartedMessage();
     }
 
     private void broadcastGameStartedMessage() throws IOException, EncodeException
