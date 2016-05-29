@@ -5,6 +5,8 @@ import javafx.fxml.FXML;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
+import javafx.stage.Window;
 import online.recroom.client.Animator;
 
 import java.io.IOException;
@@ -20,6 +22,10 @@ public class Controller
     @FXML VBox vbox;
     Endpoint endpoint;
     ConcurrentHashMap<Long, Bubble> bubbleMap = new ConcurrentHashMap<>();
+
+    public Stage getStage(){
+       return (Stage)bubblePane.getScene().getWindow();
+    }
 
     public void setEndpoint(Endpoint endpoint)
     {

@@ -1,7 +1,13 @@
 package online.recroom.client.bubbles;
 
+import javafx.application.Platform;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import online.recroom.client.Scener;
+
 import javax.websocket.*;
 import java.io.IOException;
+import java.io.InterruptedIOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 
@@ -68,9 +74,15 @@ public class Endpoint
     }
 
     @OnClose
-    public void onClose()
+    public void onClose() throws IOException, InterruptedException
     {
-        //TODO handle on close logic
+            final long MILISECONDS = 7000;
+            Thread.sleep(MILISECONDS);
+
+        final String PATH = "../welcome/welcome.fxml";
+        FXMLLoader loader = Scener.getLoader(PATH, this.getClass());
+        Parent root = loader.load();
+        Platform.runLater(() ->Scener.showScene(controller.getStage(), root));
     }
 
     public void sendMessage(final Long id) throws IOException
