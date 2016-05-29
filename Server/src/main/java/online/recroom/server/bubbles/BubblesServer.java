@@ -31,29 +31,41 @@ public class BubblesServer {
         player = new BubblePlayer(extractPlayerName());
 
         if (isThereActiveAnGameWithRoom()) {
-            game = getActiveGameThatHasRoom();
-            game.addPlayer(this.player);
-            game.getPlayersSessions().add(this.session);
-//            TODO send bubbles to player that joined the game
-            this.session.getBasicRemote().sendObject(Message.joinedGame(
-                    game.getBubbles().values().toArray(new Bubble[game.getBubbles().size()]),
-                    game.getPlayers().toArray(new BubblePlayer[game.getAmountOfPlayers()])));
-//           TODO Send message to all other players that a new player has joined
-            broadcastPlayerJoinedMessage();
+            joinActiveGame();
         } else if (!PENDING_GAMES.isEmpty()) {
-            game = PENDING_GAMES.remove();
-            ACTIVE_GAMES.add(game);
-            game.addPlayer(this.player);
-            game.getPlayersSessions().add(this.session);
-//            TODO send bubbles to both players
-            startGame();
+            joinPendingGame();
         } else {
-            //        TODO start new game
-            game = new Game(this.player);
-            PENDING_GAMES.add(game);
-            game.getPlayersSessions().add(this.session);
-            session.getBasicRemote().sendObject(Message.gamePending());
+            startNewGame(session);
         }
+    }
+
+    private void startNewGame(Session session) throws IOException, EncodeException {
+        //        TODO start new game
+        game = new Game(this.player);
+        PENDING_GAMES.add(game);
+        game.getPlayersSessions().add(this.session);
+        session.getBasicRemote().sendObject(Message.gamePending());
+    }
+
+    private void joinPendingGame() throws IOException, EncodeException {
+        game = PENDING_GAMES.remove();
+        ACTIVE_GAMES.add(game);
+        game.addPlayer(this.player);
+        game.getPlayersSessions().add(this.session);
+//            TODO send bubbles to both players
+        startGame();
+    }
+
+    private void joinActiveGame() throws Exception {
+        game = getActiveGameThatHasRoom();
+        game.addPlayer(this.player);
+        game.getPlayersSessions().add(this.session);
+//            TODO send bubbles to player that joined the game
+        this.session.getBasicRemote().sendObject(Message.joinedGame(
+                game.getBubbles().values().toArray(new Bubble[game.getBubbles().size()]),
+                game.getPlayers().toArray(new BubblePlayer[game.getAmountOfPlayers()])));
+//          Send message to all other players that a new player has joined
+        broadcastPlayerJoinedMessage();
     }
 
     @OnMessage
@@ -85,6 +97,12 @@ public class BubblesServer {
         if (game.getAmountOfPlayers() == 1) {
             broadcastGameOverMessage(game.getLeader());
             ACTIVE_GAMES.remove(game);
+            for (Session s : game.getPlayersSessions()) {
+                if (s.isOpen()) {
+                    s.close(new CloseReason(CloseReason.CloseCodes.NORMAL_CLOSURE, "Game over"));
+                    game.removeSession(s);
+                }
+            }
         }
     }
 
