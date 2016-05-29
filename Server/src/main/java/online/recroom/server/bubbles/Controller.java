@@ -49,12 +49,11 @@ public class Controller {
         ACTIVE_GAMES.add(game);
         game.addPlayer(this.player);
         game.getPlayersSessions().add(session);
-//            TODO send bubbles to both players
+//            send bubbles to both players
         broadcastGameStartedMessage();
     }
 
     private void startNewGame(Session session) throws IOException, EncodeException {
-        //        TODO start new game
         game = new Game(this.player);
         PENDING_GAMES.add(game);
         game.getPlayersSessions().add(session);
@@ -95,32 +94,32 @@ public class Controller {
         }
     }
 
-    public void closeGame(CloseReason closeReason) throws IOException, EncodeException {
+    private void closeGame(CloseReason closeReason) throws IOException, EncodeException {
         broadcastGameOverMessage();
         ACTIVE_GAMES.remove(game);
         bubblesServer.closeSessions(game.getPlayersSessions(), closeReason);
         game.getPlayersSessions().clear();
     }
 
-    public void broadcastGameStartedMessage() throws IOException, EncodeException {
+    private void broadcastGameStartedMessage() throws IOException, EncodeException {
         bubblesServer.broadcastMessage(Message.gameStarted(getBubblesAsArray(), getPlayersAsArray()),
                 game.getPlayersSessions(), true);
     }
 
-    public void broadcastPlayerJoinedMessage() throws IOException, EncodeException {
+    private void broadcastPlayerJoinedMessage() throws IOException, EncodeException {
         bubblesServer.broadcastMessage(Message.playerJoined(this.player.name),
                 game.getPlayersSessions(), false);
     }
 
-    public void broadcastPlayerLeft(String playerName) throws IOException, EncodeException {
+    private void broadcastPlayerLeft(String playerName) throws IOException, EncodeException {
         bubblesServer.broadcastMessage(Message.playerLeft(playerName), game.getPlayersSessions(), false);
     }
 
-    public void broadcastBubblePoppedMessage(long id) throws IOException, EncodeException {
+    private void broadcastBubblePoppedMessage(long id) throws IOException, EncodeException {
         bubblesServer.broadcastMessage(Message.bubblePopped(id), game.getPlayersSessions(), true);
     }
 
-    public void broadcastGameOverMessage() throws IOException, EncodeException {
+    private void broadcastGameOverMessage() throws IOException, EncodeException {
         BubblePlayer winner = game.getLeader();
         bubblesServer.broadcastMessage(Message.gameOver(winner.name, winner.getScore()),
                 game.getPlayersSessions(), true);
