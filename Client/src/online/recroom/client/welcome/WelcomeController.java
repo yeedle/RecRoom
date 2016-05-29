@@ -40,7 +40,16 @@ public class WelcomeController
     @FXML
     private void handleChessButtonAction(ActionEvent event) throws IOException
     {
-        loadScene("../chess/Chess.fxml");
+       FXMLLoader loader = loadScene("../chess/Chess.fxml");
+        online.recroom.client.chess.Endpoint endpoint = new online.recroom.client.chess.Endpoint(usernameTextField.getText(), loader.getController());
+        try
+        {
+            endpoint.connect();
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
     }
 
 
