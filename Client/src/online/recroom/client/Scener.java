@@ -17,12 +17,6 @@ public class Scener
         return new FXMLLoader(tClass.getResource(PATH));
     }
 
-    public static void showScene(ActionEvent event, Parent root)
-    {
-        Stage stage=(Stage) ((Node)event.getSource()).getScene().getWindow();
-        showScene(stage, root);
-    }
-
     public static void showScene(Stage stage, Parent root)
     {
         Scene scene = new Scene(root);

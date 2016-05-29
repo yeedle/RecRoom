@@ -32,29 +32,26 @@ public class WelcomeController
     @FXML
     TextField usernameTextField;
 
+    private Stage getStage()
+    {
+        return (Stage) usernameTextField.getScene().getWindow();
+    }
+
     @FXML
     private void handleChessButtonAction(ActionEvent event) throws IOException
     {
-        final String PATH = "../chess/Chess.fxml";
-        FXMLLoader loader = getLoader(PATH);
-        Parent root = loader.load();
-        showScene(event, root);
+        loadScene("../chess/Chess.fxml");
     }
 
 
     public void handleTicTacToeButtonAction(ActionEvent event) throws IOException
     {
-        final String PATH = "../ticTacToe/TicTacToe.fxml";
-        FXMLLoader loader = getLoader(PATH);
-        Parent root = loader.load();
-        showScene(event, root);
+        loadScene("../ticTacToe/TicTacToe.fxml");
     }
 
     public void handleBubblesButtonAction(ActionEvent event) throws IOException
     {
-        final String PATH = "../bubbles/Bubbles.fxml";
-        FXMLLoader loader = Scener.getLoader(PATH, this.getClass());
-        Parent root = loader.load();
+        FXMLLoader loader = loadScene("../bubbles/Bubbles.fxml");
         Endpoint endpoint = new Endpoint(usernameTextField.getText(), loader.getController());
         try {
             endpoint.connect();
@@ -64,21 +61,13 @@ public class WelcomeController
             e.printStackTrace();
         }
 
-
-        Scener.showScene(event, root);
-
     }
 
-    private FXMLLoader getLoader(String PATH)
+    private FXMLLoader loadScene(String url) throws IOException
     {
-        return new FXMLLoader(getClass().getResource(PATH));
-    }
-
-    private void showScene(ActionEvent event, Parent root)
-    {
-        Scene scene = new Scene(root);
-        Stage stage=(Stage) ((Node)event.getSource()).getScene().getWindow();
-        stage.setScene(scene);
-        stage.show();
+        FXMLLoader loader = Scener.getLoader(url, this.getClass());
+        Parent root = loader.load();
+        Scener.showScene(getStage(), root);
+        return loader;
     }
 }
