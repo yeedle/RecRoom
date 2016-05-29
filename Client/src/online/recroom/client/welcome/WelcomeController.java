@@ -9,6 +9,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import online.recroom.client.Scener;
 import online.recroom.client.bubbles.Endpoint;
 
 import java.io.IOException;
@@ -52,7 +53,7 @@ public class WelcomeController
     public void handleBubblesButtonAction(ActionEvent event) throws IOException
     {
         final String PATH = "../bubbles/Bubbles.fxml";
-        FXMLLoader loader = getLoader(PATH);
+        FXMLLoader loader = Scener.getLoader(PATH, this.getClass());
         Parent root = loader.load();
         Endpoint endpoint = new Endpoint(usernameTextField.getText(), loader.getController());
         try {
@@ -64,7 +65,7 @@ public class WelcomeController
         }
 
 
-        showScene(event, root);
+        Scener.showScene(event, root);
 
     }
 

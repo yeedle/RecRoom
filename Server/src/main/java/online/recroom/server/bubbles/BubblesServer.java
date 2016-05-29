@@ -68,6 +68,7 @@ public class BubblesServer {
         if (game.isOver()) {
             broadcastGameOverMessage(game.getLeader());
             ACTIVE_GAMES.remove(game);
+
         }
     }
 
