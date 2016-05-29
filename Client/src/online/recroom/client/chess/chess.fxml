@@ -4,82 +4,83 @@
 <?import javafx.scene.Group?>
 <?import javafx.scene.layout.*?>
 <?import java.net.URL?>
+<?import online.recroom.client.chess.Square?>
 <Group xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="online.recroom.client.chess.Controller">
    <children>
       <VBox>
             <GridPane fx:id="chessBoard" minHeight="-Infinity" minWidth="-Infinity" prefHeight="640.0" prefWidth="640.0">
                <children>
-                  <StackPane  prefHeight="150.0" prefWidth="200.0" styleClass="white" GridPane.columnIndex="0" GridPane.rowIndex="0" />
-                   <StackPane prefHeight="150.0" prefWidth="200.0" styleClass="red" GridPane.columnIndex="0" GridPane.rowIndex="1" />
-                   <StackPane prefHeight="150.0" prefWidth="200.0" styleClass="white" GridPane.columnIndex="0" GridPane.rowIndex="2" />
-                   <StackPane prefHeight="150.0" prefWidth="200.0" styleClass="red" GridPane.columnIndex="0" GridPane.rowIndex="3" />
-                   <StackPane prefHeight="150.0" prefWidth="200.0" styleClass="white" GridPane.columnIndex="0" GridPane.rowIndex="4" />
-                   <StackPane prefHeight="150.0" prefWidth="200.0" styleClass="red" GridPane.columnIndex="0" GridPane.rowIndex="5" />
-                   <StackPane prefHeight="150.0" prefWidth="200.0" styleClass="white" GridPane.columnIndex="0" GridPane.rowIndex="6" />
-                   <StackPane prefHeight="150.0" prefWidth="200.0" styleClass="red" GridPane.columnIndex="0" GridPane.rowIndex="7" />
+                  <Square  prefHeight="150.0" prefWidth="200.0" styleClass="white" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+                   <Square prefHeight="150.0" prefWidth="200.0" styleClass="red" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+                   <Square prefHeight="150.0" prefWidth="200.0" styleClass="white" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+                   <Square prefHeight="150.0" prefWidth="200.0" styleClass="red" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+                   <Square prefHeight="150.0" prefWidth="200.0" styleClass="white" GridPane.columnIndex="0" GridPane.rowIndex="4" />
+                   <Square prefHeight="150.0" prefWidth="200.0" styleClass="red" GridPane.columnIndex="0" GridPane.rowIndex="5" />
+                   <Square prefHeight="150.0" prefWidth="200.0" styleClass="white" GridPane.columnIndex="0" GridPane.rowIndex="6" />
+                   <Square prefHeight="150.0" prefWidth="200.0" styleClass="red" GridPane.columnIndex="0" GridPane.rowIndex="7" />
 
-                   <StackPane prefHeight="150.0" prefWidth="200.0" styleClass="red" GridPane.columnIndex="1" GridPane.rowIndex="0" />
-                   <StackPane prefHeight="150.0" prefWidth="200.0" styleClass="white" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                   <StackPane prefHeight="150.0" prefWidth="200.0" styleClass="red" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                   <StackPane prefHeight="150.0" prefWidth="200.0" styleClass="white" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                   <StackPane prefHeight="150.0" prefWidth="200.0" styleClass="red" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-                   <StackPane prefHeight="150.0" prefWidth="200.0" styleClass="white" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-                   <StackPane prefHeight="150.0" prefWidth="200.0" styleClass="red" GridPane.columnIndex="1" GridPane.rowIndex="6" />
-                   <StackPane prefHeight="150.0" prefWidth="200.0" styleClass="white" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+                   <Square prefHeight="150.0" prefWidth="200.0" styleClass="red" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+                   <Square prefHeight="150.0" prefWidth="200.0" styleClass="white" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                   <Square prefHeight="150.0" prefWidth="200.0" styleClass="red" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                   <Square prefHeight="150.0" prefWidth="200.0" styleClass="white" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                   <Square prefHeight="150.0" prefWidth="200.0" styleClass="red" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                   <Square prefHeight="150.0" prefWidth="200.0" styleClass="white" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                   <Square prefHeight="150.0" prefWidth="200.0" styleClass="red" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+                   <Square prefHeight="150.0" prefWidth="200.0" styleClass="white" GridPane.columnIndex="1" GridPane.rowIndex="7" />
 
-                   <StackPane prefHeight="150.0" prefWidth="200.0" styleClass="white" GridPane.columnIndex="2" GridPane.rowIndex="0" />
-                   <StackPane prefHeight="150.0" prefWidth="200.0" styleClass="red" GridPane.columnIndex="2" GridPane.rowIndex="1" />
-                   <StackPane prefHeight="150.0" prefWidth="200.0" styleClass="white" GridPane.columnIndex="2" GridPane.rowIndex="2" />
-                   <StackPane prefHeight="150.0" prefWidth="200.0" styleClass="red" GridPane.columnIndex="2" GridPane.rowIndex="3" />
-                   <StackPane prefHeight="150.0" prefWidth="200.0" styleClass="white" GridPane.columnIndex="2" GridPane.rowIndex="4" />
-                   <StackPane prefHeight="150.0" prefWidth="200.0" styleClass="red" GridPane.columnIndex="2" GridPane.rowIndex="5" />
-                   <StackPane prefHeight="150.0" prefWidth="200.0" styleClass="white" GridPane.columnIndex="2" GridPane.rowIndex="6" />
-                   <StackPane prefHeight="150.0" prefWidth="200.0" styleClass="red" GridPane.columnIndex="2" GridPane.rowIndex="7" />
+                   <Square prefHeight="150.0" prefWidth="200.0" styleClass="white" GridPane.columnIndex="2" GridPane.rowIndex="0" />
+                   <Square prefHeight="150.0" prefWidth="200.0" styleClass="red" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                   <Square prefHeight="150.0" prefWidth="200.0" styleClass="white" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                   <Square prefHeight="150.0" prefWidth="200.0" styleClass="red" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+                   <Square prefHeight="150.0" prefWidth="200.0" styleClass="white" GridPane.columnIndex="2" GridPane.rowIndex="4" />
+                   <Square prefHeight="150.0" prefWidth="200.0" styleClass="red" GridPane.columnIndex="2" GridPane.rowIndex="5" />
+                   <Square prefHeight="150.0" prefWidth="200.0" styleClass="white" GridPane.columnIndex="2" GridPane.rowIndex="6" />
+                   <Square prefHeight="150.0" prefWidth="200.0" styleClass="red" GridPane.columnIndex="2" GridPane.rowIndex="7" />
 
-                   <StackPane prefHeight="150.0" prefWidth="200.0" styleClass="red" GridPane.columnIndex="3" GridPane.rowIndex="0" />
-                   <StackPane prefHeight="150.0" prefWidth="200.0" styleClass="white" GridPane.columnIndex="3" GridPane.rowIndex="1" />
-                   <StackPane prefHeight="150.0" prefWidth="200.0" styleClass="red" GridPane.columnIndex="3" GridPane.rowIndex="2" />
-                   <StackPane prefHeight="150.0" prefWidth="200.0" styleClass="white" GridPane.columnIndex="3" GridPane.rowIndex="3" />
-                   <StackPane prefHeight="150.0" prefWidth="200.0" styleClass="red" GridPane.columnIndex="3" GridPane.rowIndex="4" />
-                   <StackPane prefHeight="150.0" prefWidth="200.0" styleClass="white" GridPane.columnIndex="3" GridPane.rowIndex="5" />
-                   <StackPane prefHeight="150.0" prefWidth="200.0" styleClass="red" GridPane.columnIndex="3" GridPane.rowIndex="6" />
-                   <StackPane prefHeight="150.0" prefWidth="200.0" styleClass="white" GridPane.columnIndex="3" GridPane.rowIndex="7" />
+                   <Square prefHeight="150.0" prefWidth="200.0" styleClass="red" GridPane.columnIndex="3" GridPane.rowIndex="0" />
+                   <Square prefHeight="150.0" prefWidth="200.0" styleClass="white" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+                   <Square prefHeight="150.0" prefWidth="200.0" styleClass="red" GridPane.columnIndex="3" GridPane.rowIndex="2" />
+                   <Square prefHeight="150.0" prefWidth="200.0" styleClass="white" GridPane.columnIndex="3" GridPane.rowIndex="3" />
+                   <Square prefHeight="150.0" prefWidth="200.0" styleClass="red" GridPane.columnIndex="3" GridPane.rowIndex="4" />
+                   <Square prefHeight="150.0" prefWidth="200.0" styleClass="white" GridPane.columnIndex="3" GridPane.rowIndex="5" />
+                   <Square prefHeight="150.0" prefWidth="200.0" styleClass="red" GridPane.columnIndex="3" GridPane.rowIndex="6" />
+                   <Square prefHeight="150.0" prefWidth="200.0" styleClass="white" GridPane.columnIndex="3" GridPane.rowIndex="7" />
 
-                   <StackPane prefHeight="150.0" prefWidth="200.0" styleClass="white" GridPane.columnIndex="4" GridPane.rowIndex="0" />
-                   <StackPane prefHeight="150.0" prefWidth="200.0" styleClass="red" GridPane.columnIndex="4" GridPane.rowIndex="1" />
-                   <StackPane prefHeight="150.0" prefWidth="200.0" styleClass="white" GridPane.columnIndex="4" GridPane.rowIndex="2" />
-                   <StackPane prefHeight="150.0" prefWidth="200.0" styleClass="red" GridPane.columnIndex="4" GridPane.rowIndex="3" />
-                   <StackPane prefHeight="150.0" prefWidth="200.0" styleClass="white" GridPane.columnIndex="4" GridPane.rowIndex="4" />
-                   <StackPane prefHeight="150.0" prefWidth="200.0" styleClass="red" GridPane.columnIndex="4" GridPane.rowIndex="5" />
-                   <StackPane prefHeight="150.0" prefWidth="200.0" styleClass="white" GridPane.columnIndex="4" GridPane.rowIndex="6" />
-                   <StackPane prefHeight="150.0" prefWidth="200.0" styleClass="red" GridPane.columnIndex="4" GridPane.rowIndex="7" />
+                   <Square prefHeight="150.0" prefWidth="200.0" styleClass="white" GridPane.columnIndex="4" GridPane.rowIndex="0" />
+                   <Square prefHeight="150.0" prefWidth="200.0" styleClass="red" GridPane.columnIndex="4" GridPane.rowIndex="1" />
+                   <Square prefHeight="150.0" prefWidth="200.0" styleClass="white" GridPane.columnIndex="4" GridPane.rowIndex="2" />
+                   <Square prefHeight="150.0" prefWidth="200.0" styleClass="red" GridPane.columnIndex="4" GridPane.rowIndex="3" />
+                   <Square prefHeight="150.0" prefWidth="200.0" styleClass="white" GridPane.columnIndex="4" GridPane.rowIndex="4" />
+                   <Square prefHeight="150.0" prefWidth="200.0" styleClass="red" GridPane.columnIndex="4" GridPane.rowIndex="5" />
+                   <Square prefHeight="150.0" prefWidth="200.0" styleClass="white" GridPane.columnIndex="4" GridPane.rowIndex="6" />
+                   <Square prefHeight="150.0" prefWidth="200.0" styleClass="red" GridPane.columnIndex="4" GridPane.rowIndex="7" />
 
-                   <StackPane prefHeight="150.0" prefWidth="200.0" styleClass="red" GridPane.columnIndex="5" GridPane.rowIndex="0" />
-                   <StackPane prefHeight="150.0" prefWidth="200.0" styleClass="white" GridPane.columnIndex="5" GridPane.rowIndex="1" />
-                   <StackPane prefHeight="150.0" prefWidth="200.0" styleClass="red" GridPane.columnIndex="5" GridPane.rowIndex="2" />
-                   <StackPane prefHeight="150.0" prefWidth="200.0" styleClass="white" GridPane.columnIndex="5" GridPane.rowIndex="3" />
-                   <StackPane prefHeight="150.0" prefWidth="200.0" styleClass="red" GridPane.columnIndex="5" GridPane.rowIndex="4" />
-                   <StackPane prefHeight="150.0" prefWidth="200.0" styleClass="white" GridPane.columnIndex="5" GridPane.rowIndex="5" />
-                   <StackPane prefHeight="150.0" prefWidth="200.0" styleClass="red" GridPane.columnIndex="5" GridPane.rowIndex="6" />
-                   <StackPane prefHeight="150.0" prefWidth="200.0" styleClass="white" GridPane.columnIndex="5" GridPane.rowIndex="7" />
+                   <Square prefHeight="150.0" prefWidth="200.0" styleClass="red" GridPane.columnIndex="5" GridPane.rowIndex="0" />
+                   <Square prefHeight="150.0" prefWidth="200.0" styleClass="white" GridPane.columnIndex="5" GridPane.rowIndex="1" />
+                   <Square prefHeight="150.0" prefWidth="200.0" styleClass="red" GridPane.columnIndex="5" GridPane.rowIndex="2" />
+                   <Square prefHeight="150.0" prefWidth="200.0" styleClass="white" GridPane.columnIndex="5" GridPane.rowIndex="3" />
+                   <Square prefHeight="150.0" prefWidth="200.0" styleClass="red" GridPane.columnIndex="5" GridPane.rowIndex="4" />
+                   <Square prefHeight="150.0" prefWidth="200.0" styleClass="white" GridPane.columnIndex="5" GridPane.rowIndex="5" />
+                   <Square prefHeight="150.0" prefWidth="200.0" styleClass="red" GridPane.columnIndex="5" GridPane.rowIndex="6" />
+                   <Square prefHeight="150.0" prefWidth="200.0" styleClass="white" GridPane.columnIndex="5" GridPane.rowIndex="7" />
 
-                   <StackPane prefHeight="150.0" prefWidth="200.0" styleClass="white" GridPane.columnIndex="6" GridPane.rowIndex="0" />
-                   <StackPane prefHeight="150.0" prefWidth="200.0" styleClass="red" GridPane.columnIndex="6" GridPane.rowIndex="1" />
-                   <StackPane prefHeight="150.0" prefWidth="200.0" styleClass="white" GridPane.columnIndex="6" GridPane.rowIndex="2" />
-                   <StackPane prefHeight="150.0" prefWidth="200.0" styleClass="red" GridPane.columnIndex="6" GridPane.rowIndex="3" />
-                   <StackPane prefHeight="150.0" prefWidth="200.0" styleClass="white" GridPane.columnIndex="6" GridPane.rowIndex="4" />
-                   <StackPane prefHeight="150.0" prefWidth="200.0" styleClass="red" GridPane.columnIndex="6" GridPane.rowIndex="5" />
-                   <StackPane prefHeight="150.0" prefWidth="200.0" styleClass="white" GridPane.columnIndex="6" GridPane.rowIndex="6" />
-                   <StackPane prefHeight="150.0" prefWidth="200.0" styleClass="red" GridPane.columnIndex="6" GridPane.rowIndex="7" />
+                   <Square prefHeight="150.0" prefWidth="200.0" styleClass="white" GridPane.columnIndex="6" GridPane.rowIndex="0" />
+                   <Square prefHeight="150.0" prefWidth="200.0" styleClass="red" GridPane.columnIndex="6" GridPane.rowIndex="1" />
+                   <Square prefHeight="150.0" prefWidth="200.0" styleClass="white" GridPane.columnIndex="6" GridPane.rowIndex="2" />
+                   <Square prefHeight="150.0" prefWidth="200.0" styleClass="red" GridPane.columnIndex="6" GridPane.rowIndex="3" />
+                   <Square prefHeight="150.0" prefWidth="200.0" styleClass="white" GridPane.columnIndex="6" GridPane.rowIndex="4" />
+                   <Square prefHeight="150.0" prefWidth="200.0" styleClass="red" GridPane.columnIndex="6" GridPane.rowIndex="5" />
+                   <Square prefHeight="150.0" prefWidth="200.0" styleClass="white" GridPane.columnIndex="6" GridPane.rowIndex="6" />
+                   <Square prefHeight="150.0" prefWidth="200.0" styleClass="red" GridPane.columnIndex="6" GridPane.rowIndex="7" />
 
-                   <StackPane prefHeight="150.0" prefWidth="200.0" styleClass="red" GridPane.columnIndex="7" GridPane.rowIndex="0" />
-                   <StackPane prefHeight="150.0" prefWidth="200.0" styleClass="white" GridPane.columnIndex="7" GridPane.rowIndex="1" />
-                   <StackPane prefHeight="150.0" prefWidth="200.0" styleClass="red" GridPane.columnIndex="7" GridPane.rowIndex="2" />
-                   <StackPane prefHeight="150.0" prefWidth="200.0" styleClass="white" GridPane.columnIndex="7" GridPane.rowIndex="3" />
-                   <StackPane prefHeight="150.0" prefWidth="200.0" styleClass="red" GridPane.columnIndex="7" GridPane.rowIndex="4" />
-                   <StackPane prefHeight="150.0" prefWidth="200.0" styleClass="white" GridPane.columnIndex="7" GridPane.rowIndex="5" />
-                   <StackPane prefHeight="150.0" prefWidth="200.0" styleClass="red" GridPane.columnIndex="7" GridPane.rowIndex="6" />
-                   <StackPane prefHeight="150.0" prefWidth="200.0" styleClass="white" GridPane.columnIndex="7" GridPane.rowIndex="7" />
+                   <Square prefHeight="150.0" prefWidth="200.0" styleClass="red" GridPane.columnIndex="7" GridPane.rowIndex="0" />
+                   <Square prefHeight="150.0" prefWidth="200.0" styleClass="white" GridPane.columnIndex="7" GridPane.rowIndex="1" />
+                   <Square prefHeight="150.0" prefWidth="200.0" styleClass="red" GridPane.columnIndex="7" GridPane.rowIndex="2" />
+                   <Square prefHeight="150.0" prefWidth="200.0" styleClass="white" GridPane.columnIndex="7" GridPane.rowIndex="3" />
+                   <Square prefHeight="150.0" prefWidth="200.0" styleClass="red" GridPane.columnIndex="7" GridPane.rowIndex="4" />
+                   <Square prefHeight="150.0" prefWidth="200.0" styleClass="white" GridPane.columnIndex="7" GridPane.rowIndex="5" />
+                   <Square prefHeight="150.0" prefWidth="200.0" styleClass="red" GridPane.columnIndex="7" GridPane.rowIndex="6" />
+                   <Square prefHeight="150.0" prefWidth="200.0" styleClass="white" GridPane.columnIndex="7" GridPane.rowIndex="7" />
 
                </children>
             </GridPane>

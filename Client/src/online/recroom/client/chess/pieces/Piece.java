@@ -2,6 +2,9 @@ package online.recroom.client.chess.pieces;
 
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.ClipboardContent;
+import javafx.scene.input.Dragboard;
+import javafx.scene.input.TransferMode;
 
 /**
  * Created by Yeedle on 5/23/2016 12:45 PM.

@@ -2,12 +2,16 @@ package online.recroom.client.chess;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.input.DragEvent;
+import javafx.scene.input.Dragboard;
+import javafx.scene.input.TransferMode;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import online.recroom.client.chess.pieces.Coordinate;
 import online.recroom.client.chess.pieces.Piece;
 
-import javax.websocket.ClientEndpoint;
+import javax.websocket.*;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -25,6 +29,9 @@ public class Controller
     StackPane[][] pieces = new StackPane[8][8];
     @FXML
     GridPane chessBoard;
+    Endpoint endpoint;
+    Coordinate origin;
+    Coordinate destination;
 
     public void initialize()
     {
@@ -32,7 +39,9 @@ public class Controller
         for (int i =0; i < 8; i++)
             for (int j=7; j >= 0; j--)
             {
-                pieces[i][j] = (StackPane) chessBoard.getChildren().get(k++);
+                 Square square= (Square) chessBoard.getChildren().get(k++);
+                pieces[i][j] = square;
+                square.setCoordinate(Coordinate.byColumnAndRow(i, j));
             }
 
         positionBishops();
@@ -41,7 +50,28 @@ public class Controller
         positionPawns();
         positionQueens();
         positionRooks();
+        for (Node node : chessBoard.getChildren())
+        {
+            node.setOnMouseClicked(e ->  {
+                if (origin == null)
+                {
+                    origin = ((Square) node).getCoordinate();
+                    System.out.println("origin");
+                } else
+                {
+                    destination = ((Square) node).getCoordinate();
+                    endpoint.sendMessage(origin, destination);
+                    destination = null;
+                    origin = null;
+                }
+            });
+        }
 
+    }
+
+    public void setEndpoint(Endpoint endpoint)
+    {
+        this.endpoint =endpoint;
     }
 
     private void positionQueens()

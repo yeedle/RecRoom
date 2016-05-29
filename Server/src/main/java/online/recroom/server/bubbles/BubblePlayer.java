@@ -24,6 +24,6 @@ public class BubblePlayer extends Player implements Comparable<BubblePlayer> {
 
     @Override
     public int compareTo(BubblePlayer otherPlayer) {
-        return this.bubblesPopped - otherPlayer.bubblesPopped;
+        return this.getScore() - otherPlayer.getScore();
     }
 }
