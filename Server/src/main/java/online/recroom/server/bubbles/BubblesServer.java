@@ -133,8 +133,13 @@ public class BubblesServer {
         return this.session.getRequestParameterMap().get(key).get(0);
     }
 
+    private boolean isQueryParamEmpty(String key) {
+        String name = this.session.getRequestParameterMap().get(key).get(0);
+        return name != null && !name.isEmpty();
+    }
+
     private String extractPlayerName() {
-        if (session.getRequestParameterMap().containsKey("username")) {
+        if (session.getRequestParameterMap().containsKey("username") && !isQueryParamEmpty("username")) {
             return extractQueryParam("username");
         } else {
             return "Anonymous";
