@@ -1,9 +1,9 @@
 package online.recroom.server.ticTacToe;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import online.recroom.server.bubbles.*;
 import online.recroom.server.ticTacToe.message.*;
 import online.recroom.server.ticTacToe.message.Message;
-import sun.plugin2.message.*;
 
 import javax.websocket.*;
 import javax.websocket.server.PathParam;
@@ -15,8 +15,11 @@ import java.util.Map;
 
 
 
-@ServerEndpoint("/ticTacToe/{gameId}/{username}")
+@ServerEndpoint(value = "/ticTacToe/{gameId}/{username}", decoders = {MessageDecoder.class}, encoders = {MessageEncoder.class})
+
 public class TicTacToeServer {
+    private Controller controller;
+    private Session session;
     private static Map<Long, Game> games = new Hashtable<>();
     private static ObjectMapper mapper = new ObjectMapper();
 
@@ -38,15 +41,15 @@ public class TicTacToeServer {
                 if ("start".equalsIgnoreCase(action)) {
                     Game game = new Game();
                     game.gameId = gameId;
-                    game.player1 = session;
+                    game.session1 = session;
                     TicTacToeServer.games.put(gameId, game);
                 } else if ("join".equalsIgnoreCase(action)) {
                     Game game = TicTacToeServer.games.get(gameId);
-                    game.player2 = session;
+                    game.session2 = session;
                     game.ticTacToeGame = TicTacToeGame.startGame(gameId, username);
-                    this.sendJsonMessage(game.player1, game,
+                    this.sendJsonMessage(game.session1, game,
                             new GameStartedMessage(game.ticTacToeGame));
-                    this.sendJsonMessage(game.player2, game,
+                    this.sendJsonMessage(game.session2, game,
                             new GameStartedMessage(game.ticTacToeGame));
                 }
             }
@@ -68,7 +71,7 @@ public class TicTacToeServer {
                           @PathParam("gameId") long gameId) {
 
         Game game = TicTacToeServer.games.get(gameId);
-        boolean isPlayer1 = session == game.player1;
+        boolean isPlayer1 = session == game.session1;
 
         try {
             Move move = TicTacToeServer.mapper.readValue(message, Move.class);
@@ -78,24 +81,24 @@ public class TicTacToeServer {
                     move.getRow(),
                     move.getColumn()
             );
-            this.sendJsonMessage((isPlayer1 ? game.player2 : game.player1), game,
+            this.sendJsonMessage((isPlayer1 ? game.session2 : game.session1), game,
                     new OpponentMadeMoveMessage(move));
             if (game.ticTacToeGame.isOver()) {
                 if (game.ticTacToeGame.isDraw()) {
-                    this.sendJsonMessage(game.player1, game,
+                    this.sendJsonMessage(game.session1, game,
                             new GameIsDrawMessage());
-                    this.sendJsonMessage(game.player2, game,
+                    this.sendJsonMessage(game.session2, game,
                             new GameIsDrawMessage());
                 } else {
                     boolean wasPlayer1 = game.ticTacToeGame.getWinner() ==
                             TicTacToeGame.Player.PLAYER1;
-                    this.sendJsonMessage(game.player1, game,
+                    this.sendJsonMessage(game.session1, game,
                             new GameOverMessage(wasPlayer1));
-                    this.sendJsonMessage(game.player2, game,
+                    this.sendJsonMessage(game.session2, game,
                             new GameOverMessage(!wasPlayer1));
                 }
-                game.player1.close();
-                game.player2.close();
+                game.session1.close();
+                game.session2.close();
             }
         } catch (IOException e) {
             this.handleException(e, game);
@@ -107,13 +110,13 @@ public class TicTacToeServer {
         Game game = TicTacToeServer.games.get(gameId);
         if (game == null)
             return;
-        boolean isPlayer1 = session == game.player1;
+        boolean isPlayer1 = session == game.session1;
         if (game.ticTacToeGame == null) {
             TicTacToeGame.removeQueuedGame(game.gameId);
         } else if (!game.ticTacToeGame.isOver()) {
             game.ticTacToeGame.forfeit(isPlayer1 ? TicTacToeGame.Player.PLAYER1 :
                     TicTacToeGame.Player.PLAYER2);
-            Session opponent = (isPlayer1 ? game.player2 : game.player1);
+            Session opponent = (isPlayer1 ? game.session2 : game.session1);
             this.sendJsonMessage(opponent, game, new GameForfeitedMessage());
             try {
                 opponent.close();
@@ -136,25 +139,29 @@ public class TicTacToeServer {
         t.printStackTrace();
         String message = t.toString();
         try {
-            game.player1.close(new CloseReason(
+            game.session1.close(new CloseReason(
                     CloseReason.CloseCodes.UNEXPECTED_CONDITION, message
             ));
         } catch (IOException ignore) {
         }
         try {
-            game.player2.close(new CloseReason(
+            game.session2.close(new CloseReason(
                     CloseReason.CloseCodes.UNEXPECTED_CONDITION, message
             ));
         } catch (IOException ignore) {
         }
     }
 
+    public void sendMessage(Message m) throws IOException, EncodeException {
+        this.session.getBasicRemote().sendObject(m);
+    }
+
     private static class Game {
         public long gameId;
 
-        public Session player1;
+        public Session session1;
 
-        public Session player2;
+        public Session session2;
 
         public TicTacToeGame ticTacToeGame;
     }

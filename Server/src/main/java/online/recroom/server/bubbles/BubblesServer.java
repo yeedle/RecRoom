@@ -8,7 +8,7 @@ import java.util.Set;
 
 
 @ServerEndpoint(
-        value = "/bubble",
+        value = "/bubbles",
         decoders = {MessageDecoder.class},
         encoders = {MessageEncoder.class})
 public class BubblesServer {

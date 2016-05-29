@@ -18,7 +18,7 @@ public class ChessServer
     @OnOpen
     public void onOpen(Session session)
     {
-        //TODO assign Player color to session
+        //TODO assign Player color to session1
         this.session = session;
         try
         {

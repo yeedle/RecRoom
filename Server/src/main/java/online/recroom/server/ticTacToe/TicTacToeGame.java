@@ -1,18 +1,21 @@
 package online.recroom.server.ticTacToe;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-
-import java.util.Hashtable;
-import java.util.Map;
-import java.util.Random;
+import online.recroom.server.Player;
+import javax.websocket.Session;
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 public class TicTacToeGame {
     private static long gameIdSequence = 1L;
+    private final Set<Session> playersSessions = Collections.newSetFromMap(new ConcurrentHashMap<>());
+    private final ConcurrentLinkedQueue<online.recroom.server.Player> players = new ConcurrentLinkedQueue<>();
     private static final Hashtable<Long, String> pendingGames = new Hashtable<>();
     private static final Map<Long, TicTacToeGame> activeGames = new Hashtable<>();
-    private final long id;
-    private final String player1;
-    private final String player2;
+    private  long id;
+    private  String player1;
+    private  String player2;
     private Player nextMove = Player.random();
     private Player[][] grid = new Player[3][3];
     private boolean over;
@@ -23,6 +26,11 @@ public class TicTacToeGame {
         this.id = id;
         this.player1 = player1;
         this.player2 = player2;
+    }
+
+    public TicTacToeGame(online.recroom.server.Player player1)
+    {
+        players.add(player1);
     }
 
     public long getId() {
@@ -147,5 +155,13 @@ public class TicTacToeGame {
         private static Player random() {
             return Player.random.nextBoolean() ? PLAYER1 : PLAYER2;
         }
+    }
+
+    public Set<Session> getPlayersSessions() {
+        return playersSessions;
+    }
+
+    public void addPlayer(online.recroom.server.Player p) {
+        players.add(p);
     }
 }
