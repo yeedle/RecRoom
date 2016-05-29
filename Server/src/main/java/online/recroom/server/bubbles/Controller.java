@@ -1,14 +1,13 @@
 package online.recroom.server.bubbles;
 
+import javax.websocket.CloseReason;
 import javax.websocket.EncodeException;
 import javax.websocket.Session;
 import java.io.IOException;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.PriorityBlockingQueue;
 
-/**
- * Created by Yehuda Globerman on 5/27/2016.
- */
+
 public class Controller {
     private static final int PLAYER_LIMIT = 6;
     private static final ConcurrentLinkedQueue<Game> PENDING_GAMES
@@ -20,9 +19,8 @@ public class Controller {
     private Game game;
     private BubblePlayer player;
 
-
-    public void setEndpoint(BubblesServer bubblesServer) {
-        this.bubblesServer = bubblesServer;
+    public Controller(BubblesServer bs) {
+        this.bubblesServer = bs;
     }
 
     public void connectToGame(Session session, String playerName) throws Exception {
@@ -41,11 +39,9 @@ public class Controller {
         game.addPlayer(this.player);
         game.getPlayersSessions().add(session);
 //            send bubbles to player that joined the game
-        session.getBasicRemote().sendObject(Message.joinedGame(
-                game.getBubbles().values().toArray(new Bubble[game.getBubbles().size()]),
-                game.getPlayers().toArray(new BubblePlayer[game.getAmountOfPlayers()])));
+        bubblesServer.sendMessage(Message.joinedGame(getBubblesAsArray(), getPlayersAsArray()));
 //          Send message to all other players that a new player has joined
-        bubblesServer.broadcastPlayerJoinedMessage();
+        broadcastPlayerJoinedMessage();
     }
 
     private void joinPendingGame(Session session) throws IOException, EncodeException {
@@ -76,8 +72,34 @@ public class Controller {
         return ACTIVE_GAMES.peek();
     }
 
-    public void popBubble(long id) {
+    public void popBubble(long bubbleId) throws IOException, EncodeException {
+//        TODO keep score and send message to all players, check if game is over
+        if (game.isBubblePopped(bubbleId)) {
 
+        } else {
+            game.removeBubble(bubbleId);
+            broadcastBubblePoppedMessage(bubbleId);
+            player.incrementBubblesPopped();
+            if (game.isOver()) {
+                closeGame(new CloseReason(CloseReason.CloseCodes.NORMAL_CLOSURE, "Game Over"));
+            }
+        }
+    }
+
+    public void closeSession(Session session) throws IOException, EncodeException {
+        game.removePlayer(this.player);
+        game.removeSession(session);
+        broadcastPlayerLeft(this.player.name);
+        if (game.getAmountOfPlayers() == 1) {
+            closeGame(new CloseReason(CloseReason.CloseCodes.NORMAL_CLOSURE, "All players have left"));
+        }
+    }
+
+    public void closeGame(CloseReason closeReason) throws IOException, EncodeException {
+        broadcastGameOverMessage();
+        ACTIVE_GAMES.remove(game);
+        bubblesServer.closeSessions(game.getPlayersSessions(), closeReason);
+        game.getPlayersSessions().clear();
     }
 
     public void broadcastGameStartedMessage() throws IOException, EncodeException {
@@ -95,7 +117,6 @@ public class Controller {
     }
 
     public void broadcastBubblePoppedMessage(long id) throws IOException, EncodeException {
-//        iterate through connected session and send the BubblePoppedMessage
         bubblesServer.broadcastMessage(Message.bubblePopped(id), game.getPlayersSessions(), true);
     }
 
