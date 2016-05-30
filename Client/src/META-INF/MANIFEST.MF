@@ -1,3 +1,9 @@
 Manifest-Version: 1.0
-Main-Class: online.recroom.client.welcome.RecRoom
+Class-Path: tyrus-spi-1.12.jar javax.websocket-client-api-1.0.jar tyru
+ s-core-1.12.jar grizzly-framework-2.3.22.jar tyrus-container-grizzly-
+ client-1.12.jar fontawesomefx-8.9.jar tyrus-client-1.12.jar hamcrest-
+ core-1.3.jar javax.websocket-api-1.1.jar junit-4.12.jar tyrus-standal
+ one-client-1.12.jar grizzly-http-server-2.3.22.jar gson-2.6.2.jar gri
+ zzly-http-2.3.22.jar
+Main-Class: online.recroom.client.RecRoom
 
