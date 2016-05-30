@@ -3,4 +3,7 @@
  */
 public class Message
 {
+    String json;
+    Class type;
+
 }
