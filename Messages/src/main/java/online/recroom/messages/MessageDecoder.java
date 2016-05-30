@@ -11,9 +11,10 @@ import javax.websocket.EndpointConfig;
  */
 public class MessageDecoder implements Decoder.Text<Message>
 {
+    private static Gson gson = new Gson();
     public Message decode(String s) throws DecodeException
     {
-        return null;
+        return gson.fromJson(s, Message.class);
     }
 
     public boolean willDecode(String s)
