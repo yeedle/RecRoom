@@ -10,9 +10,11 @@ import online.recroom.messages.bubble.POJOs.BubblePlayer;
 public class GameStarted {
     public final Bubble[] bubbles;
     public final BubblePlayer[] players;
+    public final boolean joinedActiveGame;
 
-    public GameStarted(Bubble[] bubbles, BubblePlayer[] players) {
+    public GameStarted(Bubble[] bubbles, BubblePlayer[] players, boolean joinedActiveGame) {
         this.bubbles = bubbles;
         this.players = players;
+        this.joinedActiveGame = joinedActiveGame;
     }
 }
