@@ -5,6 +5,9 @@ package online.recroom.messages.bubble.messages;
  */
 public class BubblePoppedMessage
 {
-    long poppedBubbleId;
+    public final long poppedBubbleId;
 
+    public BubblePoppedMessage(long poppedBubbleId) {
+        this.poppedBubbleId = poppedBubbleId;
+    }
 }
