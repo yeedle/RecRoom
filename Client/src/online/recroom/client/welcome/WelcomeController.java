@@ -10,6 +10,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import online.recroom.client.Scener;
+import online.recroom.client.bubbles.Controller;
 import online.recroom.client.bubbles.Endpoint;
 
 import java.io.IOException;
@@ -67,7 +68,7 @@ public class WelcomeController
         }
         catch (Exception e)
         {
-            e.printStackTrace();
+            ((Controller)loader.getController()).console(e.getMessage() + "Can't connect to the server.");
         }
 
     }

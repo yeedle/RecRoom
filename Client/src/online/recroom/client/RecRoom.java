@@ -1,4 +1,4 @@
-package online.recroom.client.welcome;
+package online.recroom.client;
 
 import javafx.application. Application;
 import javafx.fxml.FXMLLoader;
@@ -6,10 +6,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
-import online.recroom.client.GameClientEndpoint;
 
-import java.net.URI;
-import java.net.URISyntaxException;
 
 /**
  * This class is the entry point for our JavaFX client
@@ -17,7 +14,6 @@ import java.net.URISyntaxException;
 
 public class RecRoom extends Application {
 
-    GameClientEndpoint gameClientEndpoint;
     public static final int HEIGHT = 640;
     public static final int WIDTH = 640;
 
@@ -28,12 +24,12 @@ public class RecRoom extends Application {
 
       //  Group root = new Group();
 
-        Parent root = FXMLLoader.load(getClass().getResource("welcome.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("welcome/welcome.fxml"));
         Scene welcomeScene = new Scene(root, WIDTH, HEIGHT);
         primaryStage.setTitle("RecRoom");
         primaryStage.setScene(welcomeScene);
         primaryStage.show();
-       primaryStage.getIcons().addAll(new Image(getClass().getResourceAsStream("../assets/icon.png")));
+       primaryStage.getIcons().addAll(new Image(getClass().getResourceAsStream("assets/icon.png")));
 
      /* try {
             gameClientEndpoint = new GameClientEndpoint(new URI("ws://localhost:8080/recroom/echo"));

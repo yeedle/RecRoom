@@ -25,7 +25,7 @@ public class Endpoint
     public Endpoint(String username, Controller controller)
     {
         this.username = username.isEmpty()? "Anonymous" : username;
-        WebSocketURI = "ws://localhost:8080/recroom/bubble?username=" + this.username;
+        WebSocketURI = "ws://maythedatabewithyou.com:8080/Server_war/bubble?username=" + this.username;
         this.controller = controller;
     }
 
@@ -74,8 +74,9 @@ public class Endpoint
     }
 
     @OnClose
-    public void onClose() throws IOException, InterruptedException
+    public void onClose(CloseReason cr) throws IOException, InterruptedException
     {
+        System.out.println(cr.getCloseCode() + " " + cr.getReasonPhrase() +" " +cr.toString());
             final long MILISECONDS = 7000;
             Thread.sleep(MILISECONDS);
 
@@ -87,6 +88,7 @@ public class Endpoint
 
     public void sendMessage(final Long id) throws IOException
     {
+
         session.getBasicRemote().sendText(Long.toString(id));
     }
 

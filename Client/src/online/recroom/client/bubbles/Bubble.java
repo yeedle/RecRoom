@@ -5,7 +5,7 @@ import javafx.scene.paint.CycleMethod;
 import javafx.scene.paint.RadialGradient;
 import javafx.scene.paint.Stop;
 import javafx.scene.shape.Circle;
-import online.recroom.client.welcome.RecRoom;
+import online.recroom.client.RecRoom;
 
 /**
  * Created by Yeedle on 5/17/2016 9:35 AM.
