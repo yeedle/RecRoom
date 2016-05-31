@@ -1,5 +1,6 @@
 package online.recroom.client.bubbles;
 
+import com.google.gson.Gson;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.ScrollPane;
@@ -8,8 +9,11 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 import online.recroom.client.Animator;
+import online.recroom.messages.*;
+import online.recroom.messages.Message;
 import online.recroom.messages.bubble.messages.*;
 
+import javax.websocket.EncodeException;
 import java.io.IOException;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -78,6 +82,19 @@ public class Controller
             exception.printStackTrace();
         }
     }
+    private void sendPoppedBubbleID(BubblePoppedMessage msg) throws EncodeException
+    {
+        Gson gson = new Gson();
+        String json = gson.toJson(msg);
+        Message message = new Message(msg.getClass(), json);
+        try
+        {
+            endpoint.sendMessage(message);
+        } catch (IOException exception)
+        {
+            exception.printStackTrace();
+        }
+    }
 
     public void bubblePopped(long poppedBubbleId)
     {
@@ -114,6 +131,7 @@ public class Controller
         console(t.getMessage() + "! Sorry 'bout that :(");
     }
 
+
     public <T> void handleMessage(T message)
     {
         if (message instanceof GamePending)
@@ -132,12 +150,14 @@ public class Controller
             console("I'm getting some weird binary :/");
     }
 
+
+
     public void handleMessage(GameStarted message)
     {
-
         Bubble[] bubbles = new Bubble[message.bubbles.length];
         for (int i = 0; i < message.bubbles.length ; i++)
            bubbles[i] = new Bubble(message.bubbles[i]);
+        // todo print players and join/start status to console
         console("Waiting for another player to join...");
         console("Go!");
         addBubblesToPane(bubbles);

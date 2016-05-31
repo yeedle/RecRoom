@@ -5,6 +5,7 @@ import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import online.recroom.client.Scener;
+import online.recroom.messages.*;
 import online.recroom.messages.bubble.messages.GamePending;
 import online.recroom.messages.bubble.messages.GameStarted;
 
@@ -17,7 +18,9 @@ import java.net.URISyntaxException;
 /**
  * Created by Yeedle on 5/17/2016 9:32 AM.
  */
-@ClientEndpoint (decoders = online.recroom.messages.MessageDecoder.class)
+//TODO change messagedecoder
+@ClientEndpoint (decoders = {MessageDecoder.class},
+        encoders = {online.recroom.messages.MessageEncoder.class})
 public class Endpoint
 {
     private Session session;
@@ -41,12 +44,12 @@ public class Endpoint
     }
 
     @OnMessage
-    public void onMessage(final online.recroom.messages.Message message) throws IOException
+    public void onMessage(final Message message) throws IOException
     {
         Gson gson = new Gson();
 
-        controller.handleMessage(message.type.cast(gson.fromJson(message.json, message.type)));
-      /*  switch (message.type)
+       // controller.handleMessage(gson.fromJson(message.json, message.type));
+       switch (message.type)
         {
             case GAME_PENDING:
                 controller.gamePending();
@@ -70,7 +73,7 @@ public class Endpoint
             default:
 
                 break;
-        }*/
+        }
     }
 
     @OnError
@@ -94,8 +97,12 @@ public class Endpoint
 
     public void sendMessage(final Long id) throws IOException
     {
-
         session.getBasicRemote().sendText(Long.toString(id));
+    }
+
+    public void sendMessage(final online.recroom.messages.Message m) throws IOException, EncodeException
+    {
+        session.getBasicRemote().sendObject(m);
     }
 
     private void onJoinedGame(Bubble.ServerBubble[] serverBubbles, Player[] players)
