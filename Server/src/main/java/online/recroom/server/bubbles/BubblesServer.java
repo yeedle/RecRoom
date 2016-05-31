@@ -28,15 +28,15 @@ public class BubblesServer {
         controller.popBubble(bubbleId);
     }
 
+    @OnClose
+    public void onClose() throws IOException, EncodeException {
+        controller.endSession(this.session);
+    }
+
     @OnError
     public void onError(Throwable throwable) {
         System.out.println(throwable.getMessage());
         throwable.printStackTrace();
-    }
-
-    @OnClose
-    public void onClose() throws IOException, EncodeException {
-        controller.closeSession(this.session);
     }
 
     public void broadcastMessage(Message m, Set<Session> sessions, boolean includeMe) throws IOException, EncodeException {

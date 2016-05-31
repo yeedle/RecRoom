@@ -34,7 +34,7 @@ public class Controller {
         }
     }
 
-    private void joinActiveGame(Session session) throws Exception {
+    private void joinActiveGame(final Session session) throws Exception {
         game = getActiveGameThatHasRoom();
         game.addPlayer(this.player);
         game.getPlayersSessions().add(session);
@@ -44,7 +44,7 @@ public class Controller {
         broadcastPlayerJoinedMessage();
     }
 
-    private void joinPendingGame(Session session) throws IOException, EncodeException {
+    private void joinPendingGame(final Session session) throws IOException, EncodeException {
         game = PENDING_GAMES.remove();
         ACTIVE_GAMES.add(game);
         game.addPlayer(this.player);
@@ -53,7 +53,7 @@ public class Controller {
         broadcastGameStartedMessage();
     }
 
-    private void startNewGame(Session session) throws IOException, EncodeException {
+    private void startNewGame(final Session session) throws IOException, EncodeException {
         game = new Game(this.player);
         PENDING_GAMES.add(game);
         game.getPlayersSessions().add(session);
@@ -71,7 +71,7 @@ public class Controller {
         return ACTIVE_GAMES.peek();
     }
 
-    public void popBubble(long bubbleId) throws IOException, EncodeException {
+    public void popBubble(final long bubbleId) throws IOException, EncodeException {
 //        TODO keep score and send message to all players, check if game is over
         if (game.isBubblePopped(bubbleId)) {
 
@@ -85,7 +85,7 @@ public class Controller {
         }
     }
 
-    public void closeSession(Session session) throws IOException, EncodeException {
+    public void endSession(final Session session) throws IOException, EncodeException {
         game.removePlayer(this.player);
         game.removeSession(session);
         broadcastPlayerLeft(this.player.name);
