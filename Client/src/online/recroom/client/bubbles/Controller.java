@@ -118,16 +118,18 @@ public class Controller
     {
         if (message instanceof GamePending)
         console("Waiting for another player to join...");
-        if (message instanceof GameStarted)
+        else if (message instanceof GameStarted)
             handleMessage((GameStarted)message);
-        if (message instanceof BubblePoppedMessage)
+        else if (message instanceof BubblePoppedMessage)
             bubblePopped(((BubblePoppedMessage) message).poppedBubbleId);
-        if(message instanceof PlayerJoined)
+        else if(message instanceof PlayerJoined)
             console(((PlayerJoined) message).player.name + " joined!");
-        if (message instanceof PlayerLeft)
+        else if (message instanceof PlayerLeft)
             console(((PlayerLeft) message).player.name + " couldn't take the heat.");
-        if (message instanceof  GameOver)
+        else if (message instanceof  GameOver)
                 gameOver(((GameOver) message).winner.name, ((GameOver) message).score);
+        else
+            console("I'm getting some weird binary :/");
     }
 
     public void handleMessage(GameStarted message)
