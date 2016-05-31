@@ -31,7 +31,7 @@ public class Endpoint
     public Endpoint(String username, Controller controller)
     {
         this.username = username.isEmpty()? "Anonymous" : username;
-        WebSocketURI = "ws://maythedatabewithyou.com:8080/Server_war/bubble?username=" + this.username;
+        WebSocketURI = "ws://localhost:8080/recroom/bubble?username=" + this.username;
         this.controller = controller;
     }
 
@@ -86,9 +86,11 @@ public class Endpoint
     public void onClose(CloseReason cr) throws IOException, InterruptedException
     {
         System.out.println(cr.getCloseCode() + " " + cr.getReasonPhrase() +" " +cr.toString());
+        if (cr.getReasonPhrase().equals("Game over"))
+        {
             final long MILISECONDS = 7000;
             Thread.sleep(MILISECONDS);
-
+        }
         final String PATH = "../welcome/welcome.fxml";
         FXMLLoader loader = Scener.getLoader(PATH, this.getClass());
         Parent root = loader.load();
@@ -143,5 +145,11 @@ public class Endpoint
     {
         WebSocketContainer container = ContainerProvider.getWebSocketContainer();
             container.connectToServer(this, new URI(WebSocketURI));
+    }
+
+    public void closeConnection(CloseReason.CloseCodes closereason)
+    {
+        try {this.session.close(new CloseReason(closereason, "User closed game"));}
+        catch (IOException e) {e.printStackTrace();}
     }
 }

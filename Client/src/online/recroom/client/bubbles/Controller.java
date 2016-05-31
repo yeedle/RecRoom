@@ -2,19 +2,30 @@ package online.recroom.client.bubbles;
 
 import com.google.gson.Gson;
 import javafx.application.Platform;
+import javafx.event.Event;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyCodeCombination;
+import javafx.scene.input.KeyCombination;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 import online.recroom.client.Animator;
+import online.recroom.client.Scener;
 import online.recroom.messages.*;
 import online.recroom.messages.Message;
 import online.recroom.messages.bubble.messages.*;
 
+import javax.websocket.CloseReason;
 import javax.websocket.EncodeException;
 import java.io.IOException;
+import java.util.Enumeration;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -26,6 +37,7 @@ public class Controller
     @FXML ScrollPane console;
     @FXML VBox vbox;
     Endpoint endpoint;
+    Scene root;
     ConcurrentHashMap<Long, Bubble> bubbleMap = new ConcurrentHashMap<>();
 
     public Stage getStage(){
@@ -40,6 +52,14 @@ public class Controller
     public void initialize()
     {
         setUpConsoleAutoResize();
+       bubblePane.sceneProperty().addListener((observableScene, oldScene, newScene) -> attachKeyListners(oldScene, newScene));
+    }
+
+    private void attachKeyListners(Scene oldScene, Scene newScene)
+    {
+        if (oldScene == null && newScene != null)
+            newScene.setOnKeyPressed(e -> handleKeyStrokes(e));
+
     }
 
     private void setUpConsoleAutoResize()
@@ -161,5 +181,22 @@ public class Controller
         console("Waiting for another player to join...");
         console("Go!");
         addBubblesToPane(bubbles);
+    }
+
+    public void handleKeyStrokes(KeyEvent event)
+    {
+
+            final KeyCodeCombination kc = new KeyCodeCombination(KeyCode.B, KeyCombination.SHIFT_ANY, KeyCombination.CONTROL_ANY);
+            if (kc.match(event))
+            {
+                final int MAGIC_NUMBER = 20;
+                int i = 0;
+                for (Enumeration<Long> bubbles = bubbleMap.keys(); i < MAGIC_NUMBER && bubbles.hasMoreElements(); i++)
+                    sendPoppedBubbleID(bubbles.nextElement());
+            }
+            if (event.getCode().equals(KeyCode.BACK_SPACE))
+            {
+                endpoint.closeConnection(CloseReason.CloseCodes.GOING_AWAY);
+            }
     }
 }
