@@ -11,7 +11,6 @@ import javafx.stage.Stage;
 /**
  * This class is the entry point for our JavaFX client
  */
-
 public class RecRoom extends Application {
 
     public static final int HEIGHT = 640;
@@ -20,27 +19,14 @@ public class RecRoom extends Application {
     public static void main(String[] args) { launch();}
 
     @Override
-    public void start(Stage primaryStage) throws Exception {
-
-      //  Group root = new Group();
-
+    public void start(Stage primaryStage) throws Exception
+    {
         Parent root = FXMLLoader.load(getClass().getResource("welcome/welcome.fxml"));
         Scene welcomeScene = new Scene(root, WIDTH, HEIGHT);
         primaryStage.setTitle("RecRoom");
         primaryStage.setScene(welcomeScene);
+        primaryStage.setResizable(false);
         primaryStage.show();
-       primaryStage.getIcons().addAll(new Image(getClass().getResourceAsStream("assets/icon.png")));
-
-     /* try {
-            gameClientEndpoint = new GameClientEndpoint(new URI("ws://localhost:8080/recroom/echo"));
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
-        }
-        gameClientEndpoint.sendMessage("Not bad.");*/
-
-
-
-
-        //TODO: JavaFX code goes here
+        primaryStage.getIcons().addAll(new Image(getClass().getResourceAsStream("assets/icon.png")));
     }
 }

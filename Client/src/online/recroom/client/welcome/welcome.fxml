@@ -25,7 +25,7 @@
                                         <Font size="24.0" />
                                     </font>
                                 </Button>
-                                <Button fx:id="checkersBtn" mnemonicParsing="false" styleClass="button" text="Checkers ">
+                                <Button fx:id="checkersBtn" disable="true" mnemonicParsing="false" styleClass="button" text="Checkers ">
                                     <font>
                                         <Font size="24.0" />
                                     </font>
@@ -47,7 +47,7 @@
                                         <Font size="24.0" />
                                     </font>
                                 </Button>
-                                <Button fx:id="pongBtn" mnemonicParsing="false" styleClass="button" text="Pong ">
+                                <Button fx:id="pongBtn" disable="true" mnemonicParsing="false" styleClass="button" text="Pong ">
                                     <font>
                                         <Font size="24.0" />
                                     </font>
