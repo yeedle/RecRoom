@@ -1,17 +1,22 @@
 package online.recroom.client.chess;
 
+import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
-import javafx.scene.input.DragEvent;
-import javafx.scene.input.Dragboard;
-import javafx.scene.input.TransferMode;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.input.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
+import javafx.stage.Stage;
+import online.recroom.client.Scener;
 import online.recroom.client.chess.pieces.Coordinate;
 import online.recroom.client.chess.pieces.Piece;
 
 import javax.websocket.*;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -32,6 +37,10 @@ public class Controller
     Endpoint endpoint;
     Coordinate origin;
     Coordinate destination;
+
+    public Stage getStage(){
+        return (Stage)chessBoard.getScene().getWindow();
+    }
 
     public void initialize()
     {
@@ -66,6 +75,15 @@ public class Controller
                 }
             });
         }
+
+        chessBoard.sceneProperty().addListener((observableScene, oldScene, newScene) -> attachKeyListners(oldScene, newScene));
+
+    }
+
+    private void attachKeyListners(Scene oldScene, Scene newScene)
+    {
+        if (oldScene == null && newScene != null)
+            newScene.setOnKeyPressed(e -> handleKeyStrokes(e));
 
     }
 
@@ -123,5 +141,19 @@ public class Controller
         }
     }
 
+    private void handleKeyStrokes(KeyEvent ke)
+    {
+        if (ke.getCode().equals(KeyCode.BACK_SPACE))
+        {
+            final String PATH = "../welcome/welcome.fxml";
+            FXMLLoader loader = Scener.getLoader(PATH, this.getClass());
+            try
+            {
+                Parent root = loader.load();
+                Scener.showScene(getStage(), root);
+            } catch (IOException e) {e.printStackTrace();}
+
+        }
+    }
 
 }

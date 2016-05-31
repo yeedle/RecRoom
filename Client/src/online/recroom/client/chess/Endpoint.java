@@ -65,6 +65,6 @@ public class Endpoint
     public void connect() throws URISyntaxException, IOException, DeploymentException
     {
         WebSocketContainer container = ContainerProvider.getWebSocketContainer();
-        container.connectToServer(this, new URI(WebSocketURI));
+    //    container.connectToServer(this, new URI(WebSocketURI));
     }
 }

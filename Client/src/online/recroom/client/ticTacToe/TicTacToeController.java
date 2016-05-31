@@ -6,17 +6,24 @@ import javafx.animation.Timeline;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.SplitPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 import online.recroom.client.Animator;
+import online.recroom.client.Scener;
 
 import javax.websocket.*;
 import java.io.IOException;
@@ -43,7 +50,9 @@ public class TicTacToeController
     Pane[][] squares = new Pane[3][3];
 
     private Session session;
-
+    public Stage getStage(){
+        return (Stage)pane.getScene().getWindow();
+    }
     @OnOpen
     public void onOpen(final Session session) {this.session = session;
         System.out.println("conntected"); }
@@ -118,8 +127,16 @@ public class TicTacToeController
 
         console.setVvalue(1.0);
         vbox.heightProperty().addListener((observable, oldValue, newValue) -> console.setVvalue(newValue.doubleValue()));
+        pane.sceneProperty().addListener((observableScene, oldScene, newScene) -> attachKeyListners(oldScene, newScene));
+
     }
 
+    private void attachKeyListners(Scene oldScene, Scene newScene)
+    {
+        if (oldScene == null && newScene != null)
+            newScene.setOnKeyPressed(e -> handleKeyStrokes(e));
+
+    }
     private ImageView imageViewOf(String url) throws IOException
     {
         Image image = new Image(getClass().getResourceAsStream(url));
@@ -128,6 +145,21 @@ public class TicTacToeController
         iv.setFitWidth(60);
         iv.setFitHeight(60);
         return iv;
+    }
+
+    private void handleKeyStrokes(KeyEvent ke)
+    {
+        if (ke.getCode().equals(KeyCode.BACK_SPACE))
+        {
+            final String PATH = "../welcome/welcome.fxml";
+            FXMLLoader loader = Scener.getLoader(PATH, this.getClass());
+            try
+            {
+                Parent root = loader.load();
+                Scener.showScene(getStage(), root);
+            } catch (IOException e) {e.printStackTrace();}
+
+        }
     }
 
 }
