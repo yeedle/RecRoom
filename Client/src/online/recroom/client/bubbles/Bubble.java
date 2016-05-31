@@ -13,6 +13,21 @@ import online.recroom.client.RecRoom;
 public class Bubble extends Circle
 {
 
+    public Bubble(online.recroom.messages.bubble.POJOs.Bubble serverBubble)
+    {
+        id = serverBubble.id;
+        x = RecRoom.HEIGHT * serverBubble.relativeXPosition;
+        y = RecRoom.WIDTH * serverBubble.relativeYPosition;
+        radius = RecRoom.WIDTH/RecRoom.HEIGHT * serverBubble.relativeRadius+10;
+        deltaX =  serverBubble.deltaX;
+        deltaY = serverBubble.deltaY;
+
+        super.setCenterX(x);
+        super.setCenterY(y);
+        super.setRadius(radius);
+        super.setFill(getRadialGradientOf(RandomColor()));
+    }
+
     public class ServerBubble {
         public final long id;
         public final double relativeXPosition;

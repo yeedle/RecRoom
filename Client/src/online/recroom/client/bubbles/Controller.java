@@ -8,6 +8,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 import online.recroom.client.Animator;
+import online.recroom.messages.bubble.messages.*;
 
 import java.io.IOException;
 import java.util.concurrent.ConcurrentHashMap;
@@ -111,5 +112,32 @@ public class Controller
     public void error(Throwable t)
     {
         console(t.getMessage() + "! Sorry 'bout that :(");
+    }
+
+    public <T> void handleMessage(T message)
+    {
+        if (message instanceof GamePending)
+        console("Waiting for another player to join...");
+        if (message instanceof GameStarted)
+            handleMessage((GameStarted)message);
+        if (message instanceof BubblePoppedMessage)
+            bubblePopped(((BubblePoppedMessage) message).poppedBubbleId);
+        if(message instanceof PlayerJoined)
+            console(((PlayerJoined) message).player.name + " joined!");
+        if (message instanceof PlayerLeft)
+            console(((PlayerLeft) message).player.name + " couldn't take the heat.");
+        if (message instanceof  GameOver)
+                gameOver(((GameOver) message).winner.name, ((GameOver) message).score);
+    }
+
+    public void handleMessage(GameStarted message)
+    {
+
+        Bubble[] bubbles = new Bubble[message.bubbles.length];
+        for (int i = 0; i < message.bubbles.length ; i++)
+           bubbles[i] = new Bubble(message.bubbles[i]);
+        console("Waiting for another player to join...");
+        console("Go!");
+        addBubblesToPane(bubbles);
     }
 }

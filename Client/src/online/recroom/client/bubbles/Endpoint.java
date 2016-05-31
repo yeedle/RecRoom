@@ -1,9 +1,12 @@
 package online.recroom.client.bubbles;
 
+import com.google.gson.Gson;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import online.recroom.client.Scener;
+import online.recroom.messages.bubble.messages.GamePending;
+import online.recroom.messages.bubble.messages.GameStarted;
 
 import javax.websocket.*;
 import java.io.IOException;
@@ -14,7 +17,7 @@ import java.net.URISyntaxException;
 /**
  * Created by Yeedle on 5/17/2016 9:32 AM.
  */
-@ClientEndpoint (decoders = MessageDecoder.class)
+@ClientEndpoint (decoders = online.recroom.messages.MessageDecoder.class)
 public class Endpoint
 {
     private Session session;
@@ -38,9 +41,12 @@ public class Endpoint
     }
 
     @OnMessage
-    public void onMessage(final Message message) throws IOException
+    public void onMessage(final online.recroom.messages.Message message) throws IOException
     {
-        switch (message.type)
+        Gson gson = new Gson();
+
+        controller.handleMessage(message.type.cast(gson.fromJson(message.json, message.type)));
+      /*  switch (message.type)
         {
             case GAME_PENDING:
                 controller.gamePending();
@@ -64,7 +70,7 @@ public class Endpoint
             default:
 
                 break;
-        }
+        }*/
     }
 
     @OnError

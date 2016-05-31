@@ -5,7 +5,7 @@ package online.recroom.messages;
  */
 public class Message
 {
-    Class type;
-    String json;
+    public  Class type;
+    public String json;
 
 }
