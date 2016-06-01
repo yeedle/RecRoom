@@ -1,11 +1,14 @@
 package online.recroom.server.bubbles;
 
+import online.recroom.messages.Message;
+
 import javax.websocket.CloseReason;
 import javax.websocket.EncodeException;
 import javax.websocket.Session;
 import java.io.IOException;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.PriorityBlockingQueue;
+
 
 
 public class Controller {
@@ -40,6 +43,7 @@ public class Controller {
         game.getPlayersSessions().add(session);
 //            send bubbles to player that joined the game
         bubblesServer.sendMessage(Message.joinedGame(getBubblesAsArray(), getPlayersAsArray()));
+
 //          Send message to all other players that a new player has joined
         broadcastPlayerJoinedMessage();
     }
@@ -125,11 +129,31 @@ public class Controller {
                 game.getPlayersSessions(), true);
     }
 
-    private Bubble[] getBubblesAsArray() {
-        return this.game.getBubbles().values().toArray(new Bubble[game.getBubbles().size()]);
+    private online.recroom.messages.bubble.POJOs.Bubble[] getBubblesAsArray() {
+        Bubble[] bubbles =
+                this.game.getBubbles().values().toArray(new Bubble[game.getBubbles().size()]);
+        online.recroom.messages.bubble.POJOs.Bubble[] messageBubbles =
+                new online.recroom.messages.bubble.POJOs.Bubble[bubbles.length];
+        for (int i = 0; i < bubbles.length; i++) {
+            messageBubbles[i] =
+                    new online.recroom.messages.bubble.POJOs.Bubble(bubbles[i].id,
+                            bubbles[i].relativeXPosition,
+                            bubbles[i].relativeYPosition,
+                            bubbles[i].deltaX,
+                            bubbles[i].deltaY,
+                            bubbles[i].relativeRadius);
+        }
+        return messageBubbles;
     }
 
-    private BubblePlayer[] getPlayersAsArray() {
-        return this.game.getPlayers().toArray(new BubblePlayer[game.getPlayers().size()]);
+    private online.recroom.messages.bubble.POJOs.BubblePlayer[] getPlayersAsArray() {
+        BubblePlayer[] players = this.game.getPlayers().toArray(new BubblePlayer[game.getPlayers().size()]);
+        online.recroom.messages.bubble.POJOs.BubblePlayer[] messagePlayers =
+                new online.recroom.messages.bubble.POJOs.BubblePlayer[players.length];
+        for (int i = 0; i < players.length; i++) {
+            messagePlayers[i] =
+                    new online.recroom.messages.bubble.POJOs.BubblePlayer(players[i].name, players[i].getScore());
+        }
+        return messagePlayers;
     }
 }
