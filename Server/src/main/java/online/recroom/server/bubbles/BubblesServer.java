@@ -28,8 +28,8 @@ public class BubblesServer {
     }
 
     @OnMessage
-    public void onMessage(final long bubbleId) throws Exception {
-        controller.popBubble(bubbleId);
+    public void onMessage(final Message bubbleId) throws Exception {
+        controller.updateGame(bubbleId);
     }
 
     @OnClose

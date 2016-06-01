@@ -67,7 +67,7 @@ public class Controller {
         game = new Game(this.player);
         PENDING_GAMES.add(game);
         game.getPlayersSessions().add(session);
-        bubblesServer.sendMessage(new Message(BubbleMessages.GAME_PENDING, gson.toJson(new GamePending())));
+        bubblesServer.sendMessage(new Message(BubbleMessages.GAME_PENDING, gson.toJson(new GamePending(), GamePending.class)));
     }
 
     private boolean isThereActiveAnGameWithRoom() {
@@ -81,7 +81,14 @@ public class Controller {
         return ACTIVE_GAMES.peek();
     }
 
-    public void popBubble(final long bubbleId) throws IOException, EncodeException {
+    public void updateGame(Message m) throws IOException, EncodeException {
+        if (m.type == BubbleMessages.BUBBLE_POPPED) {
+            BubblePoppedMessage message = gson.fromJson(m.json, BubblePoppedMessage.class);
+            popBubble(message.poppedBubbleId);
+        }
+    }
+
+    private void popBubble(final long bubbleId) throws IOException, EncodeException {
 //        TODO keep score and send message to all players, check if game is over
         if (game.isBubblePopped(bubbleId)) {
 
@@ -112,29 +119,36 @@ public class Controller {
     }
 
     private void broadcastGameStartedMessage() throws IOException, EncodeException {
-        bubblesServer.broadcastMessage(new Message(BubbleMessages.GAME_STARTED,
-                        gson.toJson(new GameStarted(getBubblesAsArray(), getPlayersAsArray(), false))),
-                game.getPlayersSessions(), true);
+        GameStarted gameStarted =
+                new GameStarted(getBubblesAsArray(), getPlayersAsArray(), false);
+        Message message =
+                new Message(BubbleMessages.GAME_STARTED, gson.toJson(gameStarted, GameStarted.class));
+        bubblesServer.broadcastMessage(message, game.getPlayersSessions(), true);
     }
 
     private void broadcastPlayerJoinedMessage() throws IOException, EncodeException {
         PlayerJoined playerJoinedMessage =
                 new PlayerJoined(new MessageBubblePlayer(this.player.name, this.player.getScore()));
-
-        Message message = new Message(BubbleMessages.PLAYER_JOINED, gson.toJson(playerJoinedMessage));
+        Message message =
+                new Message(BubbleMessages.PLAYER_JOINED, gson.toJson(playerJoinedMessage, PlayerJoined.class));
 
         bubblesServer.broadcastMessage(message, game.getPlayersSessions(), false);
     }
 
     private void broadcastPlayerLeft(String playerName) throws IOException, EncodeException {
-        MessageBubblePlayer player = new MessageBubblePlayer(this.player.name, this.player.getScore());
-        Message message = new Message(BubbleMessages.PLAYER_LEFT, gson.toJson(player, PlayerLeft.class));
+        MessageBubblePlayer player =
+                new MessageBubblePlayer(this.player.name, this.player.getScore());
+        PlayerLeft playerLeft =
+                new PlayerLeft(player);
+        Message message =
+                new Message(BubbleMessages.PLAYER_LEFT, gson.toJson(playerLeft, PlayerLeft.class));
         bubblesServer.broadcastMessage(message, game.getPlayersSessions(), false);
     }
 
     private void broadcastBubblePoppedMessage(long id) throws IOException, EncodeException {
         BubblePoppedMessage bubblePoppedMessage = new BubblePoppedMessage(id);
-        Message message = new Message(BubbleMessages.BUBBLE_POPPED, gson.toJson(bubblePoppedMessage, BubblePoppedMessage.class));
+        Message message =
+                new Message(BubbleMessages.BUBBLE_POPPED, gson.toJson(bubblePoppedMessage, BubblePoppedMessage.class));
         bubblesServer.broadcastMessage(message, game.getPlayersSessions(), true);
     }
 
