@@ -31,7 +31,7 @@ public class Endpoint
     public Endpoint(String username, Controller controller)
     {
         this.username = username.isEmpty()? "Anonymous" : username;
-        WebSocketURI = "ws://localhost:8080/recroom/bubblesGame?username=" + this.username;
+        WebSocketURI = "ws://localhost:8080/recroom/bubblesgame?username=" + this.username;
         this.controller = controller;
     }
 
