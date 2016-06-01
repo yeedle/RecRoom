@@ -20,6 +20,7 @@ import online.recroom.client.Animator;
 import online.recroom.client.Scener;
 import online.recroom.messages.*;
 import online.recroom.messages.Message;
+import online.recroom.messages.bubble.enums.BubbleMessages;
 import online.recroom.messages.bubble.messages.*;
 
 import javax.websocket.CloseReason;
@@ -106,7 +107,7 @@ public class Controller
     {
         Gson gson = new Gson();
         String json = gson.toJson(msg);
-        Message message = new Message(msg.getClass(), json);
+        Message message = new Message(BubbleMessages.BUBBLE_POPPED, json);
         try
         {
             endpoint.sendMessage(message);
@@ -151,28 +152,6 @@ public class Controller
         console(t.getMessage() + "! Sorry 'bout that :(");
     }
 
-
-    public <T> void handleMessage(T message)
-    {
-        System.out.println(message.getClass());
-        if (message instanceof GamePending)
-        console("Waiting for another player to join...");
-        else if (message instanceof GameStarted)
-            handleMessage((GameStarted)message);
-        else if (message instanceof BubblePoppedMessage)
-            bubblePopped(((BubblePoppedMessage) message).poppedBubbleId);
-        else if(message instanceof PlayerJoined)
-            console(((PlayerJoined) message).player.name + " joined!");
-        else if (message instanceof PlayerLeft)
-            console(((PlayerLeft) message).player.name + " couldn't take the heat.");
-        else if (message instanceof  GameOver)
-                gameOver(((GameOver) message).winner.name, ((GameOver) message).score);
-        else
-            console("I'm getting some weird binary :/");
-    }
-
-
-
     public void handleMessage(GameStarted message)
     {
         Bubble[] bubbles = new Bubble[message.bubbles.length];
@@ -183,6 +162,30 @@ public class Controller
         console("Go!");
         addBubblesToPane(bubbles);
     }
+
+    public void handleMessage(GamePending message)
+    {
+        console("Waiting for another player to join...");
+    }
+
+    public void handleMessage(PlayerJoined message)
+    {
+        console(message.player.name + " joined!");
+    }
+    public void handleMessage(PlayerLeft message)
+    {
+        console( message.player.name + " couldn't take the heat.");
+    }
+
+    public void handleMessage(GameOver message)
+    {
+        gameOver( message.winner.name,  message.score);
+    }
+    public void handleMessage(BubblePoppedMessage message)
+    {
+        bubblePopped(((BubblePoppedMessage) message).poppedBubbleId);
+    }
+
 
     public void handleKeyStrokes(KeyEvent event)
     {

@@ -6,14 +6,16 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import online.recroom.client.Scener;
 import online.recroom.messages.*;
-import online.recroom.messages.bubble.messages.GamePending;
-import online.recroom.messages.bubble.messages.GameStarted;
+import online.recroom.messages.bubble.messages.*;
 
 import javax.websocket.*;
 import java.io.IOException;
 import java.io.InterruptedIOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+
+import static online.recroom.messages.bubble.enums.BubbleMessages.GAME_STARTED;
+import static online.recroom.messages.bubble.enums.BubbleMessages.PLAYER_JOINED;
 
 /**
  * Created by Yeedle on 5/17/2016 9:32 AM.
@@ -39,6 +41,7 @@ public class Endpoint
     public void onOpen(final Session session)
     {
         this.session = session;
+        this.session = session;
         controller.setEndpoint(this);
         controller.console("Hello, " + username + "!");
     }
@@ -47,8 +50,22 @@ public class Endpoint
     public void onMessage(final Message message) throws IOException
     {
         Gson gson = new Gson();
-        System.out.println(message.json);
-       controller.handleMessage(gson.fromJson(message.json, message.type));
+        switch (message.type)
+        {
+            case GAME_STARTED:controller.handleMessage(gson.fromJson(message.json, GameStarted.class));
+                break;
+            case GAME_PENDING: controller.handleMessage(gson.fromJson(message.json, GamePending.class));
+                break;
+            case PLAYER_JOINED: controller.handleMessage(gson.fromJson(message.json, PlayerJoined.class));
+                break;
+            case PLAYER_LEFT: controller.handleMessage(gson.fromJson(message.json, PlayerLeft.class));
+                break;
+            case BUBBLE_POPPED: controller.handleMessage(gson.fromJson(message.json, BubblePoppedMessage.class));
+                break;
+            case GAME_OVER: controller.handleMessage(gson.fromJson(message.json, GameOver.class));
+                break;
+            default: controller.console("The server sent me some weird binary :/");
+        }
     }
 
     @OnError
