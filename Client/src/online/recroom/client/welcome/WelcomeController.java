@@ -68,7 +68,8 @@ public class WelcomeController
         }
         catch (Exception e)
         {
-            ((Controller)loader.getController()).console(e.getMessage() + "Can't connect to the server.");
+            e.printStackTrace();
+            ((Controller)loader.getController()).console(e.getMessage() +" Can't connect to the server.");
         }
 
     }

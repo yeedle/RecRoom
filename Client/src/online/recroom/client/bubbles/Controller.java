@@ -154,6 +154,7 @@ public class Controller
 
     public <T> void handleMessage(T message)
     {
+        System.out.println(message.getClass());
         if (message instanceof GamePending)
         console("Waiting for another player to join...");
         else if (message instanceof GameStarted)
