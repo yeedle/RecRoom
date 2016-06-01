@@ -5,5 +5,8 @@ package online.recroom.server.chess.pieces;
  */
 public enum Player
 {
-    BLACK, WHITE, NONE
+    BLACK, WHITE, NONE;
+
+    String name;
+
 }

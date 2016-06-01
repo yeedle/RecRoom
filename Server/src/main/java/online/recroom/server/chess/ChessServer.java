@@ -27,13 +27,13 @@ public class ChessServer
     {
         //TODO assign Player color to session
         this.session = session;
-
-            controller = new Controller();
+        controller = new Controller(this);
+        controller.connectToGame(this.session, extractPlayerName());
 
     }
 
     @OnMessage
-    public void onMessage(Message message)
+    public void onMessage(Message message) throws IllegalMoveException, IllegalCoordinateException, InvalidMoveException
     {
         Gson gson = new Gson();
         controller.updateGame(gson.fromJson(message.json, message.type));
@@ -49,5 +49,22 @@ public class ChessServer
     public void onClose()
     {
 
+    }
+
+    public String extractQueryParam(String key) {
+        return this.session.getRequestParameterMap().get(key).get(0);
+    }
+
+    private boolean isQueryParamEmpty(String key) {
+        String name = this.session.getRequestParameterMap().get(key).get(0);
+        return name == null || name.isEmpty();
+    }
+
+    private String extractPlayerName() {
+        if (session.getRequestParameterMap().containsKey("username") && !isQueryParamEmpty("username")) {
+            return extractQueryParam("username");
+        } else {
+            return "Anonymous";
+        }
     }
 }
