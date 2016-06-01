@@ -134,7 +134,7 @@ public class Controller {
 
     private void broadcastBubblePoppedMessage(long id) throws IOException, EncodeException {
         BubblePoppedMessage bubblePoppedMessage = new BubblePoppedMessage(id);
-        Message message = new Message(BubbleMessages.BUBBLE_POPPED_MESSAGES, gson.toJson(bubblePoppedMessage, BubblePoppedMessage.class));
+        Message message = new Message(BubbleMessages.BUBBLE_POPPED, gson.toJson(bubblePoppedMessage, BubblePoppedMessage.class));
         bubblesServer.broadcastMessage(message, game.getPlayersSessions(), true);
     }
 
