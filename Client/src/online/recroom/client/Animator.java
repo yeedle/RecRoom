@@ -32,7 +32,7 @@ public class Animator
     private static final int WRAPPING_WIDTH = 500;
     private static final int BUBBLE_POPPING_DURATION = 100;
     private static final int POPPING_SIZE = 5;
-    private static final double BUBBLE_SPEED = 35;
+    private static final double BUBBLE_SPEED = 50;
 
     public static void runningText(String str, VBox vbox)
     {

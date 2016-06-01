@@ -31,7 +31,7 @@ public class Endpoint
     public Endpoint(String username, Controller controller)
     {
         this.username = username.isEmpty()? "Anonymous" : username;
-        WebSocketURI = "ws://localhost:8080/recroom/bubble?username=" + this.username;
+        WebSocketURI = "ws://10.16.45.117:8080/recroom/bubble?username=" + this.username;
         this.controller = controller;
     }
 
@@ -58,7 +58,7 @@ public class Endpoint
                 onJoinedGame(message.newBubbles, message.players);
                 break;
             case GAME_STARTED:
-                    OnGameStarted(message.newBubbles);
+                    OnGameStarted(message.newBubbles, message.players);
                     break;
             case PLAYER_JOINED:
                 controller.console(message.playerName + " joined your game");
@@ -114,10 +114,10 @@ public class Endpoint
     }
 
 
-    private void OnGameStarted(Bubble.ServerBubble[] serverBubbles)
+    private void OnGameStarted(Bubble.ServerBubble[] serverBubbles, Player[] players)
     {
         Bubble[] bubbles = generateBubblesFromServerBubbles(serverBubbles);
-        controller.gameStarted(bubbles);
+        controller.gameStarted(bubbles, players);
     }
 
     private Bubble[] generateBubblesFromServerBubbles(Bubble.ServerBubble[] serverBubbles)

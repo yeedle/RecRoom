@@ -69,8 +69,10 @@ public class Controller
         vbox.heightProperty().addListener((observable, oldValue, newValue) -> console.setVvalue(newValue.doubleValue()));
     }
 
-    public void gameStarted(Bubble[] bubbles)
+    public void gameStarted(Bubble[] bubbles, Player[] players)
     {
+        if (players.length == 2)
+            console(players[0].name + " v. " + players[1].name);
         console("Go!");
         addBubblesToPane(bubbles);
     }
