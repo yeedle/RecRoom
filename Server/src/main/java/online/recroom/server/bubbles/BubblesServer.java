@@ -1,6 +1,10 @@
 package online.recroom.server.bubbles;
 
 
+import online.recroom.messages.Message;
+import online.recroom.messages.MessageDecoder;
+import online.recroom.messages.MessageEncoder;
+
 import javax.websocket.*;
 import javax.websocket.server.ServerEndpoint;
 import java.io.IOException;

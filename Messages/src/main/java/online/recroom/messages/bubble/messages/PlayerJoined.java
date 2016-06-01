@@ -1,14 +1,14 @@
 package online.recroom.messages.bubble.messages;
 
-import online.recroom.messages.bubble.POJOs.BubblePlayer;
+import online.recroom.messages.bubble.POJOs.MessageBubblePlayer;
 
 /**
  * Created by Yehuda Globerman on 5/30/2016.
  */
 public class PlayerJoined {
-    public final BubblePlayer player;
+    public final MessageBubblePlayer player;
 
-    public PlayerJoined(BubblePlayer player) {
+    public PlayerJoined(MessageBubblePlayer player) {
         this.player = player;
     }
 }
