@@ -2,10 +2,7 @@ package online.recroom.client.bubbles;
 
 import com.google.gson.Gson;
 import javafx.application.Platform;
-import javafx.event.Event;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.input.KeyCode;
@@ -15,10 +12,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import javafx.stage.Window;
 import online.recroom.client.Animator;
-import online.recroom.client.Scener;
-import online.recroom.messages.*;
 import online.recroom.messages.Message;
 import online.recroom.messages.bubble.enums.BubbleMessages;
 import online.recroom.messages.bubble.messages.*;
@@ -38,7 +32,6 @@ public class Controller
     @FXML ScrollPane console;
     @FXML VBox vbox;
     Endpoint endpoint;
-    Scene root;
     ConcurrentHashMap<Long, Bubble> bubbleMap = new ConcurrentHashMap<>();
 
     public Stage getStage(){
@@ -53,23 +46,25 @@ public class Controller
     public void initialize()
     {
         setUpConsoleAutoResize();
-       bubblePane.sceneProperty().addListener((observableScene, oldScene, newScene) -> attachKeyListners(oldScene, newScene));
+       bubblePane.sceneProperty().addListener((observableScene, oldScene, newScene) -> attachKeyListeners(oldScene, newScene));
+    }
+
+    private void attachKeyListeners(Scene oldScene, Scene newScene)
+    {
+        if (oldScene == null && newScene != null)
+            newScene.setOnKeyPressed(e -> handleKeyPressed(e));
 
     }
 
-    private void attachKeyListners(Scene oldScene, Scene newScene)
+    private void handleKeyPressed(KeyEvent e)
     {
-        if (oldScene == null && newScene != null)
-            newScene.setOnKeyPressed(e -> {
-                try
-                {
-                    handleKeyStrokes(e);
-                } catch (EncodeException e1)
-                {
-                    e1.printStackTrace();
-                }
-            });
-
+        try
+        {
+            handleKeyStrokes(e);
+        } catch (EncodeException e1)
+        {
+            e1.printStackTrace();
+        }
     }
 
     private void setUpConsoleAutoResize()
@@ -99,32 +94,23 @@ public class Controller
         {
             Animator.setAnimationFor(bubble);
             bubbleMap.put(bubble.id, bubble);
-
-            bubble.setOnMouseClicked(e -> {
-                try
-                {
-                    sendPoppedBubbleID(new BubblePoppedMessage(bubble.id));
-                } catch (EncodeException e1)
-                {
-                    e1.printStackTrace();
-                }
-            });
+            bubble.setOnMouseClicked(e -> notifyServer(bubble.id));
         }
         Platform.runLater(() -> bubblePane.getChildren().addAll(bubbles));
     }
 
+    private void notifyServer(Long bubbleId)
+    {
+        try { sendPoppedBubbleID(new BubblePoppedMessage(bubbleId));}
+        catch (EncodeException e) {e.printStackTrace();}
+    }
+
     private void sendPoppedBubbleID(BubblePoppedMessage msg) throws EncodeException
     {
-        Gson gson = new Gson();
-        String json = gson.toJson(msg);
+        String json = new Gson().toJson(msg);
         Message message = new Message(BubbleMessages.BUBBLE_POPPED, json);
-        try
-        {
-            endpoint.sendMessage(message);
-        } catch (IOException exception)
-        {
-            exception.printStackTrace();
-        }
+        try { endpoint.sendMessage(message);}
+        catch (IOException exception) { exception.printStackTrace();}
     }
 
     public void bubblePopped(long poppedBubbleId)
@@ -167,8 +153,7 @@ public class Controller
         Bubble[] bubbles = new Bubble[message.bubbles.length];
         for (int i = 0; i < message.bubbles.length ; i++)
            bubbles[i] = new Bubble(message.bubbles[i]);
-        // todo print players and join/start status to console
-        console("Waiting for another madeBy to join...");
+        console("Waiting for another player to join...");
         console("Go!");
         addBubblesToPane(bubbles);
     }
@@ -199,27 +184,25 @@ public class Controller
 
     public void handleKeyStrokes(KeyEvent event) throws EncodeException
     {
-
-            final KeyCodeCombination kc = new KeyCodeCombination(KeyCode.B, KeyCombination.SHIFT_ANY, KeyCombination.CONTROL_ANY);
-            if (kc.match(event))
-            {
-                final int MAGIC_NUMBER = 20;
-                int i = 0;
-                for (Enumeration<Long> bubbles = bubbleMap.keys(); i < MAGIC_NUMBER && bubbles.hasMoreElements(); i++)
-                {
-                    BubblePoppedMessage msg = new BubblePoppedMessage(bubbles.nextElement());
-                    sendPoppedBubbleID(msg);
-                }
-
-            }
-            if (event.getCode().equals(KeyCode.BACK_SPACE))
-            {
-                endpoint.closeConnection(CloseReason.CloseCodes.GOING_AWAY);
-            }
-        if(event.getCode().equals(KeyCode.P))
+        final KeyCodeCombination kc = new KeyCodeCombination(KeyCode.B, KeyCombination.SHIFT_ANY, KeyCombination.CONTROL_ANY);
+        if (kc.match(event))
         {
-            endpoint.sendPong();
+            popManyBubblesAtOnce(20);
+        }
+        if (event.getCode().equals(KeyCode.BACK_SPACE))
+        {
+            endpoint.closeConnection(CloseReason.CloseCodes.GOING_AWAY);
         }
 
+    }
+
+    private void popManyBubblesAtOnce(final int MAGIC_NUMBER) throws EncodeException
+    {
+        int i = 0;
+        for (Enumeration<Long> bubbles = bubbleMap.keys(); i < MAGIC_NUMBER && bubbles.hasMoreElements(); i++)
+        {
+            BubblePoppedMessage msg = new BubblePoppedMessage(bubbles.nextElement());
+            sendPoppedBubbleID(msg);
+        }
     }
 }
