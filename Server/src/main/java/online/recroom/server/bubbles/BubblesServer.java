@@ -1,13 +1,18 @@
 package online.recroom.server.bubbles;
 
 
+import com.google.gson.Gson;
+import com.sun.org.apache.xpath.internal.SourceTree;
 import online.recroom.messages.Message;
 import online.recroom.messages.MessageDecoder;
 import online.recroom.messages.MessageEncoder;
+import online.recroom.messages.bubble.messages.BubblePoppedMessage;
 
+import javax.sound.midi.Soundbank;
 import javax.websocket.*;
 import javax.websocket.server.ServerEndpoint;
 import java.io.IOException;
+import java.nio.ByteBuffer;
 import java.util.Set;
 
 
@@ -22,14 +27,17 @@ public class BubblesServer {
 
     @OnOpen
     public void onOpen(final Session session) throws Exception {
+
         this.session = session;
         controller = new Controller(this);
         controller.connectToGame(this.session, extractPlayerName());
     }
 
     @OnMessage
-    public void onMessage(final long bubbleId) throws Exception {
-        controller.popBubble(bubbleId);
+    public void onMessage(Message message) throws Exception {
+        Gson gson = new Gson();
+        BubblePoppedMessage bubblePoppedMessage = gson.fromJson(message.json, BubblePoppedMessage.class);
+        controller.popBubble(bubblePoppedMessage.poppedBubbleId);
     }
 
     @OnClose
@@ -51,7 +59,16 @@ public class BubblesServer {
     }
 
     public void sendMessage(Message m) throws IOException, EncodeException {
+
+
         this.session.getBasicRemote().sendObject(m);
+
+    }
+
+    @OnMessage
+    public void onPong(PongMessage pongMessage)
+    {
+        System.out.println(pongMessage.toString());
     }
 
     public void closeSessions(Set<Session> sessions, CloseReason closeReason) throws IOException {

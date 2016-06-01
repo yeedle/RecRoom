@@ -59,7 +59,15 @@ public class Controller
     private void attachKeyListners(Scene oldScene, Scene newScene)
     {
         if (oldScene == null && newScene != null)
-            newScene.setOnKeyPressed(e -> handleKeyStrokes(e));
+            newScene.setOnKeyPressed(e -> {
+                try
+                {
+                    handleKeyStrokes(e);
+                } catch (EncodeException e1)
+                {
+                    e1.printStackTrace();
+                }
+            });
 
     }
 
@@ -88,21 +96,20 @@ public class Controller
         {
             Animator.setAnimationFor(bubble);
             bubbleMap.put(bubble.id, bubble);
-            bubble.setOnMouseClicked(e -> sendPoppedBubbleID(bubble.id));
+
+            bubble.setOnMouseClicked(e -> {
+                try
+                {
+                    sendPoppedBubbleID(new BubblePoppedMessage(bubble.id));
+                } catch (EncodeException e1)
+                {
+                    e1.printStackTrace();
+                }
+            });
         }
         Platform.runLater(() -> bubblePane.getChildren().addAll(bubbles));
     }
 
-    private void sendPoppedBubbleID(Long id)
-    {
-        try
-        {
-            endpoint.sendMessage(id);
-        } catch (IOException exception)
-        {
-            exception.printStackTrace();
-        }
-    }
     private void sendPoppedBubbleID(BubblePoppedMessage msg) throws EncodeException
     {
         Gson gson = new Gson();
@@ -183,11 +190,11 @@ public class Controller
     }
     public void handleMessage(BubblePoppedMessage message)
     {
-        bubblePopped(((BubblePoppedMessage) message).poppedBubbleId);
+        bubblePopped(message.poppedBubbleId);
     }
 
 
-    public void handleKeyStrokes(KeyEvent event)
+    public void handleKeyStrokes(KeyEvent event) throws EncodeException
     {
 
             final KeyCodeCombination kc = new KeyCodeCombination(KeyCode.B, KeyCombination.SHIFT_ANY, KeyCombination.CONTROL_ANY);
@@ -196,11 +203,20 @@ public class Controller
                 final int MAGIC_NUMBER = 20;
                 int i = 0;
                 for (Enumeration<Long> bubbles = bubbleMap.keys(); i < MAGIC_NUMBER && bubbles.hasMoreElements(); i++)
-                    sendPoppedBubbleID(bubbles.nextElement());
+                {
+                    BubblePoppedMessage msg = new BubblePoppedMessage(bubbles.nextElement());
+                    sendPoppedBubbleID(msg);
+                }
+
             }
             if (event.getCode().equals(KeyCode.BACK_SPACE))
             {
                 endpoint.closeConnection(CloseReason.CloseCodes.GOING_AWAY);
             }
+        if(event.getCode().equals(KeyCode.P))
+        {
+            endpoint.sendPong();
+        }
+
     }
 }
