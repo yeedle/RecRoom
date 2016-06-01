@@ -12,7 +12,7 @@ import java.util.Set;
 
 
 @ServerEndpoint(
-        value = "/bubble",
+        value = "/bubblesGame",
         decoders = {MessageDecoder.class},
         encoders = {MessageEncoder.class})
 public class BubblesServer {

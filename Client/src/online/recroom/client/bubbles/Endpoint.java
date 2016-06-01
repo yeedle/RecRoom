@@ -20,7 +20,7 @@ import java.net.URISyntaxException;
  */
 //TODO change messagedecoder
 @ClientEndpoint (decoders = {MessageDecoder.class},
-        encoders = {online.recroom.messages.MessageEncoder.class})
+        encoders = {MessageEncoder.class})
 public class Endpoint
 {
     private Session session;
@@ -31,7 +31,7 @@ public class Endpoint
     public Endpoint(String username, Controller controller)
     {
         this.username = username.isEmpty()? "Anonymous" : username;
-        WebSocketURI = "ws://localhost:9090/recroom/bubble?username=" + this.username;
+        WebSocketURI = "ws://localhost:8080/recroom/bubblesGame?username=" + this.username;
         this.controller = controller;
     }
 
@@ -47,33 +47,8 @@ public class Endpoint
     public void onMessage(final Message message) throws IOException
     {
         Gson gson = new Gson();
-
-       // controller.handleMessage(gson.fromJson(message.json, message.type));
-       switch (message.type)
-        {
-            case GAME_PENDING:
-                controller.gamePending();
-                break;
-            case JOINED_GAME:
-                onJoinedGame(message.newBubbles, message.players);
-                break;
-            case GAME_STARTED:
-                    OnGameStarted(message.newBubbles, message.players);
-                    break;
-            case PLAYER_JOINED:
-                controller.console(message.playerName + " joined your game");
-            case BUBBLE_POPPED:
-                OnBubblePopped(message.poppedBubbleId);
-                break;
-            case GAME_OVER:
-                OnGameOver(message.winner, message.winnersScore);
-                break;
-            case PLAYER_LEFT:
-                controller.console(message.playerName + " couldn't take the heat");
-            default:
-
-                break;
-        }
+        System.out.println(message.json);
+       controller.handleMessage(gson.fromJson(message.json, message.type));
     }
 
     @OnError
