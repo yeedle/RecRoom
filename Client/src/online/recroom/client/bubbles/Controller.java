@@ -53,6 +53,7 @@ public class Controller
     {
         setUpConsoleAutoResize();
        bubblePane.sceneProperty().addListener((observableScene, oldScene, newScene) -> attachKeyListners(oldScene, newScene));
+
     }
 
     private void attachKeyListners(Scene oldScene, Scene newScene)
@@ -128,7 +129,7 @@ public class Controller
 
     public void gamePending()
     {
-        console("Waiting for another madeBy to join...");
+        console("Waiting for another user to join...");
     }
 
 

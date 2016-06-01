@@ -30,3 +30,10 @@
     -fx-fill: greenyellow;
     -fx-font-size: 16;
 }
+
+#bubblePane {
+    -fx-background-image: url('../assets/gamesky.jpg');
+    -fx-background-size: stretch;
+
+
+}
