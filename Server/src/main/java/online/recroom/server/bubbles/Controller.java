@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import online.recroom.messages.Message;
 import online.recroom.messages.bubble.POJOs.MessageBubble;
 import online.recroom.messages.bubble.POJOs.MessageBubblePlayer;
+import online.recroom.messages.bubble.enums.BubbleMessages;
 import online.recroom.messages.bubble.messages.*;
 
 import javax.websocket.CloseReason;
@@ -48,7 +49,7 @@ public class Controller {
         game.addPlayer(this.player);
         game.getPlayersSessions().add(session);
 //            send bubbles to player that joined the game
-        bubblesServer.sendMessage(new Message(GameStarted.class, gson.toJson(new GameStarted(getBubblesAsArray(), getPlayersAsArray(), true))));
+        bubblesServer.sendMessage(new Message(BubbleMessages.GAME_STARTED, gson.toJson(new GameStarted(getBubblesAsArray(), getPlayersAsArray(), true))));
 //          Send message to all other players that a new player has joined
         broadcastPlayerJoinedMessage();
     }
@@ -66,7 +67,7 @@ public class Controller {
         game = new Game(this.player);
         PENDING_GAMES.add(game);
         game.getPlayersSessions().add(session);
-        bubblesServer.sendMessage(new Message(GamePending.class, gson.toJson(new GamePending())));
+        bubblesServer.sendMessage(new Message(BubbleMessages.GAME_PENDING, gson.toJson(new GamePending())));
     }
 
     private boolean isThereActiveAnGameWithRoom() {
@@ -111,7 +112,7 @@ public class Controller {
     }
 
     private void broadcastGameStartedMessage() throws IOException, EncodeException {
-        bubblesServer.broadcastMessage(new Message(GameStarted.class,
+        bubblesServer.broadcastMessage(new Message(BubbleMessages.GAME_STARTED,
                         gson.toJson(new GameStarted(getBubblesAsArray(), getPlayersAsArray(), false))),
                 game.getPlayersSessions(), true);
     }
@@ -120,20 +121,20 @@ public class Controller {
         PlayerJoined playerJoinedMessage =
                 new PlayerJoined(new MessageBubblePlayer(this.player.name, this.player.getScore()));
 
-        Message message = new Message(PlayerJoined.class, gson.toJson(playerJoinedMessage));
+        Message message = new Message(BubbleMessages.PLAYER_JOINED, gson.toJson(playerJoinedMessage));
 
         bubblesServer.broadcastMessage(message, game.getPlayersSessions(), false);
     }
 
     private void broadcastPlayerLeft(String playerName) throws IOException, EncodeException {
         MessageBubblePlayer player = new MessageBubblePlayer(this.player.name, this.player.getScore());
-        Message message = new Message(PlayerLeft.class, gson.toJson(player, PlayerLeft.class));
+        Message message = new Message(BubbleMessages.PLAYER_LEFT, gson.toJson(player, PlayerLeft.class));
         bubblesServer.broadcastMessage(message, game.getPlayersSessions(), false);
     }
 
     private void broadcastBubblePoppedMessage(long id) throws IOException, EncodeException {
         BubblePoppedMessage bubblePoppedMessage = new BubblePoppedMessage(id);
-        Message message = new Message(BubblePoppedMessage.class, gson.toJson(bubblePoppedMessage, BubblePoppedMessage.class));
+        Message message = new Message(BubbleMessages.BUBBLE_POPPED_MESSAGES, gson.toJson(bubblePoppedMessage, BubblePoppedMessage.class));
         bubblesServer.broadcastMessage(message, game.getPlayersSessions(), true);
     }
 
@@ -141,7 +142,7 @@ public class Controller {
         BubblePlayer winner = game.getLeader();
         MessageBubblePlayer player = new MessageBubblePlayer(winner.name, winner.getScore());
         GameOver gameOver = new GameOver(player, winner.getScore());
-        Message message = new Message(GameOver.class, gson.toJson(gameOver, GameOver.class));
+        Message message = new Message(BubbleMessages.GAME_OVER, gson.toJson(gameOver, GameOver.class));
         bubblesServer.broadcastMessage(message, game.getPlayersSessions(), true);
     }
 
