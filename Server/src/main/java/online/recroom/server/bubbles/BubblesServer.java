@@ -34,10 +34,8 @@ public class BubblesServer {
     }
 
     @OnMessage
-    public void onMessage(Message message) throws Exception {
-        Gson gson = new Gson();
-        BubblePoppedMessage bubblePoppedMessage = gson.fromJson(message.json, BubblePoppedMessage.class);
-        controller.popBubble(bubblePoppedMessage.poppedBubbleId);
+    public void onMessage(final Message bubbleId) throws Exception {
+        controller.updateGame(bubbleId);
     }
 
     @OnClose
