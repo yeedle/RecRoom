@@ -128,7 +128,7 @@ public class Controller
 
     public void gamePending()
     {
-        console("Waiting for another player to join...");
+        console("Waiting for another madeBy to join...");
     }
 
 
@@ -155,7 +155,7 @@ public class Controller
     public <T> void handleMessage(T message)
     {
         if (message instanceof GamePending)
-        console("Waiting for another player to join...");
+        console("Waiting for another madeBy to join...");
         else if (message instanceof GameStarted)
             handleMessage((GameStarted)message);
         else if (message instanceof BubblePoppedMessage)
@@ -178,7 +178,7 @@ public class Controller
         for (int i = 0; i < message.bubbles.length ; i++)
            bubbles[i] = new Bubble(message.bubbles[i]);
         // todo print players and join/start status to console
-        console("Waiting for another player to join...");
+        console("Waiting for another madeBy to join...");
         console("Go!");
         addBubblesToPane(bubbles);
     }

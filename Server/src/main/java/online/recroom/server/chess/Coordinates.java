@@ -35,4 +35,9 @@ public class Coordinates
     {
         return coordinatesMap.get(Dimension.ROW);
     }
+
+    public static Coordinates fromMessage(online.recroom.messages.chess.POJOs.Coordinates origin) throws IllegalCoordinateException
+    {
+        return new Coordinates(origin.x, origin.y);
+    }
 }

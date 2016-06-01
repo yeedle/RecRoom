@@ -7,6 +7,14 @@ import online.recroom.messages.chess.POJOs.Coordinates;
  */
 public class Movement
 {
-    Coordinates origin;
-    Coordinates destination;
+    public final Coordinates origin;
+    public final Coordinates destination;
+
+    public Movement(Coordinates origin, Coordinates destination)
+    {
+        this.origin = origin;
+        this.destination = destination;
+    }
+
+
 }

@@ -7,12 +7,15 @@ import online.recroom.server.chess.pieces.Player;
  */
 public class Movement
 {
+    public final Player madeBy;
     public final Coordinates origin;
     public final Coordinates destination;
 
-    public Movement(Player madeByPlayer, Coordinates from, Coordinates to)
+    public Movement(Player player, Coordinates from, Coordinates to)
     {
+        this.madeBy = player;
         this.origin = from;
         this.destination = to;
     }
+
 }

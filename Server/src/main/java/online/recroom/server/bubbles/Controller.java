@@ -38,9 +38,9 @@ public class Controller {
         game = getActiveGameThatHasRoom();
         game.addPlayer(this.player);
         game.getPlayersSessions().add(session);
-//            send bubbles to player that joined the game
+//            send bubbles to madeBy that joined the game
         bubblesServer.sendMessage(Message.joinedGame(getBubblesAsArray(), getPlayersAsArray()));
-//          Send message to all other players that a new player has joined
+//          Send message to all other players that a new madeBy has joined
         broadcastPlayerJoinedMessage();
     }
 
