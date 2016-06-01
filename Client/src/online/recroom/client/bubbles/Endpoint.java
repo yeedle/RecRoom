@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.io.InterruptedIOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.nio.ByteBuffer;
 
 import static online.recroom.messages.bubble.enums.BubbleMessages.GAME_STARTED;
 import static online.recroom.messages.bubble.enums.BubbleMessages.PLAYER_JOINED;
@@ -47,9 +48,11 @@ public class Endpoint
     }
 
     @OnMessage
-    public void onMessage(final Message message) throws IOException
+    public void onMessage(Message message) throws IOException
     {
+
         Gson gson = new Gson();
+        System.out.println(message.json);
         switch (message.type)
         {
             case GAME_STARTED:controller.handleMessage(gson.fromJson(message.json, GameStarted.class));
@@ -143,5 +146,16 @@ public class Endpoint
     {
         try {this.session.close(new CloseReason(closereason, "User closed game"));}
         catch (IOException e) {e.printStackTrace();}
+    }
+
+    public void sendPong()
+    {
+        try
+        {
+            session.getBasicRemote().sendPong(ByteBuffer.allocate(10));
+        } catch (IOException e)
+        {
+            e.printStackTrace();
+        }
     }
 }
