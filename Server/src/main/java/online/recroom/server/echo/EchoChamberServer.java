@@ -6,7 +6,7 @@ import javax.websocket.server.ServerEndpoint;
 /**
  * Created by Yeedle on 4/7/2016 11:51 AM.
  */
-@ServerEndpoint("/echoChamber")
+@ServerEndpoint("/echo-chamber")
 public class EchoChamberServer
 {
     @OnMessage
