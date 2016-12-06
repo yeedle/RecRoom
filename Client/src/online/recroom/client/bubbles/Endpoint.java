@@ -6,21 +6,24 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import online.recroom.client.Scener;
 import online.recroom.messages.*;
-import online.recroom.messages.bubble.messages.GamePending;
-import online.recroom.messages.bubble.messages.GameStarted;
+import online.recroom.messages.bubble.messages.*;
 
 import javax.websocket.*;
 import java.io.IOException;
 import java.io.InterruptedIOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.nio.ByteBuffer;
+
+import static online.recroom.messages.bubble.enums.BubbleMessages.GAME_STARTED;
+import static online.recroom.messages.bubble.enums.BubbleMessages.PLAYER_JOINED;
 
 /**
  * Created by Yeedle on 5/17/2016 9:32 AM.
  */
 //TODO change messagedecoder
 @ClientEndpoint (decoders = {MessageDecoder.class},
-        encoders = {online.recroom.messages.MessageEncoder.class})
+        encoders = {MessageEncoder.class})
 public class Endpoint
 {
     private Session session;
@@ -31,7 +34,7 @@ public class Endpoint
     public Endpoint(String username, Controller controller)
     {
         this.username = username.isEmpty()? "Anonymous" : username;
-        WebSocketURI = "ws://localhost:9090/recroom/bubble?username=" + this.username;
+        WebSocketURI = "ws://localhost:8080/recroom/bubblesgame?username=" + this.username;
         this.controller = controller;
     }
 
@@ -39,40 +42,32 @@ public class Endpoint
     public void onOpen(final Session session)
     {
         this.session = session;
+        this.session = session;
         controller.setEndpoint(this);
         controller.console("Hello, " + username + "!");
     }
 
     @OnMessage
-    public void onMessage(final Message message) throws IOException
+    public void onMessage(Message message) throws IOException
     {
+
         Gson gson = new Gson();
-
-       // controller.handleMessage(gson.fromJson(message.json, message.type));
-       switch (message.type)
+        System.out.println(message.json);
+        switch (message.type)
         {
-            case GAME_PENDING:
-                controller.gamePending();
+            case GAME_STARTED:controller.handleMessage(gson.fromJson(message.json, GameStarted.class));
                 break;
-            case JOINED_GAME:
-                onJoinedGame(message.newBubbles, message.players);
+            case GAME_PENDING: controller.handleMessage(gson.fromJson(message.json, GamePending.class));
                 break;
-            case GAME_STARTED:
-                    OnGameStarted(message.newBubbles, message.players);
-                    break;
-            case PLAYER_JOINED:
-                controller.console(message.playerName + " joined your game");
-            case BUBBLE_POPPED:
-                OnBubblePopped(message.poppedBubbleId);
+            case PLAYER_JOINED: controller.handleMessage(gson.fromJson(message.json, PlayerJoined.class));
                 break;
-            case GAME_OVER:
-                OnGameOver(message.winner, message.winnersScore);
+            case PLAYER_LEFT: controller.handleMessage(gson.fromJson(message.json, PlayerLeft.class));
                 break;
-            case PLAYER_LEFT:
-                controller.console(message.playerName + " couldn't take the heat");
-            default:
-
+            case BUBBLE_POPPED: controller.handleMessage(gson.fromJson(message.json, BubblePoppedMessage.class));
                 break;
+            case GAME_OVER: controller.handleMessage(gson.fromJson(message.json, GameOver.class));
+                break;
+            default: controller.console("The server sent me some weird binary :/");
         }
     }
 
@@ -151,5 +146,16 @@ public class Endpoint
     {
         try {this.session.close(new CloseReason(closereason, "User closed game"));}
         catch (IOException e) {e.printStackTrace();}
+    }
+
+    public void sendPong()
+    {
+        try
+        {
+            session.getBasicRemote().sendPong(ByteBuffer.allocate(10));
+        } catch (IOException e)
+        {
+            e.printStackTrace();
+        }
     }
 }

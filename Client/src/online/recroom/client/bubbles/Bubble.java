@@ -7,6 +7,7 @@ import javafx.scene.paint.RadialGradient;
 import javafx.scene.paint.Stop;
 import javafx.scene.shape.Circle;
 import online.recroom.client.RecRoom;
+import online.recroom.messages.bubble.POJOs.MessageBubble;
 
 /**
  * Created by Yeedle on 5/17/2016 9:35 AM.
@@ -14,7 +15,7 @@ import online.recroom.client.RecRoom;
 public class Bubble extends Circle
 {
 
-    public Bubble(online.recroom.messages.bubble.POJOs.Bubble serverBubble)
+    public Bubble(MessageBubble serverBubble)
     {
         id = serverBubble.id;
         x = RecRoom.HEIGHT * serverBubble.relativeXPosition;
